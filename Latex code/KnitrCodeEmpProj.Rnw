@@ -280,36 +280,50 @@ In the 1997 cross sectional setting we decided to split the countries in 3 (slig
 The health expenditure for the countries with low GDP lies between 0 and 150\$ per year, while people from countries with  high GDP level spend on average more than 1000\$ for the health care.  Additionally, if we look at the evolution of the health expenditure per country, independently of their GDP level, we remark that the average health expenditure increased across time. However, in countries with high GDP the increase was relatively higher (about 11\%) in comparison to countries with low GDP,  where the health expenditure has grown by only about 5\% in 5 years.
 
 
-<<Health expenditure 1997 given GDP, eval=TRUE, echo=F, warning=FALSE, results='asis'>>=
-#health expenditure per GDP level
-hist(df1997$HEXP[df1997$GDPC.<3000],breaks="FD", main="Health expenditure 1997 for 
-     countries with low GDP",xlab="Health expenditure",col="darkgray")
-hist(df1997$HEXP[df1997$GDPC.>3000 & df1997$GDPC.<7000],breaks="FD", main="Health 
-     expenditure 1997 for countries with average GDP",xlab="Health expenditure",col="darkgray")
-hist(df1997$HEXP[df1997$GDPC.>7000],breaks="FD", main="Health expenditure 1997 for 
-     countries with high GDP",xlab="Health expenditure",col="darkgray")
+<<Health expenditure 1997 given GDP, eval=TRUE, echo=F, warning=FALSE, results='asis', fig.cap = "Distribution of health expenditure (HEXP) at three levels of GDP per capita", out.width='.5\\textwidth', fig.pos = '!htbp', fig.align= "center">>=
+tmp <- data.frame(GDP = "Low GDP per capita", HEXP = df1997$HEXP[df1997$GDPC.<3000])
+tmp <- rbind(tmp, data.frame(GDP = "Medium GDP per capita",
+                             HEXP = df1997$HEXP[df1997$GDPC.>3000 & df1997$GDPC.<7000]))
+tmp <- rbind(tmp, data.frame(GDP = "High GDP per capita", HEXP = df1997$HEXP[df1997$GDPC.>7000]))
+ggplot(tmp, aes(x = HEXP)) + geom_histogram(bins = 10) +
+        facet_grid(. ~ GDP, scales = "free_x") +
+        ylab("Frequency") + theme_gray(base_size = 15) #+ theme(aspect.ratio=.5)
+
+# hist(df1997$HEXP[df1997$GDPC.<3000],breaks="FD", main="Health expenditure 1997 for 
+#      countries with low GDP",xlab="Health expenditure",col="darkgray")
+# hist(df1997$HEXP[df1997$GDPC.>3000 & df1997$GDPC.<7000],breaks="FD", main="Health 
+#      expenditure 1997 for countries with average GDP",xlab="Health expenditure",col="darkgray")
+# hist(df1997$HEXP[df1997$GDPC.>7000],breaks="FD", main="Health expenditure 1997 for 
+#      countries with high GDP",xlab="Health expenditure",col="darkgray")
 @
 
 Public contribution is a feature that seems to be highly correlated to the total amount of health expenditure, therefore with the health care attainment measure. In the figure below is shown the behaviour of countries concerning the total heath care attainment, given the proportion of health expenditure paid by public authorities.  There are 55 countries where authorities contribute less than 50\% and 85 countries where authorities contribute more than 50\%. We observe that for the most of countries in which authorities contribute less than 50\% for health expenditure, the health care attainment is between 60 and 80, and for most of countries with a high public contribution, the health care attainment is above 70. We conclude therefore about a positive correlation between these two dimensions.
-<<Public contribution, eval=TRUE, echo=F, results='asis', warning=FALSE>>=
-## Trying t keep the trans-log for the two main explanatory variable
-hist(df1997$COMP[df1997$PUBTHE<50],breaks="FD", main="Health care attainment for 
-     countries with low public contribution",xlab="Health care attainment",col="darkgray")
-hist(df1997$COMP[df1997$PUBTHE>50],breaks="FD", main="Health care attainment for 
-     countries with high public contribution",xlab="Health care attainment",col="darkgray")
-#Distribution of the public contribution
-#hist(df1997$PUBTHE, main="Distribution of the public contribution", 
-     #xlab="Public contribution", col="darkgray")
+<<Public contribution, eval=TRUE, echo=F, results='asis', warning=FALSE,fig.cap = "Distribution of HEXP at two levels of public contribution (PUPTHE)", out.width='.5\\textwidth', fig.pos = '!htbp', fig.align= "center">>=
+tmp <- data.frame(PUPTHE = "Low public contribution", COMP = df1997$COMP[df1997$PUBTHE<50])
+tmp <- rbind(tmp, data.frame(PUPTHE = "High public contribution",
+                             COMP = df1997$COMP[df1997$PUBTHE>50]))
+ggplot(tmp, aes(x = COMP)) + geom_histogram(bins = 10) +
+        facet_grid(. ~ PUPTHE, scales = "free_x") +
+        ylab("Frequency") + theme_gray(base_size = 15)# + coord_fixed(ratio=100)
+
+# hist(df1997$COMP[df1997$PUBTHE<50],breaks="FD", main="Health care attainment for 
+#      countries with low public contribution",xlab="Health care attainment",col="darkgray")
+# hist(df1997$COMP[df1997$PUBTHE>50],breaks="FD", main="Health care attainment for 
+#      countries with high public contribution",xlab="Health care attainment",col="darkgray")
 @
 
 
 Based on the axiom that  rationality, that we can easily associate to the years of schooling, influence people to make educated decisions in terms of personal health status; we expect countries which have a population with a higher education level to have higher health expenditure. However, according to Andrew Balls' article in the National Bureau of Economic Research, in most of the cases, tropical countries are considered as "underdeveloped countries" ; we have to take into account, therefore,  that the education level in tropical countries and in temperate  countries is different. Moreover, in tropical countries there are additional factors that have a negative influence on the population's health status, as the higher temperature leads to an accelerated propagation of bacteria.  It would be interesting, therefore, to see how the level of education impacts the health expenditure by controllng for the geographical zone.
 
-<<Health expenditure given eucation, cache =T, eval=T, echo=F, results='asis'>>=
-boxplot(data$EDUC~(data$HEXP),data=data, subset=data$TROPICS==1, main="Health expenditure given education for tropical countries",xlab="Health expenditure",ylab="Education")
-boxplot(data$EDUC~(data$HEXP),data=data, subset=data$TROPICS==0, main="Health expenditure given education for non tropical countries",xlab="Health expenditure",ylab="Education")
+<<Health expenditure given eucation, cache =T, eval=T, echo=F, results='asis',,fig.cap = "EDUC and HEXP for according to TROPICAL", out.width='.5\\textwidth', fig.pos = '!htbp', fig.align= "center">>=
+tmp <- data.frame(EDUC = data$EDUC, HEXP = data$HEXP, TROPICS = (data$TROPICS == 1))[-701,]
 
-
+ggplot(tmp, aes(x = HEXP, y = EDUC, colour = TROPICS)) + geom_point() +
+        theme_gray(base_size = 15) #+ coord_fixed(ratio=50)
+        # theme(legend.position = "bottom")
+# ggplot(tmp, aes(x = HEXP, y = EDUC)) + geom_point() + facet_grid(.~TROPICS)
+# boxplot(data$EDUC~(data$HEXP),data=data, subset=data$TROPICS==1, main="Health expenditure given education for tropical countries",xlab="Health expenditure",ylab="Education")
+# boxplot(data$EDUC~(data$HEXP),data=data, subset=data$TROPICS==0, main="Health expenditure given education for non tropical countries",xlab="Health expenditure",ylab="Education")
 @
 
 

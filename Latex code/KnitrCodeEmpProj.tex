@@ -220,7 +220,7 @@ GDPC* & Normalized per capita GDP in 1997 PPP\$ \\
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 19:00:18
+% Date and time: Sun, Mar 12, 2017 - 20:05:11
 \begin{table}[!htbp] \centering 
   \caption{Descriptive statistics} 
   \label{} 
@@ -258,28 +258,41 @@ In the 1997 cross sectional setting we decided to split the countries in 3 (slig
 The health expenditure for the countries with low GDP lies between 0 and 150\$ per year, while people from countries with  high GDP level spend on average more than 1000\$ for the health care.  Additionally, if we look at the evolution of the health expenditure per country, independently of their GDP level, we remark that the average health expenditure increased across time. However, in countries with high GDP the increase was relatively higher (about 11\%) in comparison to countries with low GDP,  where the health expenditure has grown by only about 5\% in 5 years.
 
 
+\begin{figure}[!htbp]
 
-\includegraphics[width=\maxwidth]{figure/Health_expenditure_1997_given_GDP-1} 
+{\centering \includegraphics[width=.5\textwidth]{figure/Health_expenditure_1997_given_GDP-1} 
 
-\includegraphics[width=\maxwidth]{figure/Health_expenditure_1997_given_GDP-2} 
+}
 
-\includegraphics[width=\maxwidth]{figure/Health_expenditure_1997_given_GDP-3} 
+\caption[Distribution of health expenditure (HEXP) at three levels of GDP per capita]{Distribution of health expenditure (HEXP) at three levels of GDP per capita}\label{fig:Health expenditure 1997 given GDP}
+\end{figure}
+
 
 
 Public contribution is a feature that seems to be highly correlated to the total amount of health expenditure, therefore with the health care attainment measure. In the figure below is shown the behaviour of countries concerning the total heath care attainment, given the proportion of health expenditure paid by public authorities.  There are 55 countries where authorities contribute less than 50\% and 85 countries where authorities contribute more than 50\%. We observe that for the most of countries in which authorities contribute less than 50\% for health expenditure, the health care attainment is between 60 and 80, and for most of countries with a high public contribution, the health care attainment is above 70. We conclude therefore about a positive correlation between these two dimensions.
+\begin{figure}[!htbp]
 
-\includegraphics[width=\maxwidth]{figure/Public_contribution-1} 
+{\centering \includegraphics[width=.5\textwidth]{figure/Public_contribution-1} 
 
-\includegraphics[width=\maxwidth]{figure/Public_contribution-2} 
+}
+
+\caption[Distribution of HEXP at two levels of public contribution (PUPTHE)]{Distribution of HEXP at two levels of public contribution (PUPTHE)}\label{fig:Public contribution}
+\end{figure}
+
 
 
 
 Based on the axiom that  rationality, that we can easily associate to the years of schooling, influence people to make educated decisions in terms of personal health status; we expect countries which have a population with a higher education level to have higher health expenditure. However, according to Andrew Balls' article in the National Bureau of Economic Research, in most of the cases, tropical countries are considered as "underdeveloped countries" ; we have to take into account, therefore,  that the education level in tropical countries and in temperate  countries is different. Moreover, in tropical countries there are additional factors that have a negative influence on the population's health status, as the higher temperature leads to an accelerated propagation of bacteria.  It would be interesting, therefore, to see how the level of education impacts the health expenditure by controllng for the geographical zone.
 
+\begin{figure}[!htbp]
 
-\includegraphics[width=\maxwidth]{figure/Health_expenditure_given_eucation-1} 
+{\centering \includegraphics[width=.5\textwidth]{figure/Health_expenditure_given_eucation-1} 
 
-\includegraphics[width=\maxwidth]{figure/Health_expenditure_given_eucation-2} 
+}
+
+\caption[EDUC and HEXP for according to TROPICAL]{EDUC and HEXP for according to TROPICAL}\label{fig:Health expenditure given eucation}
+\end{figure}
+
 
 
 
@@ -438,7 +451,7 @@ The truncated translog funtion, which has been widely used in the literature\foo
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 19:00:20
+% Date and time: Sun, Mar 12, 2017 - 20:05:15
 \begin{table}[!htbp] \centering 
   \caption{Regression results for three possible functional forms} 
   \label{} 
@@ -488,7 +501,7 @@ F Statistic & 263.197$^{***}$ & 174.448$^{***}$ & 107.246$^{***}$ \\
 As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT}, \ref{LR}, \ref{WT with controls} and \ref{LR with controls} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms with and without control variables. 
 
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 19:00:20 2017
+% Sun Mar 12 20:05:15 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas vs Translog; no sign. difference} 
@@ -503,7 +516,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 19:00:20 2017
+% Sun Mar 12 20:05:15 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas vs Translog; no sign. difference} 
@@ -518,7 +531,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 19:00:20 2017
+% Sun Mar 12 20:05:15 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
@@ -533,7 +546,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 19:00:20 2017
+% Sun Mar 12 20:05:15 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
@@ -647,7 +660,7 @@ The Cobb-Douglas specification is the most independent with respect to the varia
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 19:00:22
+% Date and time: Sun, Mar 12, 2017 - 20:05:17
 \begin{table}[!htbp] \centering 
   \caption{Regr. results for cross-sectional translog with different model spec.} 
   \label{} 
@@ -769,7 +782,7 @@ We also estimate the same production function in a panel setting (Table \ref{tab
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 19:00:27
+% Date and time: Sun, Mar 12, 2017 - 20:05:22
 \begin{table}[!htbp] \centering 
   \caption{Regression results, Trans-Log specification} 
   \label{tab:big} 
@@ -846,7 +859,7 @@ F Statistic & 69.610$^{***}$ & 360.561$^{***}$ & 23.300$^{***}$ & 65.932$^{***}$
 \end{table} 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 19:00:29
+% Date and time: Sun, Mar 12, 2017 - 20:05:25
 \begin{table}[!htbp] \centering 
   \caption{Regression results, Cobb-Douglas specification} 
   \label{tab:bigcb} 
