@@ -136,9 +136,7 @@ Stochastic Frontier Analysis
 #GINI, GEFF, VOICE, POPDEN, PUBTHE an GDPC : only observed for 1997
 
 rm(list = ls())
-
 # A directory is needed in order to work on R locally
-
 # setwd("/Users/custodioij/Dropbox/TSE/M2/Empirical Project/Empirical Project repository/Latex code")
 # setwd("C:/Users/Nicola/Dropbox/ZZ Shared/M2 Empirical Project/R Code (Nicola)")  # POINT TO THIS DIRECTORY FROM YOUR LAPTOP
 library(lmtest)
@@ -149,7 +147,7 @@ library(miscTools)
 library(xtable)
 library(stargazer)
 
-set.seed(123456)
+set.seed(123456) # Don't forget the seed
 @
 
 <<include=FALSE,eval=TRUE>>=
