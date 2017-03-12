@@ -127,8 +127,8 @@ Stochastic Frontier Analysis
 #COUNTRY=Number assigned to country, 
 #OECD =Dummy variable for OECD country (30 countries), 
 #GINI =Gini coefficient for income inequality, 
-#GEFF =World bank measure of government effectiveness,* 
-#VOICE =World bank measure of democratization of the political process,* 
+#GEFF =World bank measure of government effectiveness,
+#VOICE =World bank measure of democratization of the political process,
 #TROPICS =Dummy variable for tropical location, 
 #POPDEN =Population density (people per km2) 
 #PUBTHE =Proportion of health expenditure paid by public authorities, 
@@ -136,9 +136,15 @@ Stochastic Frontier Analysis
 #GINI, GEFF, VOICE, POPDEN, PUBTHE an GDPC : only observed for 1997
 
 rm(list = ls())
-# A directory is needed in order to work on R locally
-# setwd("/Users/custodioij/Dropbox/TSE/M2/Empirical Project/Empirical Project repository/Latex code")
-# setwd("C:/Users/Nicola/Dropbox/ZZ Shared/M2 Empirical Project/R Code (Nicola)")  # POINT TO THIS DIRECTORY FROM YOUR LAPTOP
+# Set your the working directory in order to execute locally just chunks of R. Don't forget to outcomment the line once executed
+# Your working directory should contain the files "who_data_cc.csv", "who_data_cc_no_irl.csv", "who_data_cc.xlsx" and "empirical project data" until the code will be harmonized
+
+#setwd(" ")  # Jose
+#setwd("C:/Users/Nicola/OneDrive/Human Capital/15-17 TSE/AA Semestres/3. Semestre/Empirical project/GitHub Files/EmpProj/Latex code")  # Nicola
+#setwd(" ")  # Irina 
+#setwd(" ")  # Igor
+
+#library(pglm)
 library(lmtest)
 library(sandwich)
 library(micEcon)
@@ -146,8 +152,10 @@ library(micEconCES)
 library(miscTools)
 library(xtable)
 library(stargazer)
+library(ggplot2)
+library(reshape2)
 
-set.seed(123456) # Don't forget the seed
+set.seed(123456)
 @
 
 <<include=FALSE,eval=TRUE>>=
@@ -209,6 +217,118 @@ GDPC* & Normalized per capita GDP in 1997 PPP\$ \\
 
 
 \subsection{Descriptive statistics}
+<<setup2, eval=TRUE, echo=F, include=F, cache = F>>=
+#setwd("C:/Users/Irina/Desktop/Empirical Project")
+library(gdata)
+library(pastecs)
+library(pbkrtest)
+library(plm)
+library(corrplot)
+data<-read.xls("empirical project data.xlsx", sheet = 1, header = TRUE)
+summary(data)
+data<-data[data$COMP!="1",]
+data<-na.omit(data)
+summary(data)
+df1997 <- subset(data, YEAR == 1997)
+summary(df1997)
+df1996 <- subset(data, YEAR == 1996)
+summary(df1996)
+df1995 <- subset(data, YEAR == 1995)
+summary(df1995)
+df1994 <- subset(data, YEAR == 1994)
+summary(df1994)
+df1993 <- subset(data, YEAR == 1993)
+summary(df1993)
+
+summary(df1997$COMP)
+summary(df1996$COMP)
+summary(df1995$COMP)
+summary(df1994$COMP)
+summary(df1993$COMP)
+
+summary(df1997$DALE)
+summary(df1996$DALE)
+summary(df1995$DALE)
+summary(df1994$DALE)
+summary(df1993$DALE)
+
+summary(df1997$HEXP)
+summary(df1996$HEXP)
+summary(df1995$HEXP)
+summary(df1994$HEXP)
+summary(df1993$HEXP)
+
+plot(c(df1997$COMP,df1997$COMP))
+x<-stat.desc(data)
+a<-stat.desc(df1993)
+b<-stat.desc(df1994)
+c<-stat.desc(df1995)
+d<-stat.desc(df1996)
+e<-stat.desc(df1997)
+write.csv(c(x,a,b,c,d,e), "descriptive statistics.csv")
+#two-way tables
+#twotable<-table(df1997$GDPC., df1997$HEXP)
+#prop.table(twotable,1)
+#threetable<-xtabs(~df1997$HEXP+df1997$GDPC.+df1997$COMP)
+#threetable
+#ftable(threetable)
+@
+
+
+
+  To perform our analysis, a visual inspection of the data will help  us to better understand the distribution of countries according to different dimensions. The dataset contains 13 variables, where 4 of them are dummies and 9 are continous variables. 
+  
+First of all, we had to choose our variable of interest on which we will base our analysis.  The two candidates where: DALE which is a measure of life expectancy and COMP which represents a composite variable of health care attainment. By looking at the evolution of these variables across time, we conclude that DALE varies less than COMP. This could be related to the fact that life expectancy is a feature which does not react immediately to a government intervention or to a policy that would affect the health status of citizens and eventually increase their life expectancy. Moreover, the available period in the dataset (5 years) is too short to allow us to conclude about an effect on life expectancy. However, the variable "COMP" is a measure that assess the overall state of healthcare system in a country, and which could be adjusted in  short run as an answer to the manipulation of the main factors of influence. We therefore selected  COMP as the explanatory variable for the further analysis.
+
+\break
+In the 1997 cross sectional setting we decided to split the countries in 3 (slightly balanced) groups depending on their GDP level. Countries with low GDP are the ones with a GDP less than the threshold of 3000\$. The second group are  countries with a GDP between 3000\$ and 7000\$; and the 3rd group includes  countries with high GDP i.e. greater than 7000\$.  
+The health expenditure for the countries with low GDP lies between 0 and 150\$ per year, while people from countries with  high GDP level spend on average more than 1000\$ for the health care.  Additionally, if we look at the evolution of the health expenditure per country, independently of their GDP level, we remark that the average health expenditure increased across time. However, in countries with high GDP the increase was relatively higher (about 11\%) in comparison to countries with low GDP,  where the health expenditure has grown by only about 5\% in 5 years.
+
+
+<<Health expenditure 1997 given GDP, eval=TRUE, echo=F, warning=FALSE, results='asis'>>=
+#health expenditure per GDP level
+hist(df1997$HEXP[df1997$GDPC.<3000],breaks="FD", main="Health expenditure 1997 for 
+     countries with low GDP",xlab="Health expenditure",col="darkgray")
+hist(df1997$HEXP[df1997$GDPC.>3000 & df1997$GDPC.<7000],breaks="FD", main="Health 
+     expenditure 1997 for countries with average GDP",xlab="Health expenditure",col="darkgray")
+hist(df1997$HEXP[df1997$GDPC.>7000],breaks="FD", main="Health expenditure 1997 for 
+     countries with high GDP",xlab="Health expenditure",col="darkgray")
+@
+
+Public contribution is a feature that seems to be highly correlated to the total amount of health expenditure, therefore with the health care attainment measure. In the figure below is shown the behaviour of countries concerning the total heath care attainment, given the proportion of health expenditure paid by public authorities.  There are 55 countries where authorities contribute less than 50\% and 85 countries where authorities contribute more than 50\%. We observe that for the most of countries in which authorities contribute less than 50\% for health expenditure, the health care attainment is between 60 and 80, and for most of countries with a high public contribution, the health care attainment is above 70. We conclude therefore about a positive correlation between these two dimensions.
+<<Public contribution, eval=TRUE, echo=F, results='asis', warning=FALSE>>=
+## Trying t keep the trans-log for the two main explanatory variable
+hist(df1997$COMP[df1997$PUBTHE<50],breaks="FD", main="Health care attainment for 
+     countries with low public contribution",xlab="Health care attainment",col="darkgray")
+hist(df1997$COMP[df1997$PUBTHE>50],breaks="FD", main="Health care attainment for 
+     countries with high public contribution",xlab="Health care attainment",col="darkgray")
+#Distribution of the public contribution
+#hist(df1997$PUBTHE, main="Distribution of the public contribution", 
+     #xlab="Public contribution", col="darkgray")
+@
+
+
+Based on the axiom that  rationality, that we can easily associate to the years of schooling, influence people to make educated decisions in terms of personal health status; we expect countries which have a population with a higher education level to have higher health expenditure. However, according to Andrew Balls' article in the National Bureau of Economic Research, in most of the cases, tropical countries are considered as "underdeveloped countries" ; we have to take into account, therefore,  that the education level in tropical countries and in temperate  countries is different. Moreover, in tropical countries there are additional factors that have a negative influence on the population's health status, as the higher temperature leads to an accelerated propagation of bacteria.  It would be interesting, therefore, to see how the level of education impacts the health expenditure by controllng for the geographical zone.
+
+<<Health expenditure given eucation, cache =T, eval=T, echo=F, results='asis'>>=
+boxplot(data$EDUC~(data$HEXP),data=data, subset=data$TROPICS==1, main="Health expenditure given education for tropical countries",xlab="Health expenditure",ylab="Education")
+boxplot(data$EDUC~(data$HEXP),data=data, subset=data$TROPICS==0, main="Health expenditure given education for non tropical countries",xlab="Health expenditure",ylab="Education")
+
+
+@
+
+
+\subsection{Cluster analysis}
+
+<<>>=
+N <- length(prod.CD.contr.pooled$residuals)
+p <- length(prod.CD.contr.pooled$coefficients)
+sigma <- sqrt(var(prod.CD.contr.pooled$residuals)) * sqrt((N-p)/N)
+sum(dnorm(comp, mean=fitted(prod.CD.contr.pooled), sd=sigma, log=TRUE))
+sum(dnorm(resid(prod.CD.contr.pooled), mean=0, sd=sigma, log=TRUE))
+@
+
+
 
 
 \subsection{Nonparametric analysis of the dataset}
@@ -802,6 +922,9 @@ LR.TTLvTL.contr <- lrtest(prod.TTL.contr, prod.TL.contr)  # significant differen
 #summary(prod.CES)
 @
 
+
+
+
 \subsection{Functional form}
 Cobb-Douglas production function has the following form:
 \begin{gather}
@@ -954,14 +1077,14 @@ The Cobb-Douglas specification is the most independent with respect to the varia
 
 
 
-<<include=FALSE,eval=TRUE>>=
+<<include=FALSE,eval=FALSE>>=
 # NOT USED
 # Linear model
 prod.lin <- lm(COMP ~ HEXP + EDUC, data = df97)
 summary(prod.lin)
 
 # Quadratic model
-prod.quad <- lm(COMP ~ HEXP + EDUC + I(0.5*HEXP^2) + I(0.5*EDUC^2)
+prod.quad <- lm(COMP ~ HEXP + EDUC + I(0.5*hexp^2) + I(0.5*educ^2)
                 + I(HEXP*EDUC), data = df97)
 summary(prod.quad)
 
@@ -986,7 +1109,7 @@ rSquared(log(COMP), log(COMP) - log(fitted.quad))
 
 
 \subsection{Model specification}
-<<include=FALSE,eval=TRUE>>=
+<<include=FALSE,eval=FALSE>>=
 # Selection of the controls
 summary(prod.TL.contr)
 
@@ -1031,7 +1154,7 @@ robust.se.TL.contrIII <- sqrt(diag(vcovHC(prod.TL.contrIII, type="HC1")))
 
 @
 
-<<include=TRUE,results='asis',echo=FALSE,eval=TRUE>>=
+<<include=TRUE,results='asis',echo=FALSE,eval=FALSE>>=
 stargazer(prod.TL.contr,prod.TL.gini2,prod.TL.contrII,prod.TL.contrIII,prod.TL.contrIIII,prod.TL.contrIIIII, font.size = "scriptsize", dep.var.labels.include = FALSE, dep.var.caption = c("Dependent variable = comp"), column.labels = c("TL OLS","TL OLS","TL OLS","TL OLS","TL OLS","TL OLS"), se=list(NULL,NULL,NULL,NULL,NULL,NULL), df = FALSE, title = 'Regr. results for cross-sectional translog with different model spec.', covariate.labels = c('hexp', 'educ', 'hexp$^2$', 'educ$^2$', 'hexp*educ', 'TROPICS', 'GEFF', 'VOICE', 'PUBTHE', 'popden', 'gdpc', 'gini', 'gini$^2$', 'Constant'))
 @
 
@@ -1059,11 +1182,98 @@ Estimation of substitution elasticity, output elasticity, marginal rate of techn
 
 
 
-\section{Estimation and results}
-<<eval=TRUE, echo=F, include=F>>=
+<<LR_pooled, include=FALSE,eval=TRUE>>=
 #attach(df97)
 detach(df97)
+attach(df2)
+comp <- log(COMP)
+dale <- log(DALE)
+hexp <- log(HEXP)
+educ <- log(EDUC)
+gini <- log(GINI)
+popden <- log(POPDEN)
+gdpc <- log(GDPC)
+
+# Cobb-Douglas
+prod.CD.pooled <- lm(comp ~ hexp + educ, data = df2)
+summary(prod.CD.pooled)
+# Cobb-Douglas plus controls
+prod.CD.contr.pooled <- lm(comp ~ hexp + educ 
+                    + TROPICS + GEFF + VOICE + PUBTHE + popden + gdpc + gini, data = df2)
+summary(prod.CD.contr.pooled)
+
+# Translog
+prod.TL.pooled <- lm(comp ~ hexp + educ 
+              + I(hexp^2) + I(educ^2) 
+              + I(hexp*educ), data = df2)
+summary(prod.TL.pooled)
+# Translog plus controls
+prod.TL.contr.pooled <- lm(comp ~ hexp + educ 
+                    + I(hexp^2) + I(educ^2) 
+                    + I(hexp*educ)
+                   + TROPICS + GEFF + VOICE + PUBTHE + popden + gdpc + gini, data = df2)
+summary(prod.TL.contr.pooled)
+
+# Truncated Translog
+prod.TTL.pooled <- lm(comp ~ hexp + educ
+               + I(educ^2), data = df2)
+summary(prod.TTL.pooled)
+# Truncated Translog plus controls
+prod.TTL.contr.pooled <- lm(comp ~ hexp + educ
+                     + I(educ^2)
+                    + TROPICS + GEFF + VOICE + PUBTHE + popden + gdpc + gini, data = df2)
+summary(prod.TTL.contr.pooled)
+
+# Wald and LR tests
+WT.CDvTL.pooled <- waldtest(prod.CD.pooled, prod.TL.pooled)   # significant difference -> TL
+WT.CDvTTL.pooled <- waldtest(prod.CD.pooled, prod.TTL.pooled)  # no significant difference -> CD
+WT.TTLvTL.pooled <- waldtest(prod.TTL.pooled, prod.TL.pooled)  # significant difference -> TL
+LR.CDvTL.pooled <- lrtest(prod.CD.pooled, prod.TL.pooled)   # significant difference -> TL
+LR.CDvTTL.pooled <- lrtest(prod.CD.pooled, prod.TTL.pooled)  # no significant difference -> CD
+LR.TTLvTL.pooled <- lrtest(prod.TTL.pooled, prod.TL.pooled)  # significant difference -> TL
+
+WT.CDvTL.contr.pooled <- waldtest(prod.CD.contr.pooled, prod.TL.contr.pooled)   # significant difference -> TL (same result if we drop POPDEN)
+WT.CDvTTL.contr.pooled <- waldtest(prod.CD.contr.pooled, prod.TTL.contr.pooled)  # no significant difference -> CD
+WT.TTLvTL.contr.pooled <- waldtest(prod.TTL.contr.pooled, prod.TL.contr.pooled)  # significant difference -> TL
+LR.CDvTL.contr.pooled <- lrtest(prod.CD.contr.pooled, prod.TL.contr.pooled)   # significant difference -> TL (same result if we drop POPDEN)
+LR.CDvTTL.contr.pooled <- lrtest(prod.CD.contr.pooled, prod.TTL.contr.pooled)  # no significant difference -> CD
+LR.TTLvTL.contr.pooled <- lrtest(prod.TTL.contr.pooled, prod.TL.contr.pooled)  # significant difference -> TL
+
+# Constant elasticities of substitution
+#c("HEXP", "EDUC")
+#prod.CES <- 
+#summary(prod.CES)
+
+detach(df2)
 @
+
+
+
+<<TTL_pooled,include=FALSE,eval=TRUE>>=
+TTL <- lm(log(df97$COMP) ~ log(df97$HEXP) + log(df97$EDUC)
+                     + I(log(df97$EDUC)^2) + I(log(df97$HEXP)*log(df97$EDUC))
+                     + df97$VOICE + df97$PUBTHE + log(df97$POPDEN) + log(df97$GDPC) + log(df97$GINI) + I(log(df97$GINI)^2), data = df97)
+summary(TTL)
+
+TL <- lm(log(df97$COMP) ~ log(df97$HEXP) + log(df97$EDUC)
+                     + I(log(df97$HEXP)^2) + I(log(df97$EDUC)^2) + I(log(df97$HEXP)*log(df97$EDUC))
+                     + df97$VOICE + df97$PUBTHE + log(df97$POPDEN) + log(df97$GDPC) + log(df97$GINI) + I(log(df97$GINI)^2), data = df97)
+summary(TL)
+
+CD <- lm(log(df97$COMP) ~ log(df97$HEXP) + log(df97$EDUC) 
+                    + df97$VOICE + df97$PUBTHE + log(df97$POPDEN) + log(df97$GDPC) + log(df97$GINI) + I(log(df97$GINI)^2), data = df97)
+summary(CD)
+
+
+lrtest(CD, TTL)
+lrtest(TTL, TL)
+
+@
+
+
+
+
+\section{Estimation and results}
 
 <<setup, eval=TRUE, echo=F, include=F, cache = F>>=
 ### Code for the empirical project
@@ -1105,7 +1315,7 @@ library(reshape2)
 <<data, eval=TRUE, echo=F, cache=TRUE>>=
 # Import data
 
-#df = read.xls("../../Data/who_data_cc.xlsx", sheet = 1, header = TRUE)[-c(701),]  # ALREADY LOADED WITH SAME NAME
+# df = read.xls("../../Data/who_data_cc.xlsx", sheet = 1, header = TRUE)[-c(701),]  # ALREADY LOADED WITH SAME NAME
 
 names(df)[length(names(df))] <- "GDPC"
 names(df)[which(names(df) == "COUNTRYNAME")] <- "COUNTRY"
@@ -1149,8 +1359,8 @@ out <- rbind.data.frame(summary(ces.comp)$ela, summary(ces.comp)$coefficients,
                         summary(ces.comp2.vrs)$ela, summary(ces.comp2.vrs)$coefficients)
 tmp <- rep(c("$\\epsilon$", "$\\gamma$", "$\\delta$", "$\\rho$",
              "$\\epsilon$", "$\\gamma$", "$\\delta$", "$\\rho$", "$\\nu$"), 2)
-out <- cbind.data.frame(Model = c("Cross Section", NA, NA, NA,
-                                  "Cross Section,", "variable returns of scale", NA, NA, NA,
+out <- cbind.data.frame(Model = c("Cross-Section", NA, NA, NA,
+                                  "Cross-Section,", "variable returns of scale", NA, NA, NA,
                                   "Pooled OLS", NA, NA, NA,
                                   "Pooled OLS,", "variable returns of scale", NA, NA, NA),
                                   tmp, out)
@@ -1163,16 +1373,15 @@ print(xtable(out, caption = "Estimates of the CES production function",
         sanitize.text.function = function(x) {x},
         add.to.row = list(pos = list(18), command = paste0("\\midrule \n \\multicolumn{5}{l}",
         "{\\footnotesize{Note: $\\epsilon$ denotes the elasticity of substitution}}",
-        " \\\\ \n")), caption.placement="top")
+        " \\\\ \n")))
 
 @
-
-
-\subsection{Translog}
-We estimate the chosen translog model for the cross-sectional case. We then run the same model for the pooled case, and using clustered standard errors. Results are reported in Table \ref{tab:big}. The estimated model is:
+%\\multicolumn{5}{l}
+\subsection{Trans-log}
+We estimate the chosen trans-log model for the cross-sectional case. We then run the same model for the pooled case, and using clustered standard errors. Results are reported in Table \ref{tab:big}. The estimated model is:
 \begin{equation}
 \begin{aligned}
-COMP_i = & \alpha + \beta_1 HEXP_i + \beta_2 EDUC_i + \beta_3 HEXP_i^2 + \beta_4 EDUC_i^2 \\ & + \beta_5 \left(HEXP_i \times EDUC_i\right) + \gamma X_i + \xi YEAR_i + \varepsilon_i
+COMP_i &= \alpha + \beta_1 HEXP_i + \beta_2 EDUC_i + \beta_3 HEXP_i^2 + \beta_4 EDUC_i^2 + \beta_5 \left(HEXP_i \times EDUC_i\right) \\ &+ \gamma X_i + \xi YEAR_i + \varepsilon_i
 \end{aligned}
 \end{equation}
 Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top$$ and YEAR can either be a vector of dummies for each year of the sample (and $\xi$ also a vector of coefficients), or the YEAR itself (and $\xi$ a single coefficient). Again, the values of COMP, HEXP, EDUC, GINI and POPDEN are in logs.
@@ -1181,15 +1390,24 @@ Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top
 trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
 trans.log.s <- paste(trans.log.s, "GDPC + POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)",
                      sep = " + ")
+
+cb <- "COMP ~ HEXP + EDUC"
+cb <- paste(cb, "GDPC + POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)",
+                     sep = " + ")
 # CS
 tl1 <- lm(as.formula(trans.log.s), data = l.df97)
+cb1 <- lm(as.formula(cb), data = l.df97)
 # Pooled
 tl2 <- lm(as.formula(paste(trans.log.s, "+ YEAR")), data = l.df)
+cb2 <- lm(as.formula(paste(cb, "+ YEAR")), data = l.df)
+nonpanel <- list(tl1, cb1, tl2, cb2)
 # summary(tl2)
-robust.se <- sqrt(diag(vcovHC(tl2, type="HC0")))
+se.nonpanel <- sapply(nonpanel,
+                      function(x){sqrt(diag(vcovHC(x, type="HC0")))})
+# tl2.se <- sqrt(diag(vcovHC(tl2, type="HC0")))
 # stargazer(tl1, tl2, tl2, se=list(NULL, NULL, robust.se),
 #         dep.var.labels = c("COMP", "COMP"),
-#         column.labels = c("Cross Section", "Pooled", "Pooled, White s.e."),
+#         column.labels = c("Cross-Section", "Pooled", "Pooled, White s.e."),
 #         title = "Trans-Log results",
 #         label = "tab:tl", font.size = "footnotesize",
 #         covariate.labels = c('HEXP', 'EDUC', 'EDUC Sq.', 'HEXP Sq.', 'POPDEN', 'PUBTHE',
@@ -1201,12 +1419,38 @@ We also estimate the same production function in a panel setting (Table \ref{tab
 <<panel, cache =F, eval=T, echo=F, results='asis'>>=
 FE.form <- as.formula(paste(trans.log.s, "+ YEAR + COUNTRY"))
 RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
+FE.form.cb <- as.formula(paste(cb, "+ YEAR + COUNTRY"))
+RE.form.cb <- as.formula(paste(cb, "+ YEAR"))
+
 FE <- plm(FE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "within")
+FEcb <- plm(FE.form.cb, data = l.df, index = c("COUNTRY", "YEAR"), model = "within")
 # FE2 <- plm(FE.form, data = l.df, index = c("COUNTRY"), model = "within")
 RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
+REcb <- plm(RE.form.cb, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
 # vcov=vcovHC(model.plm,type="HC0",cluster="group")
 se.FE <- sqrt(diag(vcovHC(FE, type="HC0", cluster="group")))
 se.RE <- sqrt(diag(vcovHC(RE, type="HC0", cluster="group")))
+se.FE.cb <- sqrt(diag(vcovHC(FEcb, type="HC0", cluster="group")))
+se.RE.cb <- sqrt(diag(vcovHC(REcb, type="HC0", cluster="group")))
+panel <- list(FE, FEcb, RE, REcb)
+se.panel <- sapply(panel,
+                      function(x){sqrt(diag(vcovHC(x, type="HC0", cluster="group")))})
+
+# Likelihood ratio test = 2 ∗ (log likelihood unconstrained − log likelihood constrained)
+LL.FE <- sum(dnorm(resid(FE), mean=0, sd=(sqrt(var(FE$residuals)) * sqrt((length(FE$residuals)-length(FE$coefficients))/length(FE$residuals))), log=TRUE))
+LL.FEcb <- sum(dnorm(resid(FEcb), mean=0, sd=(sqrt(var(FEcb$residuals)) * sqrt((length(FEcb$residuals)-length(FEcb$coefficients))/length(FEcb$residuals))), log=TRUE))
+LR.FE = 2 * (LL.FE - LL.FEcb)
+LR.FE
+qchisq(0.95,3)  # Treshold value
+1-pchisq(LR.FE,3)  # p-value
+
+LL.RE <- sum(dnorm(resid(RE), mean=0, sd=(sqrt(var(RE$residuals)) * sqrt((length(RE$residuals)-length(RE$coefficients))/length(RE$residuals))), log=TRUE))
+LL.REcb <- sum(dnorm(resid(REcb), mean=0, sd=(sqrt(var(REcb$residuals)) * sqrt((length(REcb$residuals)-length(REcb$coefficients))/length(REcb$residuals))), log=TRUE))
+LR.RE = 2 * (LL.RE - LL.REcb)
+LR.RE
+qchisq(0.95,3)  # Treshold value
+1-pchisq(LR.RE,3)  # p-value
+
 
 # stargazer(FE, RE, se=list(se.FE, se.RE),
 #         column.labels = c("1: Fixed Effects", "2: Random Effects"),
@@ -1217,25 +1461,36 @@ se.RE <- sqrt(diag(vcovHC(RE, type="HC0", cluster="group")))
 #                              'YEAR = 1996', 'YEAR = 1997', 'HEXP X EDUC'))
 @
 <<bigtable, echo = F, results='asis'>>=
-stargazer(tl1, tl2, tl2, FE, RE, se=list(NULL, NULL, robust.se, se.FE, se.RE),
-        column.labels = c("Cross Section", "Pooled", "Pooled, White s.e.",
+models.cb <- c(nonpanel[c(2, 4)], panel[c(2, 4)])
+models.tl <- c(nonpanel[c(1, 3)], panel[c(1, 3)])
+se.cb <- c(se.nonpanel[c(2, 4)], se.panel[c(2, 4)])
+se.tl <- c(se.nonpanel[c(1, 3)], se.panel[c(1, 3)])
+stargazer(models.tl, se=se.tl,
+        column.labels = c("Cross-Section", "Pooled",
                           "Fixed Effects", "Random Effects"),
         dep.var.labels.include = FALSE,
-        dep.var.caption  = "Dependent variable = comp",
-        title = "Regression results",
+        dep.var.caption  = "Dependent variable = COMP",
+        title = "Regression results, Trans-Log specification",
         label = "tab:big", font.size = "scriptsize",
         model.names = FALSE, df = FALSE,
-        order = c(1,2,3,4,16,8,7,6,5,9,10,11,12,13,14,15,17),
-        covariate.labels = c('hexp', 'educ', 'hexp$^2$.', 'educ$^2$', 'hexp*educ', 'VOICE',
-                             'PUBTHE', 'popden', 'gdpc', 'gini', 'gini$^2$',
-                             'YEAR (continuous)',
+        covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'GDPC', 'POPDEN',
+                             'PUBTHE', 'VOICE', 'GINI', 'GINI Sq.', 'YEAR (continuous)',
                              'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997',
-                             'Constant'))
+                             'HEXP X EDUC'))
+stargazer(models.cb, se=se.cb,
+        column.labels = c("Cross-Section", "Pooled",
+                          "Fixed Effects", "Random Effects"),
+        dep.var.labels.include = FALSE,
+        dep.var.caption  = "Dependent variable = COMP",
+        title = "Regression results, Cobb-Douglas specification",
+        label = "tab:bigcb", font.size = "footnotesize",
+        model.names = FALSE, df = FALSE,
+        covariate.labels = c('HEXP', 'EDUC', 'GDPC', 'POPDEN',
+                             'PUBTHE', 'VOICE', 'GINI', 'GINI Sq.', 'YEAR (continuous)',
+                             'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997'))
 @
-
-
 \subsection{Marginal Effects}
-Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables).
+Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross-Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables). The marginal effects for the Fixed and Random Effects models include large standard deviations, which is likely the reason for its inconsistency.
 <<signs, echo = F, fig.cap = "Marginal effects of COMP with respect to HEXP or EDUC, as a function of the other">>=
 ## Check where the derivative wrt EDUC and HEXP change sign (as a fct of the other)
 quant.hexp <- quantile(l.df$HEXP)
@@ -1283,8 +1538,7 @@ ggplot(derivatives, aes(x = Covariate, y = Derivative,
         geom_hline(aes(yintercept = 0)) + theme(legend.position = "bottom") +
         scale_colour_discrete(name = "Other covariate (quantiles)")
 @
-
-
+%, out.width='.5\\textwidth'
 \subsection{Residuals}
 Visual inspection of the residuals of regression Figure \ref{fig:residuals} indicates heteroskedasticity dependant on COMP, HEXP and EDUC. This is consistent with Figure \ref{on_joses_part} on which we can see that higher variations of COMP over time are associated to more developed countries (a combination of higher values for these three variables). This justifies or use of white standard errors.
 <<residuals, echo = F, fig.cap = "Residuals' scatterplot", fig.align='center', fig.pos="!htbp", fig.width = 10, fig.height = 5>>=
@@ -1332,10 +1586,6 @@ ggplot(tmp, aes(x = value, y = res)) +
         labs(x = NULL, y = "Residuals")
 @
 
-<<residuals2,include=F, echo = F, fig.cap = "Residuals' density estimation", out.width='.5\\textwidth', fig.align='center', fig.pos="!htbp">>=
-ggplot(tmp, aes(x = res)) + geom_density() + labs(x = "Residuals", y = "Density")
-@
-
 %% Not sure what this means
 % #' <<quantreg, echo =F>>=
 % #' # npqreg(tydat = as.data.frame(Y), txdat = as.data.frame(X),
@@ -1357,7 +1607,173 @@ ggplot(tmp, aes(x = res)) + geom_density() + labs(x = "Residuals", y = "Density"
 
 Estimation of a stochastic production frontier
 
+\section{Properties of Production Function}
 
+\subsection{Output Elasticities}
+<<Properties, cache =F, eval=T, echo=F, results='asis' >>=
+#random effects translog final model
+
+# Import data
+df = read.xls("who_data_cc.xlsx", sheet = 1, header = TRUE)[-c(701),]
+names(df)[length(names(df))] <- "GDPC"
+names(df)[which(names(df) == "COUNTRYNAME")] <- "COUNTRY"
+# Ireland has an error in 1993
+df <- subset(df, COUNTRYCODE != (df[which(df$COMP == 1),]$COUNTRYCODE))
+df$COUNTRY <- factor(df$COUNTRY)
+# df$YEAR <- factor(df$YEAR)
+df97 <- subset(df, YEAR == 1997)
+cont.vars <- c("HEXP", "EDUC", "GINI", "POPDEN", "GDPC")
+disc.vars <- c("COUNTRY", "YEAR", "TROPICS", "VOICE", "OECD", "GEFF", "PUBTHE")
+dep.vars <- c("COMP", "DALE")
+l.df <- cbind(log(df[c(dep.vars, cont.vars)]), df[disc.vars])
+l.df97 <- subset(l.df, YEAR == 1997)
+########
+trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
+trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
+
+RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
+RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
+#summary(RE)
+##Output elasticities
+
+#The output elasticities correspond to the coefficients.
+# If the help expenditure incerases by 1%, the level of our dependent variable
+#COMP will increase by 0.08%, and if the level of education increases by 1%, the level of COMP will 
+#increase by 0.11%
+
+@
+We can visualize the variation of the output elasticities with he following histograms. The resulting graphs show that if the education in countries increases 
+ by 1\%, the health care attainment of most of the countries 
+will increase by around 0.09\%. Additionaly, if the health expenditure will increase by 1\% , for the most of  
+countries, the health care attainment will decrease by 0.003\%.
+The monotonicity condition is satisfied for EDUC, as all the values for output elasticities
+are positive.
+However, for the HEXP, the monotonicity condition, is "almost" satisfied, 
+for the majority of observations the output elasticity is negative, but, there are
+around 9.7\% of observations with positive output elasticities. 
+<<Properties of production function, cache =F, eval=T, echo=F, results='asis' >>=
+
+
+
+###translog output elasticities
+trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
+trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
+
+RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
+RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
+outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
+  coef(RE)["HEXP:EDUC"]*l.df$EDUC
+outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
+  coef(RE)["HEXP:EDUC"]*l.df$HEXP
+#we can visualize the variation of these output elasticities with histograms
+hist(outputelasticityEDUC)
+#the resulting grapsh show that if the education in countries increases 
+# by 1% the health care attainment of most of the countries 
+#will increase by around 0.09%
+hist(outputelasticityHEXP)
+# if the health expenditure will increase by 1% , for most of the 
+# countries, the health care attainment will decrease by 0.003%
+
+#sum(outputelasticityEDUC<0)
+#sum(outputelasticityHEXP>0)
+#68/695
+# the monotonicy condition is satisfied for EDUC, as all the values for output elasticities
+#are positive
+# however for the HEXP, the monotonicity condition, is almost satisfied, 
+# for the majority of observations the output elasticity is egative, but, there are
+# some posiive output elasticities (around 9.7%)
+@
+\subsection{Marginal Products}
+In a production function, marginal productivity depends on both input and output 
+quantities.
+If the health expenditure in a country increases  by one unit 
+the measure of healthcare atteinment of the most of countries 
+will decrease by 0.005 units.
+If the education will increase by 1 year, for the most of  countries, the 
+health care attainment will increase by beween 1 and 2 units.
+
+<<Marginal Products, cache =F, eval=T, echo=F, results='asis' >>=
+
+
+
+##Marginal products
+
+#In a production function marginal production depends on both input and output 
+#quantities
+trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
+trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
+
+RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
+RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
+outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
+  coef(RE)["HEXP:EDUC"]*l.df$EDUC
+outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
+  coef(RE)["HEXP:EDUC"]*l.df$HEXP
+mg_prod_HEXP<-outputelasticityHEXP*(df$COMP/df$HEXP)
+mg_prod_EDUC<-outputelasticityEDUC*(df$COMP/df$EDUC)
+
+## translog marginal products
+
+##Visualize the variation of these marginal products:
+hist(mg_prod_EDUC, main="Marginal productivity of Education") 
+hist(mg_prod_HEXP, main="Marginal productivity of Health Expediture")
+# If the health expenditure in a country increases  by one unit 
+# the measure of healthcare atteinment of most of the countries 
+#will decrease by between 0.005 units.
+#If the education will increase by 1 year, for th emost of the countries, the 
+#health care attainment will increase by beween 1 and 2 unis.
+@
+
+\subsection{Elasticity of Scale}
+The elasticity of scale is the sum of all output elasticities. Hence, increasing all  inputs by one percent, for most of countries
+the output COMP will increase by 0.087\% .
+This means that the technology has strong decreasing returns to scale.
+<<Elasticity of Scale, cache =F, eval=T, echo=F, results='asis' >>=
+
+#Elasticity of Scale
+
+#the elasticity of scale is the sum of all output elasticities
+trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
+trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
+
+RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
+RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
+outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
+  coef(RE)["HEXP:EDUC"]*l.df$EDUC
+outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
+  coef(RE)["HEXP:EDUC"]*l.df$HEXP
+mg_prod_HEXP<-outputelasticityHEXP*(df$COMP/df$HEXP)
+mg_prod_EDUC<-outputelasticityEDUC*(df$COMP/df$EDUC)
+
+elasticityofscale<-outputelasticityEDUC+outputelasticityHEXP 
+
+hist(elasticityofscale)
+
+#Hence, increasing all the inputs by one percent, for most of the countries 
+#the output   COMP will increase by 0.087% .
+#This means that the technology has strong decreasing returns to scale.
+@
+\subsection{Marginal Rate of Technical Substitution}
+
+<<Marginal Rate of Technical Substitution, cache =F, eval=T, echo=F, results='asis' >>=
+
+
+# #Marginal Rate of Tecnical Substitution
+# 
+ MRTS_EDUC_HEXP<- -mg_prod_HEXP/mg_prod_EDUC
+ MRTS_HEXP_EDUC<- -mg_prod_EDUC/mg_prod_HEXP
+ #Visualize The MRTS with histograms
+ hist(MRTS_EDUC_HEXP,xlab="MRTS education to health expenditure", main="MRTS of education to health expenditure",15)
+ hist((MRTS_HEXP_EDUC)/10,xlab="MRTS health expenditure to education", main="MRTS of health expenditure to education")
+# #according to the graph most countries need betwwen 0.005
+# #additional units of education to replace one unit of "health expenditure"
+# # in order to replace one unit of education, most of the countries need 
+# #between 0 and 20 units of 
+# #health expenditure to keep the same level of health care atteinment.
+
+
+  
+@
 
 
 \section{Conclusion}
@@ -1410,6 +1826,9 @@ qqnorm(prod.CD.contr$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quanti
 qqnorm(prod.TL.contr$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Translog with controls')
  qqline(prod.TL.contr$residuals)
 @
+
+
+
 
 
 

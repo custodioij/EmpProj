@@ -219,6 +219,77 @@ GDPC* & Normalized per capita GDP in 1997 PPP\$ \\
 \subsection{Descriptive statistics}
 
 
+
+
+  To perform our analysis, a visual inspection of the data will help  us to better understand the distribution of countries according to different dimensions. The dataset contains 13 variables, where 4 of them are dummies and 9 are continous variables. 
+  
+First of all, we had to choose our variable of interest on which we will base our analysis.  The two candidates where: DALE which is a measure of life expectancy and COMP which represents a composite variable of health care attainment. By looking at the evolution of these variables across time, we conclude that DALE varies less than COMP. This could be related to the fact that life expectancy is a feature which does not react immediately to a government intervention or to a policy that would affect the health status of citizens and eventually increase their life expectancy. Moreover, the available period in the dataset (5 years) is too short to allow us to conclude about an effect on life expectancy. However, the variable "COMP" is a measure that assess the overall state of healthcare system in a country, and which could be adjusted in  short run as an answer to the manipulation of the main factors of influence. We therefore selected  COMP as the explanatory variable for the further analysis.
+
+\break
+In the 1997 cross sectional setting we decided to split the countries in 3 (slightly balanced) groups depending on their GDP level. Countries with low GDP are the ones with a GDP less than the threshold of 3000\$. The second group are  countries with a GDP between 3000\$ and 7000\$; and the 3rd group includes  countries with high GDP i.e. greater than 7000\$.  
+The health expenditure for the countries with low GDP lies between 0 and 150\$ per year, while people from countries with  high GDP level spend on average more than 1000\$ for the health care.  Additionally, if we look at the evolution of the health expenditure per country, independently of their GDP level, we remark that the average health expenditure increased across time. However, in countries with high GDP the increase was relatively higher (about 11\%) in comparison to countries with low GDP,  where the health expenditure has grown by only about 5\% in 5 years.
+
+
+
+\includegraphics[width=\maxwidth]{figure/Health_expenditure_1997_given_GDP-1} 
+
+\includegraphics[width=\maxwidth]{figure/Health_expenditure_1997_given_GDP-2} 
+
+\includegraphics[width=\maxwidth]{figure/Health_expenditure_1997_given_GDP-3} 
+
+
+Public contribution is a feature that seems to be highly correlated to the total amount of health expenditure, therefore with the health care attainment measure. In the figure below is shown the behaviour of countries concerning the total heath care attainment, given the proportion of health expenditure paid by public authorities.  There are 55 countries where authorities contribute less than 50\% and 85 countries where authorities contribute more than 50\%. We observe that for the most of countries in which authorities contribute less than 50\% for health expenditure, the health care attainment is between 60 and 80, and for most of countries with a high public contribution, the health care attainment is above 70. We conclude therefore about a positive correlation between these two dimensions.
+
+\includegraphics[width=\maxwidth]{figure/Public_contribution-1} 
+
+\includegraphics[width=\maxwidth]{figure/Public_contribution-2} 
+
+
+
+Based on the axiom that  rationality, that we can easily associate to the years of schooling, influence people to make educated decisions in terms of personal health status; we expect countries which have a population with a higher education level to have higher health expenditure. However, according to Andrew Balls' article in the National Bureau of Economic Research, in most of the cases, tropical countries are considered as "underdeveloped countries" ; we have to take into account, therefore,  that the education level in tropical countries and in temperate  countries is different. Moreover, in tropical countries there are additional factors that have a negative influence on the population's health status, as the higher temperature leads to an accelerated propagation of bacteria.  It would be interesting, therefore, to see how the level of education impacts the health expenditure by controllng for the geographical zone.
+
+
+\includegraphics[width=\maxwidth]{figure/Health_expenditure_given_eucation-1} 
+
+\includegraphics[width=\maxwidth]{figure/Health_expenditure_given_eucation-2} 
+
+
+
+\subsection{Cluster analysis}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{N} \hlkwb{<-} \hlkwd{length}\hlstd{(prod.CD.contr.pooled}\hlopt{$}\hlstd{residuals)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'prod.CD.contr.pooled' not found}}\begin{alltt}
+\hlstd{p} \hlkwb{<-} \hlkwd{length}\hlstd{(prod.CD.contr.pooled}\hlopt{$}\hlstd{coefficients)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'prod.CD.contr.pooled' not found}}\begin{alltt}
+\hlstd{sigma} \hlkwb{<-} \hlkwd{sqrt}\hlstd{(}\hlkwd{var}\hlstd{(prod.CD.contr.pooled}\hlopt{$}\hlstd{residuals))} \hlopt{*} \hlkwd{sqrt}\hlstd{((N}\hlopt{-}\hlstd{p)}\hlopt{/}\hlstd{N)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in is.data.frame(x): object 'prod.CD.contr.pooled' not found}}\begin{alltt}
+\hlkwd{sum}\hlstd{(}\hlkwd{dnorm}\hlstd{(comp,} \hlkwc{mean}\hlstd{=}\hlkwd{fitted}\hlstd{(prod.CD.contr.pooled),} \hlkwc{sd}\hlstd{=sigma,} \hlkwc{log}\hlstd{=}\hlnum{TRUE}\hlstd{))}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in dnorm(comp, mean = fitted(prod.CD.contr.pooled), sd = sigma, : object 'comp' not found}}\begin{alltt}
+\hlkwd{sum}\hlstd{(}\hlkwd{dnorm}\hlstd{(}\hlkwd{resid}\hlstd{(prod.CD.contr.pooled),} \hlkwc{mean}\hlstd{=}\hlnum{0}\hlstd{,} \hlkwc{sd}\hlstd{=sigma,} \hlkwc{log}\hlstd{=}\hlnum{TRUE}\hlstd{))}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in resid(prod.CD.contr.pooled): object 'prod.CD.contr.pooled' not found}}\end{kframe}
+\end{knitrout}
+
+
+
+
 \subsection{Nonparametric analysis of the dataset}
 The parametric models we considered for the production function rely on linear functional forms. Therefore, in this section, we develop evidence from the data to support the restrictions imposed on the functional form of the regression models used later on. We inspect in a nonparametric setting the two candidates for dependent variable, COMP and DALE, along with the two main inputs of interest, EDUC and HEXP. Using a conditional mean regression model and by comparing the local constant estimator and local linear estimator againts the OLS estimator, we find evidence for a linear functional form in our production function. 
 
@@ -345,6 +416,9 @@ COMP between variance & 144.28 & 144.86 & 145.7 & 146.71 & 147.98 \\
 
 
 
+
+
+
 \subsection{Functional form}
 Cobb-Douglas production function has the following form:
 \begin{gather}
@@ -369,7 +443,7 @@ The truncated translog funtion, which has been widely used in the literature\foo
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 15:54:36
+% Date and time: Sun, Mar 12, 2017 - 22:55:46
 \begin{table}[!htbp] \centering 
   \caption{Regression results for three possible functional forms} 
   \label{} 
@@ -418,8 +492,8 @@ F Statistic & 263.197$^{***}$ & 174.448$^{***}$ & 107.246$^{***}$ \\
 \subsubsection{Evaluation of different functional forms: Tests}
 As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT}, \ref{LR}, \ref{WT with controls} and \ref{LR with controls} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms with and without control variables. 
 
-% latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 15:54:36 2017
+% latex table generated in R 3.3.2 by xtable 1.8-2 package
+% Sun Mar 12 22:55:46 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas vs Translog; no sign. difference} 
@@ -433,8 +507,8 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
    \hline
 \end{tabular}
 \end{table}
-% latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 15:54:36 2017
+% latex table generated in R 3.3.2 by xtable 1.8-2 package
+% Sun Mar 12 22:55:46 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas vs Translog; no sign. difference} 
@@ -448,8 +522,8 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
    \hline
 \end{tabular}
 \end{table}
-% latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 15:54:36 2017
+% latex table generated in R 3.3.2 by xtable 1.8-2 package
+% Sun Mar 12 22:55:46 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
@@ -463,8 +537,8 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
    \hline
 \end{tabular}
 \end{table}
-% latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 15:54:36 2017
+% latex table generated in R 3.3.2 by xtable 1.8-2 package
+% Sun Mar 12 22:55:46 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
@@ -577,74 +651,6 @@ The Cobb-Douglas specification is the most independent with respect to the varia
 
 
 
-% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 15:54:38
-\begin{table}[!htbp] \centering 
-  \caption{Regr. results for cross-sectional translog with different model spec.} 
-  \label{} 
-\scriptsize 
-\begin{tabular}{@{\extracolsep{5pt}}lcccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & \multicolumn{6}{c}{Dependent variable = comp} \\ 
-\cline{2-7} 
- & TL OLS & TL OLS & TL OLS & TL OLS & TL OLS & TL OLS \\ 
-\\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
-\hline \\[-1.8ex] 
- hexp & 0.164$^{***}$ & 0.172$^{***}$ & 0.167$^{***}$ & 0.224$^{***}$ & 0.166$^{***}$ & 0.160$^{***}$ \\ 
-  & (0.058) & (0.057) & (0.056) & (0.055) & (0.056) & (0.057) \\ 
-  & & & & & & \\ 
- educ & 0.144 & 0.119 & 0.114 & 0.150 & 0.117 & 0.099 \\ 
-  & (0.090) & (0.090) & (0.088) & (0.092) & (0.089) & (0.090) \\ 
-  & & & & & & \\ 
- hexp$^2$ & $-$0.008 & $-$0.010 & $-$0.009 & $-$0.008 & $-$0.009 & $-$0.009 \\ 
-  & (0.008) & (0.008) & (0.008) & (0.008) & (0.008) & (0.008) \\ 
-  & & & & & & \\ 
- educ$^2$ & 0.034 & 0.027 & 0.029 & 0.023 & 0.028 & 0.027 \\ 
-  & (0.030) & (0.030) & (0.029) & (0.030) & (0.029) & (0.030) \\ 
-  & & & & & & \\ 
- hexp*educ & $-$0.037 & $-$0.028 & $-$0.028 & $-$0.032 & $-$0.028 & $-$0.023 \\ 
-  & (0.028) & (0.028) & (0.028) & (0.029) & (0.028) & (0.029) \\ 
-  & & & & & & \\ 
- TROPICS & $-$0.006 & $-$0.005 &  &  &  &  \\ 
-  & (0.016) & (0.016) &  &  &  &  \\ 
-  & & & & & & \\ 
- GEFF & 0.017 & 0.011 &  &  &  &  \\ 
-  & (0.014) & (0.014) &  &  &  &  \\ 
-  & & & & & & \\ 
- VOICE & 0.020$^{*}$ & 0.023$^{*}$ & 0.027$^{***}$ & 0.023$^{**}$ & 0.026$^{**}$ & 0.024$^{**}$ \\ 
-  & (0.012) & (0.012) & (0.010) & (0.010) & (0.010) & (0.010) \\ 
-  & & & & & & \\ 
- PUBTHE & 0.00001 & 0.0001 &  & 0.0002 & 0.0001 & $-$0.0001 \\ 
-  & (0.0004) & (0.0004) &  & (0.0004) & (0.0004) & (0.0003) \\ 
-  & & & & & & \\ 
- popden & 0.008$^{**}$ & 0.008$^{**}$ & 0.007$^{**}$ & 0.008$^{**}$ & 0.008$^{**}$ &  \\ 
-  & (0.003) & (0.003) & (0.003) & (0.003) & (0.003) &  \\ 
-  & & & & & & \\ 
- gdpc & 0.068$^{***}$ & 0.067$^{***}$ & 0.072$^{***}$ &  & 0.071$^{***}$ & 0.074$^{***}$ \\ 
-  & (0.022) & (0.022) & (0.021) &  & (0.021) & (0.022) \\ 
-  & & & & & & \\ 
- gini & $-$0.134$^{***}$ & $-$0.510$^{***}$ & $-$0.532$^{***}$ & $-$0.592$^{***}$ & $-$0.542$^{***}$ & $-$0.554$^{***}$ \\ 
-  & (0.032) & (0.179) & (0.172) & (0.181) & (0.174) & (0.177) \\ 
-  & & & & & & \\ 
- gini$^2$ &  & $-$0.186$^{**}$ & $-$0.194$^{**}$ & $-$0.223$^{**}$ & $-$0.199$^{**}$ & $-$0.205$^{**}$ \\ 
-  &  & (0.087) & (0.084) & (0.088) & (0.085) & (0.087) \\ 
-  & & & & & & \\ 
- Constant & 2.917$^{***}$ & 2.730$^{***}$ & 2.696$^{***}$ & 2.916$^{***}$ & 2.688$^{***}$ & 2.737$^{***}$ \\ 
-  & (0.160) & (0.181) & (0.169) & (0.163) & (0.171) & (0.172) \\ 
-  & & & & & & \\ 
-\hline \\[-1.8ex] 
-Observations & 139 & 139 & 139 & 139 & 139 & 139 \\ 
-R$^{2}$ & 0.853 & 0.859 & 0.858 & 0.845 & 0.858 & 0.852 \\ 
-Adjusted R$^{2}$ & 0.839 & 0.844 & 0.846 & 0.833 & 0.845 & 0.841 \\ 
-Residual Std. Error & 0.069 & 0.068 & 0.067 & 0.070 & 0.067 & 0.068 \\ 
-F Statistic & 61.104$^{***}$ & 58.341$^{***}$ & 77.086$^{***}$ & 69.897$^{***}$ & 69.610$^{***}$ & 73.753$^{***}$ \\ 
-\hline 
-\hline \\[-1.8ex] 
-\textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
-\end{tabular} 
-\end{table} 
-
 
 
 
@@ -670,8 +676,16 @@ Estimation of substitution elasticity, output elasticity, marginal rate of techn
 
 
 
-\section{Estimation and results}
 
+
+
+
+
+
+
+
+
+\section{Estimation and results}
 
 
 
@@ -683,22 +697,20 @@ At first we consider a Constant Elasticity of Substitution (CES) functional form
 COMP_i = \gamma \left( \delta \times HEXP_i^{-\rho} + (1- \delta) \times EDUC_i^{-\rho} \right)^{-\frac{\nu}{\rho}}
 \end{equation}
 where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
-% latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 15:54:40 2017
+% latex table generated in R 3.3.2 by xtable 1.8-2 package
+% Sun Mar 12 22:55:47 2017
 \begin{table}[ht]
 \centering
-\caption{Estimates of the CES production function} 
-\label{tab:ces}
 \begin{tabular}{llrrrr}
   \toprule
 Model & Parameter & Estimate & s.e. & t-stat. & p-value \\ 
   \midrule
-Cross Section & $\epsilon$ & 6.904 & 16.786 & 0.411 & 0.681 \\ 
+Cross-Section & $\epsilon$ & 6.904 & 16.786 & 0.411 & 0.681 \\ 
    & $\gamma$ & 0.869 & 0.103 & 8.398 & 0.000 \\ 
    & $\delta$ & 0.882 & 0.132 & 6.661 & 0.000 \\ 
    & $\rho$ & -0.855 & 0.352 & -2.428 & 0.015 \\ 
    \midrule
-Cross Section, & $\epsilon$ & 1.728 & 0.325 & 5.310 & 0.000 \\ 
+Cross-Section, & $\epsilon$ & 1.728 & 0.325 & 5.310 & 0.000 \\ 
   variable returns of scale & $\gamma$ & 3.559 & 0.056 & 63.349 & 0.000 \\ 
    & $\delta$ & 0.690 & 0.090 & 7.701 & 0.000 \\ 
    & $\rho$ & -0.421 & 0.109 & -3.864 & 0.000 \\ 
@@ -718,15 +730,16 @@ Pooled OLS, & $\epsilon$ & 1.453 & 0.065 & 22.464 & 0.000 \\
  \multicolumn{5}{l}{\footnotesize{Note: $\epsilon$ denotes the elasticity of substitution}} \\ 
  \bottomrule
 \end{tabular}
+\caption{Estimates of the CES production function} 
+\label{tab:ces}
 \end{table}
 
-
-
-\subsection{Translog}
-We estimate the chosen translog model for the cross-sectional case. We then run the same model for the pooled case, and using clustered standard errors. Results are reported in Table \ref{tab:big}. The estimated model is:
+%\\multicolumn{5}{l}
+\subsection{Trans-log}
+We estimate the chosen trans-log model for the cross-sectional case. We then run the same model for the pooled case, and using clustered standard errors. Results are reported in Table \ref{tab:big}. The estimated model is:
 \begin{equation}
 \begin{aligned}
-COMP_i = & \alpha + \beta_1 HEXP_i + \beta_2 EDUC_i + \beta_3 HEXP_i^2 + \beta_4 EDUC_i^2 \\ & + \beta_5 \left(HEXP_i \times EDUC_i\right) + \gamma X_i + \xi YEAR_i + \varepsilon_i
+COMP_i &= \alpha + \beta_1 HEXP_i + \beta_2 EDUC_i + \beta_3 HEXP_i^2 + \beta_4 EDUC_i^2 + \beta_5 \left(HEXP_i \times EDUC_i\right) \\ &+ \gamma X_i + \xi YEAR_i + \varepsilon_i
 \end{aligned}
 \end{equation}
 Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top$$ and YEAR can either be a vector of dummies for each year of the sample (and $\xi$ also a vector of coefficients), or the YEAR itself (and $\xi$ a single coefficient). Again, the values of COMP, HEXP, EDUC, GINI and POPDEN are in logs.
@@ -734,89 +747,161 @@ Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top
 
 We also estimate the same production function in a panel setting (Table \ref{tab:big}). We compare the fixed effects and the random effects model. White standard errors are used in this part as well.
 % dens <- subset(df[order(df$POPDEN),c('YEAR', 'POPDEN', 'COUNTRY', 'GDPC', 'OECD')], YEAR == 1997) # Makes no sense
+[1] 1.628915
+[1] 7.814728
+[1] 0.6528514
+[1] -13.52038
+[1] 7.814728
+[1] 1
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 15:54:42
+% Date and time: Sun, Mar 12, 2017 - 22:55:50
 \begin{table}[!htbp] \centering 
-  \caption{Regression results} 
+  \caption{Regression results, Trans-Log specification} 
   \label{tab:big} 
 \scriptsize 
-\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\begin{tabular}{@{\extracolsep{5pt}}lcccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
- & \multicolumn{5}{c}{Dependent variable = comp} \\ 
-\cline{2-6} 
- & Cross Section & Pooled & Pooled, White s.e. & Fixed Effects & Random Effects \\ 
-\\[-1.8ex] & (1) & (2) & (3) & (4) & (5)\\ 
+ & \multicolumn{4}{c}{Dependent variable = COMP} \\ 
+\cline{2-5} 
+ & Cross-Section & Pooled & Fixed Effects & Random Effects \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4)\\ 
 \hline \\[-1.8ex] 
- hexp & 0.166$^{***}$ & 0.174$^{***}$ & 0.174$^{***}$ & $-$0.001 & 0.007 \\ 
-  & (0.056) & (0.021) & (0.020) & (0.015) & (0.014) \\ 
-  & & & & & \\ 
- educ & 0.117 & 0.102$^{***}$ & 0.102$^{***}$ & 0.043 & 0.059 \\ 
-  & (0.089) & (0.033) & (0.031) & (0.052) & (0.045) \\ 
-  & & & & & \\ 
- hexp$^2$. & $-$0.009 & $-$0.010$^{***}$ & $-$0.010$^{***}$ & 0.001 & 0.001 \\ 
-  & (0.008) & (0.003) & (0.002) & (0.001) & (0.001) \\ 
-  & & & & & \\ 
- educ$^2$ & 0.028 & 0.028$^{**}$ & 0.028$^{**}$ & 0.009 & 0.012 \\ 
-  & (0.029) & (0.011) & (0.011) & (0.020) & (0.017) \\ 
-  & & & & & \\ 
- hexp*educ & $-$0.028 & $-$0.025$^{**}$ & $-$0.025$^{***}$ & $-$0.002 & $-$0.004 \\ 
-  & (0.028) & (0.010) & (0.010) & (0.005) & (0.005) \\ 
-  & & & & & \\ 
- VOICE & 0.026$^{**}$ & 0.026$^{***}$ & 0.026$^{***}$ &  & 0.017$^{*}$ \\ 
-  & (0.010) & (0.004) & (0.004) &  & (0.009) \\ 
-  & & & & & \\ 
- PUBTHE & 0.0001 & 0.0001 & 0.0001 &  & 0.0002 \\ 
-  & (0.0004) & (0.0002) & (0.0001) &  & (0.0004) \\ 
-  & & & & & \\ 
- popden & 0.008$^{**}$ & 0.006$^{***}$ & 0.006$^{***}$ &  & 0.005 \\ 
-  & (0.003) & (0.001) & (0.002) &  & (0.004) \\ 
-  & & & & & \\ 
- gdpc & 0.071$^{***}$ & 0.067$^{***}$ & 0.067$^{***}$ &  & 0.085$^{***}$ \\ 
-  & (0.021) & (0.008) & (0.009) &  & (0.010) \\ 
-  & & & & & \\ 
- gini & $-$0.542$^{***}$ & $-$0.532$^{***}$ & $-$0.532$^{***}$ &  & $-$0.517$^{**}$ \\ 
-  & (0.174) & (0.073) & (0.091) &  & (0.215) \\ 
-  & & & & & \\ 
- gini$^2$ & $-$0.199$^{**}$ & $-$0.196$^{***}$ & $-$0.196$^{***}$ &  & $-$0.201$^{**}$ \\ 
-  & (0.085) & (0.036) & (0.040) &  & (0.096) \\ 
-  & & & & & \\ 
- YEAR (continuous) &  & 0.001 & 0.001 &  &  \\ 
-  &  & (0.002) & (0.002) &  &  \\ 
-  & & & & & \\ 
- YEAR = 1994 &  &  &  & 0.001$^{**}$ & 0.001$^{**}$ \\ 
-  &  &  &  & (0.0005) & (0.0004) \\ 
-  & & & & & \\ 
- YEAR = 1995 &  &  &  & 0.002$^{***}$ & 0.002$^{**}$ \\ 
-  &  &  &  & (0.001) & (0.001) \\ 
-  & & & & & \\ 
- YEAR = 1996 &  &  &  & 0.004$^{***}$ & 0.003$^{***}$ \\ 
-  &  &  &  & (0.001) & (0.001) \\ 
-  & & & & & \\ 
- YEAR = 1997 &  &  &  & 0.005$^{***}$ & 0.004$^{***}$ \\ 
-  &  &  &  & (0.002) & (0.002) \\ 
-  & & & & & \\ 
- Constant & 2.688$^{***}$ & 1.599 & 1.599 &  & 3.083$^{***}$ \\ 
-  & (0.171) & (3.438) & (3.436) &  & (0.124) \\ 
-  & & & & & \\ 
+ HEXP & 0.166$^{***}$ & 0.174$^{***}$ & $-$0.001 & 0.007 \\ 
+  & (0.051) & (0.020) & (0.015) & (0.014) \\ 
+  & & & & \\ 
+ EDUC & 0.117 & 0.102$^{***}$ & 0.043 & 0.059 \\ 
+  & (0.074) & (0.031) & (0.052) & (0.045) \\ 
+  & & & & \\ 
+ HEXP Sq. & $-$0.009$^{*}$ & $-$0.010$^{***}$ & 0.001 & 0.001 \\ 
+  & (0.005) & (0.002) & (0.001) & (0.001) \\ 
+  & & & & \\ 
+ EDUC Sq. & 0.028 & 0.028$^{**}$ & 0.009 & 0.012 \\ 
+  & (0.028) & (0.011) & (0.020) & (0.017) \\ 
+  & & & & \\ 
+ GDPC & 0.071$^{***}$ & 0.067$^{***}$ &  & 0.085$^{***}$ \\ 
+  & (0.023) & (0.009) &  & (0.010) \\ 
+  & & & & \\ 
+ POPDEN & 0.008$^{*}$ & 0.006$^{***}$ &  & 0.005 \\ 
+  & (0.004) & (0.002) &  & (0.004) \\ 
+  & & & & \\ 
+ PUBTHE & 0.0001 & 0.0001 &  & 0.0002 \\ 
+  & (0.0003) & (0.0001) &  & (0.0004) \\ 
+  & & & & \\ 
+ VOICE & 0.026$^{***}$ & 0.026$^{***}$ &  & 0.017$^{*}$ \\ 
+  & (0.010) & (0.004) &  & (0.009) \\ 
+  & & & & \\ 
+ GINI & $-$0.542$^{***}$ & $-$0.532$^{***}$ &  & $-$0.517$^{**}$ \\ 
+  & (0.209) & (0.091) &  & (0.215) \\ 
+  & & & & \\ 
+ GINI Sq. & $-$0.199$^{**}$ & $-$0.196$^{***}$ &  & $-$0.201$^{**}$ \\ 
+  & (0.092) & (0.040) &  & (0.096) \\ 
+  & & & & \\ 
+ YEAR (continuous) &  & 0.001 &  &  \\ 
+  &  & (0.002) &  &  \\ 
+  & & & & \\ 
+ YEAR = 1994 &  &  & 0.001$^{**}$ & 0.001$^{**}$ \\ 
+  &  &  & (0.0005) & (0.0004) \\ 
+  & & & & \\ 
+ YEAR = 1995 &  &  & 0.002$^{***}$ & 0.002$^{**}$ \\ 
+  &  &  & (0.001) & (0.001) \\ 
+  & & & & \\ 
+ YEAR = 1996 &  &  & 0.004$^{***}$ & 0.003$^{***}$ \\ 
+  &  &  & (0.001) & (0.001) \\ 
+  & & & & \\ 
+ YEAR = 1997 &  &  & 0.005$^{***}$ & 0.004$^{***}$ \\ 
+  &  &  & (0.002) & (0.002) \\ 
+  & & & & \\ 
+ HEXP X EDUC & $-$0.028 & $-$0.025$^{***}$ & $-$0.002 & $-$0.004 \\ 
+  & (0.024) & (0.010) & (0.005) & (0.005) \\ 
+  & & & & \\ 
+ Constant & 2.688$^{***}$ & 1.599 &  & 3.083$^{***}$ \\ 
+  & (0.171) & (3.436) &  & (0.124) \\ 
+  & & & & \\ 
 \hline \\[-1.8ex] 
-Observations & 139 & 695 & 695 & 695 & 695 \\ 
-R$^{2}$ & 0.858 & 0.864 & 0.864 & 0.277 & 0.593 \\ 
-Adjusted R$^{2}$ & 0.845 & 0.861 & 0.861 & 0.083 & 0.584 \\ 
-Residual Std. Error & 0.067 & 0.063 & 0.063 &  &  \\ 
-F Statistic & 69.610$^{***}$ & 360.561$^{***}$ & 360.561$^{***}$ & 23.300$^{***}$ & 65.932$^{***}$ \\ 
+Observations & 139 & 695 & 695 & 695 \\ 
+R$^{2}$ & 0.858 & 0.864 & 0.277 & 0.593 \\ 
+Adjusted R$^{2}$ & 0.845 & 0.861 & 0.083 & 0.584 \\ 
+Residual Std. Error & 0.067 & 0.063 &  &  \\ 
+F Statistic & 69.610$^{***}$ & 360.561$^{***}$ & 23.300$^{***}$ & 65.932$^{***}$ \\ 
 \hline 
 \hline \\[-1.8ex] 
-\textit{Note:}  & \multicolumn{5}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\textit{Note:}  & \multicolumn{4}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
 \end{tabular} 
 \end{table} 
 
-
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Sun, Mar 12, 2017 - 22:55:51
+\begin{table}[!htbp] \centering 
+  \caption{Regression results, Cobb-Douglas specification} 
+  \label{tab:bigcb} 
+\footnotesize 
+\begin{tabular}{@{\extracolsep{5pt}}lcccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{4}{c}{Dependent variable = COMP} \\ 
+\cline{2-5} 
+ & Cross-Section & Pooled & Fixed Effects & Random Effects \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4)\\ 
+\hline \\[-1.8ex] 
+ HEXP & 0.011 & 0.017$^{**}$ & 0.005$^{*}$ & 0.005$^{*}$ \\ 
+  & (0.021) & (0.008) & (0.003) & (0.003) \\ 
+  & & & & \\ 
+ EDUC & 0.091$^{***}$ & 0.091$^{***}$ & 0.048$^{*}$ & 0.068$^{***}$ \\ 
+  & (0.015) & (0.006) & (0.028) & (0.016) \\ 
+  & & & & \\ 
+ GDPC & 0.075$^{***}$ & 0.067$^{***}$ &  & 0.087$^{***}$ \\ 
+  & (0.023) & (0.010) &  & (0.010) \\ 
+  & & & & \\ 
+ POPDEN & 0.006 & 0.005$^{***}$ &  & 0.005 \\ 
+  & (0.004) & (0.002) &  & (0.004) \\ 
+  & & & & \\ 
+ PUBTHE & 0.0002 & 0.0002 &  & 0.0003 \\ 
+  & (0.0003) & (0.0002) &  & (0.0004) \\ 
+  & & & & \\ 
+ VOICE & 0.016$^{*}$ & 0.015$^{***}$ &  & 0.018$^{**}$ \\ 
+  & (0.009) & (0.004) &  & (0.008) \\ 
+  & & & & \\ 
+ GINI & $-$0.527$^{**}$ & $-$0.518$^{***}$ &  & $-$0.528$^{**}$ \\ 
+  & (0.219) & (0.096) &  & (0.217) \\ 
+  & & & & \\ 
+ GINI Sq. & $-$0.207$^{**}$ & $-$0.204$^{***}$ &  & $-$0.204$^{**}$ \\ 
+  & (0.098) & (0.043) &  & (0.097) \\ 
+  & & & & \\ 
+ YEAR (continuous) &  & 0.0004 &  &  \\ 
+  &  & (0.002) &  &  \\ 
+  & & & & \\ 
+ YEAR = 1994 &  &  & 0.001$^{***}$ & 0.001$^{***}$ \\ 
+  &  &  & (0.0004) & (0.0004) \\ 
+  & & & & \\ 
+ YEAR = 1995 &  &  & 0.003$^{***}$ & 0.002$^{***}$ \\ 
+  &  &  & (0.001) & (0.001) \\ 
+  & & & & \\ 
+ YEAR = 1996 &  &  & 0.004$^{***}$ & 0.003$^{***}$ \\ 
+  &  &  & (0.001) & (0.001) \\ 
+  & & & & \\ 
+ YEAR = 1997 &  &  & 0.006$^{***}$ & 0.005$^{***}$ \\ 
+  &  &  & (0.002) & (0.001) \\ 
+  & & & & \\ 
+ Constant & 3.109$^{***}$ & 2.348 &  & 3.070$^{***}$ \\ 
+  & (0.136) & (3.627) &  & (0.132) \\ 
+  & & & & \\ 
+\hline \\[-1.8ex] 
+Observations & 139 & 695 & 695 & 695 \\ 
+R$^{2}$ & 0.842 & 0.846 & 0.275 & 0.576 \\ 
+Adjusted R$^{2}$ & 0.833 & 0.844 & 0.086 & 0.569 \\ 
+Residual Std. Error & 0.070 & 0.067 &  &  \\ 
+F Statistic & 86.888$^{***}$ & 419.274$^{***}$ & 34.840$^{***}$ & 77.239$^{***}$ \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{4}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
 
 \subsection{Marginal Effects}
-Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables).
+Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross-Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables). The marginal effects for the Fixed and Random Effects models include large standard deviations, which is likely the reason for its inconsistency.
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
 \includegraphics[width=\maxwidth]{figure/signs-1} \caption[Marginal effects of COMP with respect to HEXP or EDUC, as a function of the other]{Marginal effects of COMP with respect to HEXP or EDUC, as a function of the other}\label{fig:signs}
@@ -824,8 +909,7 @@ Figure \ref{fig:signs} shows the signs of the values of the derivatives of the t
 
 
 \end{knitrout}
-
-
+%, out.width='.5\\textwidth'
 \subsection{Residuals}
 Visual inspection of the residuals of regression Figure \ref{fig:residuals} indicates heteroskedasticity dependant on COMP, HEXP and EDUC. This is consistent with Figure \ref{on_joses_part} on which we can see that higher variations of COMP over time are associated to more developed countries (a combination of higher values for these three variables). This justifies or use of white standard errors.
 \begin{knitrout}
@@ -840,8 +924,6 @@ Visual inspection of the residuals of regression Figure \ref{fig:residuals} indi
 
 
 \end{knitrout}
-
-
 
 %% Not sure what this means
 % #' <<quantreg, echo =F>>=
@@ -864,6 +946,52 @@ Visual inspection of the residuals of regression Figure \ref{fig:residuals} indi
 
 Estimation of a stochastic production frontier
 
+\section{Properties of Production Function}
+
+\subsection{Output Elasticities}
+
+We can visualize the variation of the output elasticities with he following histograms. The resulting graphs show that if the education in countries increases 
+ by 1\%, the health care attainment of most of the countries 
+will increase by around 0.09\%. Additionaly, if the health expenditure will increase by 1\% , for the most of  
+countries, the health care attainment will decrease by 0.003\%.
+The monotonicity condition is satisfied for EDUC, as all the values for output elasticities
+are positive.
+However, for the HEXP, the monotonicity condition, is "almost" satisfied, 
+for the majority of observations the output elasticity is negative, but, there are
+around 9.7\% of observations with positive output elasticities. 
+
+\includegraphics[width=\maxwidth]{figure/Properties_of_production_function-1} 
+
+\includegraphics[width=\maxwidth]{figure/Properties_of_production_function-2} 
+
+\subsection{Marginal Products}
+In a production function, marginal productivity depends on both input and output 
+quantities.
+If the health expenditure in a country increases  by one unit 
+the measure of healthcare atteinment of the most of countries 
+will decrease by 0.005 units.
+If the education will increase by 1 year, for the most of  countries, the 
+health care attainment will increase by beween 1 and 2 units.
+
+
+\includegraphics[width=\maxwidth]{figure/Marginal_Products-1} 
+
+\includegraphics[width=\maxwidth]{figure/Marginal_Products-2} 
+
+
+\subsection{Elasticity of Scale}
+The elasticity of scale is the sum of all output elasticities. Hence, increasing all  inputs by one percent, for most of countries
+the output COMP will increase by 0.087\% .
+This means that the technology has strong decreasing returns to scale.
+
+\includegraphics[width=\maxwidth]{figure/Elasticity_of_Scale-1} 
+
+\subsection{Marginal Rate of Technical Substitution}
+
+
+\includegraphics[width=\maxwidth]{figure/Marginal_Rate_of_Technical_Substitution-1} 
+
+\includegraphics[width=\maxwidth]{figure/Marginal_Rate_of_Technical_Substitution-2} 
 
 
 
@@ -925,6 +1053,9 @@ Estimation of a stochastic production frontier
 
 
 \end{knitrout}
+
+
+
 
 
 
