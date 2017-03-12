@@ -220,7 +220,7 @@ GDPC* & Normalized per capita GDP in 1997 PPP\$ \\
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 18:14:43
+% Date and time: Sun, Mar 12, 2017 - 19:00:18
 \begin{table}[!htbp] \centering 
   \caption{Descriptive statistics} 
   \label{} 
@@ -438,7 +438,7 @@ The truncated translog funtion, which has been widely used in the literature\foo
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 18:14:45
+% Date and time: Sun, Mar 12, 2017 - 19:00:20
 \begin{table}[!htbp] \centering 
   \caption{Regression results for three possible functional forms} 
   \label{} 
@@ -488,7 +488,7 @@ F Statistic & 263.197$^{***}$ & 174.448$^{***}$ & 107.246$^{***}$ \\
 As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT}, \ref{LR}, \ref{WT with controls} and \ref{LR with controls} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms with and without control variables. 
 
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 18:14:45 2017
+% Sun Mar 12 19:00:20 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas vs Translog; no sign. difference} 
@@ -503,7 +503,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 18:14:45 2017
+% Sun Mar 12 19:00:20 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas vs Translog; no sign. difference} 
@@ -518,7 +518,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 18:14:45 2017
+% Sun Mar 12 19:00:20 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
@@ -533,7 +533,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 18:14:45 2017
+% Sun Mar 12 19:00:20 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
@@ -647,7 +647,7 @@ The Cobb-Douglas specification is the most independent with respect to the varia
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 18:14:47
+% Date and time: Sun, Mar 12, 2017 - 19:00:22
 \begin{table}[!htbp] \centering 
   \caption{Regr. results for cross-sectional translog with different model spec.} 
   \label{} 
@@ -752,42 +752,6 @@ At first we consider a Constant Elasticity of Substitution (CES) functional form
 COMP_i = \gamma \left( \delta \times HEXP_i^{-\rho} + (1- \delta) \times EDUC_i^{-\rho} \right)^{-\frac{\nu}{\rho}}
 \end{equation}
 where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
-% latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 18:14:48 2017
-\begin{table}[ht]
-\centering
-\begin{tabular}{llrrrr}
-  \toprule
-Model & Parameter & Estimate & s.e. & t-stat. & p-value \\ 
-  \midrule
-Cross-Section & $\epsilon$ & 6.904 & 16.786 & 0.411 & 0.681 \\ 
-   & $\gamma$ & 0.869 & 0.103 & 8.398 & 0.000 \\ 
-   & $\delta$ & 0.882 & 0.132 & 6.661 & 0.000 \\ 
-   & $\rho$ & -0.855 & 0.352 & -2.428 & 0.015 \\ 
-   \midrule
-Cross-Section, & $\epsilon$ & 1.728 & 0.325 & 5.310 & 0.000 \\ 
-  variable returns of scale & $\gamma$ & 3.559 & 0.056 & 63.349 & 0.000 \\ 
-   & $\delta$ & 0.690 & 0.090 & 7.701 & 0.000 \\ 
-   & $\rho$ & -0.421 & 0.109 & -3.864 & 0.000 \\ 
-   & $\nu$ & 0.138 & 0.007 & 20.063 & 0.000 \\ 
-   \midrule
-Pooled OLS & $\epsilon$ & 0.033 & 1.640 & 0.020 & 0.984 \\ 
-   & $\gamma$ & 0.804 & 0.034 & 23.365 & 0.000 \\ 
-   & $\delta$ & 1.001 & 0.044 & 22.790 & 0.000 \\ 
-   & $\rho$ & 29.399 & 1515.887 & 0.019 & 0.985 \\ 
-   \midrule
-Pooled OLS, & $\epsilon$ & 1.453 & 0.065 & 22.464 & 0.000 \\ 
-  variable returns of scale & $\gamma$ & 3.568 & 0.022 & 158.960 & 0.000 \\ 
-   & $\delta$ & 0.739 & 0.030 & 24.913 & 0.000 \\ 
-   & $\rho$ & -0.312 & 0.031 & -10.186 & 0.000 \\ 
-   & $\nu$ & 0.134 & 0.003 & 45.724 & 0.000 \\ 
-   \midrule 
- \multicolumn{5}{l}{\footnotesize{Note: $\epsilon$ denotes the elasticity of substitution}} \\ 
- \bottomrule
-\end{tabular}
-\caption{Estimates of the CES production function} 
-\label{tab:ces}
-\end{table}
 
 %\\multicolumn{5}{l}
 \subsection{Trans-log}
@@ -805,11 +769,11 @@ We also estimate the same production function in a panel setting (Table \ref{tab
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 18:14:52
+% Date and time: Sun, Mar 12, 2017 - 19:00:27
 \begin{table}[!htbp] \centering 
   \caption{Regression results, Trans-Log specification} 
   \label{tab:big} 
-\footnotesize 
+\scriptsize 
 \begin{tabular}{@{\extracolsep{5pt}}lcccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
@@ -882,7 +846,7 @@ F Statistic & 69.610$^{***}$ & 360.561$^{***}$ & 23.300$^{***}$ & 65.932$^{***}$
 \end{table} 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 18:14:55
+% Date and time: Sun, Mar 12, 2017 - 19:00:29
 \begin{table}[!htbp] \centering 
   \caption{Regression results, Cobb-Douglas specification} 
   \label{tab:bigcb} 
@@ -895,31 +859,25 @@ F Statistic & 69.610$^{***}$ & 360.561$^{***}$ & 23.300$^{***}$ & 65.932$^{***}$
  & Cross-Section & Pooled & Fixed Effects & Random Effects \\ 
 \\[-1.8ex] & (1) & (2) & (3) & (4)\\ 
 \hline \\[-1.8ex] 
- HEXP & 0.011 & 0.017$^{**}$ & 0.005$^{*}$ & 0.005$^{*}$ \\ 
-  & (0.021) & (0.008) & (0.003) & (0.003) \\ 
+ HEXP & 0.011 & 0.018$^{**}$ & 0.005$^{*}$ & 0.005$^{*}$ \\ 
+  & (0.021) & (0.009) & (0.003) & (0.003) \\ 
   & & & & \\ 
- EDUC & 0.091$^{***}$ & 0.091$^{***}$ & 0.048$^{*}$ & 0.068$^{***}$ \\ 
+ EDUC & 0.092$^{***}$ & 0.091$^{***}$ & 0.048$^{*}$ & 0.069$^{***}$ \\ 
   & (0.015) & (0.006) & (0.028) & (0.016) \\ 
   & & & & \\ 
- GDPC & 0.075$^{***}$ & 0.067$^{***}$ &  & 0.087$^{***}$ \\ 
+ GDPC & 0.076$^{***}$ & 0.068$^{***}$ &  & 0.088$^{***}$ \\ 
   & (0.023) & (0.010) &  & (0.010) \\ 
   & & & & \\ 
- POPDEN & 0.006 & 0.005$^{***}$ &  & 0.005 \\ 
-  & (0.004) & (0.002) &  & (0.004) \\ 
+ VOICE & 0.015 & 0.014$^{***}$ &  & 0.018$^{**}$ \\ 
+  & (0.010) & (0.004) &  & (0.009) \\ 
   & & & & \\ 
- PUBTHE & 0.0002 & 0.0002 &  & 0.0003 \\ 
-  & (0.0003) & (0.0002) &  & (0.0004) \\ 
+ GINI & $-$0.537$^{**}$ & $-$0.525$^{***}$ &  & $-$0.524$^{**}$ \\ 
+  & (0.216) & (0.094) &  & (0.212) \\ 
   & & & & \\ 
- VOICE & 0.016$^{*}$ & 0.015$^{***}$ &  & 0.018$^{**}$ \\ 
-  & (0.009) & (0.004) &  & (0.008) \\ 
+ GINI Sq. & $-$0.211$^{**}$ & $-$0.206$^{***}$ &  & $-$0.200$^{**}$ \\ 
+  & (0.096) & (0.042) &  & (0.094) \\ 
   & & & & \\ 
- GINI & $-$0.527$^{**}$ & $-$0.518$^{***}$ &  & $-$0.528$^{**}$ \\ 
-  & (0.219) & (0.096) &  & (0.217) \\ 
-  & & & & \\ 
- GINI Sq. & $-$0.207$^{**}$ & $-$0.204$^{***}$ &  & $-$0.204$^{**}$ \\ 
-  & (0.098) & (0.043) &  & (0.097) \\ 
-  & & & & \\ 
- YEAR (continuous) &  & 0.0004 &  &  \\ 
+ YEAR (continuous) &  & 0.0003 &  &  \\ 
   &  & (0.002) &  &  \\ 
   & & & & \\ 
  YEAR = 1994 &  &  & 0.001$^{***}$ & 0.001$^{***}$ \\ 
@@ -934,15 +892,15 @@ F Statistic & 69.610$^{***}$ & 360.561$^{***}$ & 23.300$^{***}$ & 65.932$^{***}$
  YEAR = 1997 &  &  & 0.006$^{***}$ & 0.005$^{***}$ \\ 
   &  &  & (0.002) & (0.001) \\ 
   & & & & \\ 
- Constant & 3.109$^{***}$ & 2.348 &  & 3.070$^{***}$ \\ 
-  & (0.136) & (3.627) &  & (0.132) \\ 
+ Constant & 3.129$^{***}$ & 2.473 &  & 3.096$^{***}$ \\ 
+  & (0.138) & (3.657) &  & (0.131) \\ 
   & & & & \\ 
 \hline \\[-1.8ex] 
 Observations & 139 & 695 & 695 & 695 \\ 
-R$^{2}$ & 0.842 & 0.846 & 0.275 & 0.576 \\ 
-Adjusted R$^{2}$ & 0.833 & 0.844 & 0.086 & 0.569 \\ 
-Residual Std. Error & 0.070 & 0.067 &  &  \\ 
-F Statistic & 86.888$^{***}$ & 419.274$^{***}$ & 34.840$^{***}$ & 77.239$^{***}$ \\ 
+R$^{2}$ & 0.839 & 0.844 & 0.275 & 0.574 \\ 
+Adjusted R$^{2}$ & 0.831 & 0.842 & 0.086 & 0.567 \\ 
+Residual Std. Error & 0.070 & 0.068 &  &  \\ 
+F Statistic & 114.388$^{***}$ & 529.789$^{***}$ & 34.840$^{***}$ & 92.036$^{***}$ \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{4}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
@@ -950,7 +908,7 @@ F Statistic & 86.888$^{***}$ & 419.274$^{***}$ & 34.840$^{***}$ & 77.239$^{***}$
 \end{table} 
 
 
-We also perform a Hausman test to decide between the fixed and random efects model in the Cobb-Douglas specification. The test gives a p-value of 0.3057144. We do not reject the null hypothesis and therefore we prefer the random effects model.
+We also perform a Hausman test to decide between the fixed and random efects model in the Cobb-Douglas specification. The test gives a p-value of 0.2614311. We do not reject the null hypothesis and therefore we prefer the random effects model.
 
 \subsection{Marginal Effects}
 Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross-Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables). The marginal effects for the Fixed and Random Effects models include large standard deviations, which is likely the reason for its inconsistency.
@@ -985,18 +943,6 @@ Visual inspection of the residuals of regression Figure \ref{fig:residuals} indi
 % #' quant.reg <- npqreg(tydat = l.df97$COMP, txdat = l.df97[,'HEXP'], exdat = z)
 % #' plot(z, quantile(quant.reg), type = "l")
 % #' @
-
-
-
-
-
-
-
-
-
-
-
-Estimation of a stochastic production frontier
 
 \section{Properties of Production Function}
 

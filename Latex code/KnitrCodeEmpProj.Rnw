@@ -214,7 +214,7 @@ GDPC* & Normalized per capita GDP in 1997 PPP\$ \\
 #setwd("C:/Users/Irina/Desktop/Empirical Project")
 library(gdata)
 library(pastecs)
-library(pbkrtest)
+# library(pbkrtest)
 library(plm)
 library(corrplot)
 data<-read.xls("empirical project data.xlsx", sheet = 1, header = TRUE)
@@ -1289,7 +1289,7 @@ trans.log.s <- paste(trans.log.s, "GDPC + POPDEN + PUBTHE + VOICE + GINI + I(GIN
                      sep = " + ")
 
 cb <- "COMP ~ HEXP + EDUC"
-cb <- paste(cb, "GDPC + POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)",
+cb <- paste(cb, "GDPC + VOICE + GINI + I(GINI^2)",
                      sep = " + ")
 # CS
 tl1 <- lm(as.formula(trans.log.s), data = l.df97)
@@ -1352,7 +1352,7 @@ stargazer(models.tl, se=se.tl,
         dep.var.labels.include = FALSE,
         dep.var.caption  = "Dependent variable = COMP",
         title = "Regression results, Trans-Log specification",
-        label = "tab:big", font.size = "footnotesize",
+        label = "tab:big", font.size = "scriptsize",
         model.names = FALSE, df = FALSE,
         covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'GDPC', 'POPDEN',
                              'PUBTHE', 'VOICE', 'GINI', 'GINI Sq.', 'YEAR (continuous)',
@@ -1366,9 +1366,9 @@ stargazer(models.cb, se=se.cb,
         title = "Regression results, Cobb-Douglas specification",
         label = "tab:bigcb", font.size = "footnotesize",
         model.names = FALSE, df = FALSE,
-        covariate.labels = c('HEXP', 'EDUC', 'GDPC', 'POPDEN',
-                             'PUBTHE', 'VOICE', 'GINI', 'GINI Sq.', 'YEAR (continuous)',
-                             'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997'))
+        covariate.labels = c('HEXP', 'EDUC', 'GDPC', 'VOICE', 'GINI', 'GINI Sq.',
+                             'YEAR (continuous)', 'YEAR = 1994','YEAR = 1995',
+                             'YEAR = 1996', 'YEAR = 1997'))
 @
 <<hausman, echo = F>>=
 haustest <- phtest(FEcb, REcb)
@@ -1481,18 +1481,6 @@ ggplot(tmp, aes(x = value, y = res)) +
 % #' plot(z, quantile(quant.reg), type = "l")
 % #' @
 
-
-
-
-
-
-
-
-
-
-
-Estimation of a stochastic production frontier
-
 \section{Properties of Production Function}
 
 \subsection{Output Elasticities}
@@ -1542,11 +1530,11 @@ around 9.7\% of observations with positive output elasticities.
 
 
 ###translog output elasticities
-trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-
-RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
+# trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
+# trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
+# 
+# RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
+# RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
 outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
   coef(RE)["HEXP:EDUC"]*l.df$EDUC
 outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
@@ -1586,11 +1574,11 @@ health care attainment will increase by beween 1 and 2 units.
 
 #In a production function marginal production depends on both input and output 
 #quantities
-trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-
-RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
+# trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
+# trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
+# 
+# RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
+# RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
 outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
   coef(RE)["HEXP:EDUC"]*l.df$EDUC
 outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
@@ -1619,11 +1607,11 @@ This means that the technology has strong decreasing returns to scale.
 #Elasticity of Scale
 
 #the elasticity of scale is the sum of all output elasticities
-trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-
-RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
+# trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
+# trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
+# 
+# RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
+# RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
 outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
   coef(RE)["HEXP:EDUC"]*l.df$EDUC
 outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
