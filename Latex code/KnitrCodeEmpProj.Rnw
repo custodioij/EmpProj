@@ -146,7 +146,7 @@ library(miscTools)
 library(xtable)
 library(stargazer)
 
-set.seed(123456)
+set.seed(1234567)
 @
 
 <<include=FALSE,eval=TRUE>>=
