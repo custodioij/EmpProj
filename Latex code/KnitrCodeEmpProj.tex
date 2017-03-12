@@ -219,6 +219,47 @@ GDPC* & Normalized per capita GDP in 1997 PPP\$ \\
 \subsection{Descriptive statistics}
 
 
+
+
+  To perform our analysis, a visual inspection of the data will help  us to better understand the distribution of countries according to different dimensions. The dataset contains 13 variables, where 4 of them are dummies and 9 are continous variables. 
+  
+First of all, we had to choose our variable of interest on which we will base our analysis.  The two candidates where: DALE which is a measure of life expectancy and COMP which represents a composite variable of health care attainment. By looking at the evolution of these variables across time, we conclude that DALE varies less than COMP. This could be related to the fact that life expectancy is a feature which does not react immediately to a government intervention or to a policy that would affect the health status of citizens and eventually increase their life expectancy. Moreover, the available period in the dataset (5 years) is too short to allow us to conclude about an effect on life expectancy. However, the variable "COMP" is a measure that assess the overall state of healthcare system in a country, and which could be adjusted in  short run as an answer to the manipulation of the main factors of influence. We therefore selected  COMP as the explanatory variable for the further analysis.
+
+\break
+In the 1997 cross sectional setting we decided to split the countries in 3 (slightly balanced) groups depending on their GDP level. Countries with low GDP are the ones with a GDP less than the threshold of 3000\$. The second group are  countries with a GDP between 3000\$ and 7000\$; and the 3rd group includes  countries with high GDP i.e. greater than 7000\$.  
+The health expenditure for the countries with low GDP lies between 0 and 150\$ per year, while people from countries with  high GDP level spend on average more than 1000\$ for the health care.  Additionally, if we look at the evolution of the health expenditure per country, independently of their GDP level, we remark that the average health expenditure increased across time. However, in countries with high GDP the increase was relatively higher (about 11\%) in comparison to countries with low GDP,  where the health expenditure has grown by only about 5\% in 5 years.
+
+
+
+\includegraphics[width=\maxwidth]{figure/Health_expenditure_1997_given_GDP-1} 
+
+\includegraphics[width=\maxwidth]{figure/Health_expenditure_1997_given_GDP-2} 
+
+\includegraphics[width=\maxwidth]{figure/Health_expenditure_1997_given_GDP-3} 
+
+
+Public contribution is a feature that seems to be highly correlated to the total amount of health expenditure, therefore with the health care attainment measure. In the figure below is shown the behaviour of countries concerning the total heath care attainment, given the proportion of health expenditure paid by public authorities.  There are 55 countries where authorities contribute less than 50\% and 85 countries where authorities contribute more than 50\%. We observe that for the most of countries in which authorities contribute less than 50\% for health expenditure, the health care attainment is between 60 and 80, and for most of countries with a high public contribution, the health care attainment is above 70. We conclude therefore about a positive correlation between these two dimensions.
+
+\includegraphics[width=\maxwidth]{figure/Public_contribution-1} 
+
+\includegraphics[width=\maxwidth]{figure/Public_contribution-2} 
+
+
+
+Based on the axiom that  rationality, that we can easily associate to the years of schooling, influence people to make educated decisions in terms of personal health status; we expect countries which have a population with a higher education level to have higher health expenditure. However, according to Andrew Balls' article in the National Bureau of Economic Research, in most of the cases, tropical countries are considered as "underdeveloped countries" ; we have to take into account, therefore,  that the education level in tropical countries and in temperate  countries is different. Moreover, in tropical countries there are additional factors that have a negative influence on the population's health status, as the higher temperature leads to an accelerated propagation of bacteria.  It would be interesting, therefore, to see how the level of education impacts the health expenditure by controllng for the geographical zone.
+
+
+\includegraphics[width=\maxwidth]{figure/Health_expenditure_given_eucation-1} 
+
+\includegraphics[width=\maxwidth]{figure/Health_expenditure_given_eucation-2} 
+
+
+
+
+
+
+
+
 \subsection{Nonparametric analysis of the dataset}
 The parametric models we considered for the production function rely on linear functional forms. Therefore, in this section, we develop evidence from the data to support the restrictions imposed on the functional form of the regression models used later on. We inspect in a nonparametric setting the two candidates for dependent variable, COMP and DALE, along with the two main inputs of interest, EDUC and HEXP. Using a conditional mean regression model and by comparing the local constant estimator and local linear estimator againts the OLS estimator, we find evidence for a linear functional form in our production function. 
 
@@ -369,7 +410,7 @@ The truncated translog funtion, which has been widely used in the literature\foo
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 15:54:36
+% Date and time: Sun, Mar 12, 2017 - 17:27:23
 \begin{table}[!htbp] \centering 
   \caption{Regression results for three possible functional forms} 
   \label{} 
@@ -419,7 +460,7 @@ F Statistic & 263.197$^{***}$ & 174.448$^{***}$ & 107.246$^{***}$ \\
 As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT}, \ref{LR}, \ref{WT with controls} and \ref{LR with controls} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms with and without control variables. 
 
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 15:54:36 2017
+% Sun Mar 12 17:27:24 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas vs Translog; no sign. difference} 
@@ -434,7 +475,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 15:54:36 2017
+% Sun Mar 12 17:27:24 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas vs Translog; no sign. difference} 
@@ -449,7 +490,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 15:54:36 2017
+% Sun Mar 12 17:27:24 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
@@ -464,7 +505,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 15:54:36 2017
+% Sun Mar 12 17:27:24 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
@@ -578,7 +619,7 @@ The Cobb-Douglas specification is the most independent with respect to the varia
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 15:54:38
+% Date and time: Sun, Mar 12, 2017 - 17:27:25
 \begin{table}[!htbp] \centering 
   \caption{Regr. results for cross-sectional translog with different model spec.} 
   \label{} 
@@ -684,7 +725,7 @@ COMP_i = \gamma \left( \delta \times HEXP_i^{-\rho} + (1- \delta) \times EDUC_i^
 \end{equation}
 where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 15:54:40 2017
+% Sun Mar 12 17:27:26 2017
 \begin{table}[ht]
 \centering
 \caption{Estimates of the CES production function} 
@@ -737,7 +778,7 @@ We also estimate the same production function in a panel setting (Table \ref{tab
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 15:54:42
+% Date and time: Sun, Mar 12, 2017 - 17:27:29
 \begin{table}[!htbp] \centering 
   \caption{Regression results} 
   \label{tab:big} 
@@ -864,6 +905,52 @@ Visual inspection of the residuals of regression Figure \ref{fig:residuals} indi
 
 Estimation of a stochastic production frontier
 
+\section{Properties of Production Function}
+
+\subsection{Output Elasticities}
+
+We can visualize the variation of the output elasticities with he following histograms. The resulting graphs show that if the education in countries increases 
+ by 1\%, the health care attainment of most of the countries 
+will increase by around 0.09\%. Additionaly, if the health expenditure will increase by 1\% , for the most of  
+countries, the health care attainment will decrease by 0.003\%.
+The monotonicity condition is satisfied for EDUC, as all the values for output elasticities
+are positive.
+However, for the HEXP, the monotonicity condition, is "almost" satisfied, 
+for the majority of observations the output elasticity is negative, but, there are
+around 9.7\% of observations with positive output elasticities. 
+
+\includegraphics[width=\maxwidth]{figure/Properties_of_production_function-1} 
+
+\includegraphics[width=\maxwidth]{figure/Properties_of_production_function-2} 
+
+\subsection{Marginal Products}
+In a production function, marginal productivity depends on both input and output 
+quantities.
+If the health expenditure in a country increases  by one unit 
+the measure of healthcare atteinment of the most of countries 
+will decrease by 0.005 units.
+If the education will increase by 1 year, for the most of  countries, the 
+health care attainment will increase by beween 1 and 2 units.
+
+
+\includegraphics[width=\maxwidth]{figure/Marginal_Products-1} 
+
+\includegraphics[width=\maxwidth]{figure/Marginal_Products-2} 
+
+
+\subsection{Elasticity of Scale}
+The elasticity of scale is the sum of all output elasticities. Hence, increasing all  inputs by one percent, for most of countries
+the output COMP will increase by 0.087\% .
+This means that the technology has strong decreasing returns to scale.
+
+\includegraphics[width=\maxwidth]{figure/Elasticity_of_Scale-1} 
+
+\subsection{Marginal Rate of Technical Substitution}
+
+
+\includegraphics[width=\maxwidth]{figure/Marginal_Rate_of_Technical_Substitution-1} 
+
+\includegraphics[width=\maxwidth]{figure/Marginal_Rate_of_Technical_Substitution-2} 
 
 
 
@@ -925,6 +1012,9 @@ Estimation of a stochastic production frontier
 
 
 \end{knitrout}
+
+
+
 
 
 
