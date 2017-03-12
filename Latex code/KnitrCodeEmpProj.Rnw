@@ -1254,8 +1254,8 @@ out <- rbind.data.frame(summary(ces.comp)$ela, summary(ces.comp)$coefficients,
                         summary(ces.comp2.vrs)$ela, summary(ces.comp2.vrs)$coefficients)
 tmp <- rep(c("$\\epsilon$", "$\\gamma$", "$\\delta$", "$\\rho$",
              "$\\epsilon$", "$\\gamma$", "$\\delta$", "$\\rho$", "$\\nu$"), 2)
-out <- cbind.data.frame(Model = c("Cross Section", NA, NA, NA,
-                                  "Cross Section,", "variable returns of scale", NA, NA, NA,
+out <- cbind.data.frame(Model = c("Cross-Section", NA, NA, NA,
+                                  "Cross-Section,", "variable returns of scale", NA, NA, NA,
                                   "Pooled OLS", NA, NA, NA,
                                   "Pooled OLS,", "variable returns of scale", NA, NA, NA),
                                   tmp, out)
@@ -1268,16 +1268,15 @@ print(xtable(out, caption = "Estimates of the CES production function",
         sanitize.text.function = function(x) {x},
         add.to.row = list(pos = list(18), command = paste0("\\midrule \n \\multicolumn{5}{l}",
         "{\\footnotesize{Note: $\\epsilon$ denotes the elasticity of substitution}}",
-        " \\\\ \n")), caption.placement="top")
+        " \\\\ \n")))
 
 @
-
-
-\subsection{Translog}
-We estimate the chosen translog model for the cross-sectional case. We then run the same model for the pooled case, and using clustered standard errors. Results are reported in Table \ref{tab:big}. The estimated model is:
+%\\multicolumn{5}{l}
+\subsection{Trans-log}
+We estimate the chosen trans-log model for the cross-sectional case. We then run the same model for the pooled case, and using clustered standard errors. Results are reported in Table \ref{tab:big}. The estimated model is:
 \begin{equation}
 \begin{aligned}
-COMP_i = & \alpha + \beta_1 HEXP_i + \beta_2 EDUC_i + \beta_3 HEXP_i^2 + \beta_4 EDUC_i^2 \\ & + \beta_5 \left(HEXP_i \times EDUC_i\right) + \gamma X_i + \xi YEAR_i + \varepsilon_i
+COMP_i &= \alpha + \beta_1 HEXP_i + \beta_2 EDUC_i + \beta_3 HEXP_i^2 + \beta_4 EDUC_i^2 + \beta_5 \left(HEXP_i \times EDUC_i\right) \\ &+ \gamma X_i + \xi YEAR_i + \varepsilon_i
 \end{aligned}
 \end{equation}
 Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top$$ and YEAR can either be a vector of dummies for each year of the sample (and $\xi$ also a vector of coefficients), or the YEAR itself (and $\xi$ a single coefficient). Again, the values of COMP, HEXP, EDUC, GINI and POPDEN are in logs.
@@ -1286,15 +1285,24 @@ Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top
 trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
 trans.log.s <- paste(trans.log.s, "GDPC + POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)",
                      sep = " + ")
+
+cb <- "COMP ~ HEXP + EDUC"
+cb <- paste(cb, "GDPC + POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)",
+                     sep = " + ")
 # CS
 tl1 <- lm(as.formula(trans.log.s), data = l.df97)
+cb1 <- lm(as.formula(cb), data = l.df97)
 # Pooled
 tl2 <- lm(as.formula(paste(trans.log.s, "+ YEAR")), data = l.df)
+cb2 <- lm(as.formula(paste(cb, "+ YEAR")), data = l.df)
+nonpanel <- list(tl1, cb1, tl2, cb2)
 # summary(tl2)
-robust.se <- sqrt(diag(vcovHC(tl2, type="HC0")))
+se.nonpanel <- sapply(nonpanel,
+                      function(x){sqrt(diag(vcovHC(x, type="HC0")))})
+# tl2.se <- sqrt(diag(vcovHC(tl2, type="HC0")))
 # stargazer(tl1, tl2, tl2, se=list(NULL, NULL, robust.se),
 #         dep.var.labels = c("COMP", "COMP"),
-#         column.labels = c("Cross Section", "Pooled", "Pooled, White s.e."),
+#         column.labels = c("Cross-Section", "Pooled", "Pooled, White s.e."),
 #         title = "Trans-Log results",
 #         label = "tab:tl", font.size = "footnotesize",
 #         covariate.labels = c('HEXP', 'EDUC', 'EDUC Sq.', 'HEXP Sq.', 'POPDEN', 'PUBTHE',
@@ -1306,12 +1314,22 @@ We also estimate the same production function in a panel setting (Table \ref{tab
 <<panel, cache =F, eval=T, echo=F, results='asis'>>=
 FE.form <- as.formula(paste(trans.log.s, "+ YEAR + COUNTRY"))
 RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
+FE.form.cb <- as.formula(paste(cb, "+ YEAR + COUNTRY"))
+RE.form.cb <- as.formula(paste(cb, "+ YEAR"))
+
 FE <- plm(FE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "within")
+FEcb <- plm(FE.form.cb, data = l.df, index = c("COUNTRY", "YEAR"), model = "within")
 # FE2 <- plm(FE.form, data = l.df, index = c("COUNTRY"), model = "within")
 RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
+REcb <- plm(RE.form.cb, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
 # vcov=vcovHC(model.plm,type="HC0",cluster="group")
 se.FE <- sqrt(diag(vcovHC(FE, type="HC0", cluster="group")))
 se.RE <- sqrt(diag(vcovHC(RE, type="HC0", cluster="group")))
+se.FE.cb <- sqrt(diag(vcovHC(FEcb, type="HC0", cluster="group")))
+se.RE.cb <- sqrt(diag(vcovHC(REcb, type="HC0", cluster="group")))
+panel <- list(FE, FEcb, RE, REcb)
+se.panel <- sapply(panel,
+                      function(x){sqrt(diag(vcovHC(x, type="HC0", cluster="group")))})
 
 # stargazer(FE, RE, se=list(se.FE, se.RE),
 #         column.labels = c("1: Fixed Effects", "2: Random Effects"),
@@ -1322,25 +1340,36 @@ se.RE <- sqrt(diag(vcovHC(RE, type="HC0", cluster="group")))
 #                              'YEAR = 1996', 'YEAR = 1997', 'HEXP X EDUC'))
 @
 <<bigtable, echo = F, results='asis'>>=
-stargazer(tl1, tl2, tl2, FE, RE, se=list(NULL, NULL, robust.se, se.FE, se.RE),
-        column.labels = c("Cross Section", "Pooled", "Pooled, White s.e.",
+models.cb <- c(nonpanel[c(2, 4)], panel[c(2, 4)])
+models.tl <- c(nonpanel[c(1, 3)], panel[c(1, 3)])
+se.cb <- c(se.nonpanel[c(2, 4)], se.panel[c(2, 4)])
+se.tl <- c(se.nonpanel[c(1, 3)], se.panel[c(1, 3)])
+stargazer(models.tl, se=se.tl,
+        column.labels = c("Cross-Section", "Pooled",
                           "Fixed Effects", "Random Effects"),
         dep.var.labels.include = FALSE,
-        dep.var.caption  = "Dependent variable = comp",
-        title = "Regression results",
-        label = "tab:big", font.size = "scriptsize",
+        dep.var.caption  = "Dependent variable = COMP",
+        title = "Regression results, Trans-Log specification",
+        label = "tab:big", font.size = "footnotesize",
         model.names = FALSE, df = FALSE,
-        order = c(1,2,3,4,16,8,7,6,5,9,10,11,12,13,14,15,17),
-        covariate.labels = c('hexp', 'educ', 'hexp$^2$.', 'educ$^2$', 'hexp*educ', 'VOICE',
-                             'PUBTHE', 'popden', 'gdpc', 'gini', 'gini$^2$',
-                             'YEAR (continuous)',
+        covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'GDPC', 'POPDEN',
+                             'PUBTHE', 'VOICE', 'GINI', 'GINI Sq.', 'YEAR (continuous)',
                              'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997',
-                             'Constant'))
+                             'HEXP X EDUC'))
+stargazer(models.cb, se=se.cb,
+        column.labels = c("Cross-Section", "Pooled",
+                          "Fixed Effects", "Random Effects"),
+        dep.var.labels.include = FALSE,
+        dep.var.caption  = "Dependent variable = COMP",
+        title = "Regression results, Cobb-Douglas specification",
+        label = "tab:bigcb", font.size = "footnotesize",
+        model.names = FALSE, df = FALSE,
+        covariate.labels = c('HEXP', 'EDUC', 'GDPC', 'POPDEN',
+                             'PUBTHE', 'VOICE', 'GINI', 'GINI Sq.', 'YEAR (continuous)',
+                             'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997'))
 @
-
-
 \subsection{Marginal Effects}
-Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables).
+Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross-Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables). The marginal effects for the Fixed and Random Effects models include large standard deviations, which is likely the reason for its inconsistency.
 <<signs, echo = F, fig.cap = "Marginal effects of COMP with respect to HEXP or EDUC, as a function of the other">>=
 ## Check where the derivative wrt EDUC and HEXP change sign (as a fct of the other)
 quant.hexp <- quantile(l.df$HEXP)
@@ -1388,8 +1417,7 @@ ggplot(derivatives, aes(x = Covariate, y = Derivative,
         geom_hline(aes(yintercept = 0)) + theme(legend.position = "bottom") +
         scale_colour_discrete(name = "Other covariate (quantiles)")
 @
-
-
+%, out.width='.5\\textwidth'
 \subsection{Residuals}
 Visual inspection of the residuals of regression Figure \ref{fig:residuals} indicates heteroskedasticity dependant on COMP, HEXP and EDUC. This is consistent with Figure \ref{on_joses_part} on which we can see that higher variations of COMP over time are associated to more developed countries (a combination of higher values for these three variables). This justifies or use of white standard errors.
 <<residuals, echo = F, fig.cap = "Residuals' scatterplot", fig.align='center', fig.pos="!htbp", fig.width = 10, fig.height = 5>>=
@@ -1435,10 +1463,6 @@ tmp <- melt(tmp, c("res", "model"))
 ggplot(tmp, aes(x = value, y = res)) +
         geom_point() + facet_grid(model ~ variable, scales = "free") +
         labs(x = NULL, y = "Residuals")
-@
-
-<<residuals2,include=F, echo = F, fig.cap = "Residuals' density estimation", out.width='.5\\textwidth', fig.align='center', fig.pos="!htbp">>=
-ggplot(tmp, aes(x = res)) + geom_density() + labs(x = "Residuals", y = "Density")
 @
 
 %% Not sure what this means
