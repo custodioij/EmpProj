@@ -138,7 +138,8 @@ Stochastic Frontier Analysis
 rm(list = ls())
 # A directory is needed in order to work on R locally
 # setwd("/Users/custodioij/Dropbox/TSE/M2/Empirical Project/Empirical Project repository/Latex code")
-# setwd("C:/Users/Nicola/Dropbox/ZZ Shared/M2 Empirical Project/R Code (Nicola)")  # POINT TO THIS DIRECTORY FROM YOUR LAPTOP
+#setwd("C:/Users/Nicola/Dropbox/ZZ Shared/M2 Empirical Project/R Code (Nicola)")# POINT TO THIS DIRECTORY FROM YOUR LAPTOP
+setwd("~/Dropbox/M2 Empirical Project/R Code (Nicola)")
 library(lmtest)
 library(sandwich)
 library(micEcon)
