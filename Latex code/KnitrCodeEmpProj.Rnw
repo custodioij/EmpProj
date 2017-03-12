@@ -136,8 +136,8 @@ Stochastic Frontier Analysis
 #GINI, GEFF, VOICE, POPDEN, PUBTHE an GDPC : only observed for 1997
 
 rm(list = ls())
-# setwd("/Users/custodioij/Dropbox/TSE/M2/M2 Empirical Project/R Code (Nicola)")
-setwd("C:/Users/Nicola/Dropbox/ZZ Shared/M2 Empirical Project/R Code (Nicola)")  # POINT TO THIS DIRECTORY FROM YOUR LAPTOP
+setwd("/Users/custodioij/Dropbox/TSE/M2/Empirical Project/Empirical Project repository/Latex code")
+# setwd("C:/Users/Nicola/Dropbox/ZZ Shared/M2 Empirical Project/R Code (Nicola)")  # POINT TO THIS DIRECTORY FROM YOUR LAPTOP
 library(lmtest)
 library(sandwich)
 library(micEcon)
@@ -824,7 +824,7 @@ The truncated translog funtion, which has been widely used in the literature\foo
 
 
 <<include=TRUE,results='asis',echo=FALSE,eval=TRUE>>=
-stargazer(prod.CD,prod.TTL,prod.TL, font.size = "small", dep.var.labels.include = FALSE, dep.var.caption = c("Dependent variable = comp"), column.labels = c("CD OLS","TTL OLS","TL OLS"), se=list(NULL,NULL,NULL), covariate.labels = c('hexp', 'educ', 'hexp^2', 'educ^2', 'hexp*edux', 'Constant'), df = FALSE, title = 'Regression results for three possible functional forms')
+stargazer(prod.CD,prod.TTL,prod.TL, font.size = "small", dep.var.labels.include = FALSE, dep.var.caption = c("Dependent variable = comp"), column.labels = c("CD OLS","TTL OLS","TL OLS"), se=list(NULL,NULL,NULL), covariate.labels = c('hexp', 'educ', 'hexp$^2$', 'educ$^2$', 'hexp*edux', 'Constant'), df = FALSE, title = 'Regression results for three possible functional forms')
 #omit.stat = c("f","ser"), 
 @
 
@@ -1031,7 +1031,7 @@ robust.se.TL.contrIII <- sqrt(diag(vcovHC(prod.TL.contrIII, type="HC1")))
 @
 
 <<include=TRUE,results='asis',echo=FALSE,eval=TRUE>>=
-stargazer(prod.TL.contr,prod.TL.gini2,prod.TL.contrII,prod.TL.contrIII,prod.TL.contrIIII,prod.TL.contrIIIII, font.size = "scriptsize", dep.var.labels.include = FALSE, dep.var.caption = c("Dependent variable = comp"), column.labels = c("TL OLS","TL OLS","TL OLS","TL OLS","TL OLS","TL OLS"), se=list(NULL,NULL,NULL,NULL,NULL,NULL), df = FALSE, title = 'Regr. results for cross-sectional translog with different model spec.', covariate.labels = c('hexp', 'educ', 'hexp^2', 'educ^2', 'hexp*educ', 'TROPICS', 'GEFF', 'VOICE', 'PUBTHE', 'popden', 'gdpc', 'gini', 'gini^2', 'Constant'))
+stargazer(prod.TL.contr,prod.TL.gini2,prod.TL.contrII,prod.TL.contrIII,prod.TL.contrIIII,prod.TL.contrIIIII, font.size = "scriptsize", dep.var.labels.include = FALSE, dep.var.caption = c("Dependent variable = comp"), column.labels = c("TL OLS","TL OLS","TL OLS","TL OLS","TL OLS","TL OLS"), se=list(NULL,NULL,NULL,NULL,NULL,NULL), df = FALSE, title = 'Regr. results for cross-sectional translog with different model spec.', covariate.labels = c('hexp', 'educ', 'hexp$^2$', 'educ$^2$', 'hexp*educ', 'TROPICS', 'GEFF', 'VOICE', 'PUBTHE', 'popden', 'gdpc', 'gini', 'gini$^2$', 'Constant'))
 @
 
 
@@ -1225,8 +1225,9 @@ stargazer(tl1, tl2, tl2, FE, RE, se=list(NULL, NULL, robust.se, se.FE, se.RE),
         label = "tab:big", font.size = "scriptsize",
         model.names = FALSE, df = FALSE,
         order = c(1,2,3,4,16,8,7,6,5,9,10,11,12,13,14,15,17),
-        covariate.labels = c('hexp', 'educ', 'hexp^2.', 'educ^2', 'hexp*educ', 'VOICE',
-                             'PUBTHE', 'popden', 'gdpc', 'gini', 'gini^2', 'YEAR (continuous)',
+        covariate.labels = c('hexp', 'educ', 'hexp$^2$.', 'educ$^2$', 'hexp*educ', 'VOICE',
+                             'PUBTHE', 'popden', 'gdpc', 'gini', 'gini$^2$',
+                             'YEAR (continuous)',
                              'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997',
                              'Constant'))
 @
