@@ -219,6 +219,34 @@ GDPC* & Normalized per capita GDP in 1997 PPP\$ \\
 \subsection{Descriptive statistics}
 
 
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Sun, Mar 12, 2017 - 18:14:43
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive statistics} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+COUNTRYCODE & 695 & 98.165 & 53.913 & 6 & 191 \\ 
+YEAR & 695 & 1,995.000 & 1.415 & 1,993 & 1,997 \\ 
+COMP & 695 & 74.284 & 12.047 & 45.931 & 93.447 \\ 
+DALE & 695 & 57.216 & 12.269 & 28.380 & 74.827 \\ 
+HEXP & 695 & 477.091 & 640.285 & 16.230 & 3,721.270 \\ 
+EDUC & 695 & 6.065 & 2.741 & 0.927 & 11.500 \\ 
+OECD & 695 & 0.209 & 0.407 & 0 & 1 \\ 
+GINI & 695 & 0.380 & 0.088 & 0.187 & 0.589 \\ 
+GEFF & 695 & 0.024 & 0.871 & $-$1.883 & 2.082 \\ 
+VOICE & 695 & 0.132 & 0.925 & $-$1.753 & 1.694 \\ 
+TROPICS & 695 & 0.468 & 0.499 & 0 & 1 \\ 
+POPDEN & 695 & 899.670 & 3,030.863 & 1.983 & 29,313.100 \\ 
+PUBTHE & 695 & 56.634 & 19.955 & 8.600 & 96.900 \\ 
+GDPC & 695 & 7,384.443 & 7,610.714 & 521.495 & 30,264.300 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
 
 
   To perform our analysis, a visual inspection of the data will help  us to better understand the distribution of countries according to different dimensions. The dataset contains 13 variables, where 4 of them are dummies and 9 are continous variables. 
@@ -410,7 +438,7 @@ The truncated translog funtion, which has been widely used in the literature\foo
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 17:44:22
+% Date and time: Sun, Mar 12, 2017 - 18:14:45
 \begin{table}[!htbp] \centering 
   \caption{Regression results for three possible functional forms} 
   \label{} 
@@ -460,7 +488,7 @@ F Statistic & 263.197$^{***}$ & 174.448$^{***}$ & 107.246$^{***}$ \\
 As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT}, \ref{LR}, \ref{WT with controls} and \ref{LR with controls} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms with and without control variables. 
 
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 17:44:22 2017
+% Sun Mar 12 18:14:45 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas vs Translog; no sign. difference} 
@@ -475,7 +503,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 17:44:22 2017
+% Sun Mar 12 18:14:45 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas vs Translog; no sign. difference} 
@@ -490,7 +518,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 17:44:22 2017
+% Sun Mar 12 18:14:45 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
@@ -505,7 +533,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 17:44:22 2017
+% Sun Mar 12 18:14:45 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
@@ -619,7 +647,7 @@ The Cobb-Douglas specification is the most independent with respect to the varia
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 17:44:24
+% Date and time: Sun, Mar 12, 2017 - 18:14:47
 \begin{table}[!htbp] \centering 
   \caption{Regr. results for cross-sectional translog with different model spec.} 
   \label{} 
@@ -725,7 +753,7 @@ COMP_i = \gamma \left( \delta \times HEXP_i^{-\rho} + (1- \delta) \times EDUC_i^
 \end{equation}
 where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sun Mar 12 17:44:24 2017
+% Sun Mar 12 18:14:48 2017
 \begin{table}[ht]
 \centering
 \begin{tabular}{llrrrr}
@@ -777,7 +805,7 @@ We also estimate the same production function in a panel setting (Table \ref{tab
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 17:44:28
+% Date and time: Sun, Mar 12, 2017 - 18:14:52
 \begin{table}[!htbp] \centering 
   \caption{Regression results, Trans-Log specification} 
   \label{tab:big} 
@@ -854,7 +882,7 @@ F Statistic & 69.610$^{***}$ & 360.561$^{***}$ & 23.300$^{***}$ & 65.932$^{***}$
 \end{table} 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Mar 12, 2017 - 17:44:31
+% Date and time: Sun, Mar 12, 2017 - 18:14:55
 \begin{table}[!htbp] \centering 
   \caption{Regression results, Cobb-Douglas specification} 
   \label{tab:bigcb} 
@@ -920,6 +948,9 @@ F Statistic & 86.888$^{***}$ & 419.274$^{***}$ & 34.840$^{***}$ & 77.239$^{***}$
 \textit{Note:}  & \multicolumn{4}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
 \end{tabular} 
 \end{table} 
+
+
+We also perform a Hausman test to decide between the fixed and random efects model in the Cobb-Douglas specification. The test gives a p-value of 0.3057144. We do not reject the null hypothesis and therefore we prefer the random effects model.
 
 \subsection{Marginal Effects}
 Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross-Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables). The marginal effects for the Fixed and Random Effects models include large standard deviations, which is likely the reason for its inconsistency.

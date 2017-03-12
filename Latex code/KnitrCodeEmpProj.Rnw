@@ -266,7 +266,9 @@ write.csv(c(x,a,b,c,d,e), "descriptive statistics.csv")
 #threetable
 #ftable(threetable)
 @
-
+<<desc.stats, results='asis', echo = F>>=
+stargazer(df, title = "Descriptive statistics")
+@
 
 
   To perform our analysis, a visual inspection of the data will help  us to better understand the distribution of countries according to different dimensions. The dataset contains 13 variables, where 4 of them are dummies and 9 are continous variables. 
@@ -1368,6 +1370,11 @@ stargazer(models.cb, se=se.cb,
                              'PUBTHE', 'VOICE', 'GINI', 'GINI Sq.', 'YEAR (continuous)',
                              'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997'))
 @
+<<hausman, echo = F>>=
+haustest <- phtest(FEcb, REcb)
+@
+We also perform a Hausman test to decide between the fixed and random efects model in the Cobb-Douglas specification. The test gives a p-value of \Sexpr{haustest$p.value}. We do not reject the null hypothesis and therefore we prefer the random effects model.
+
 \subsection{Marginal Effects}
 Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross-Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables). The marginal effects for the Fixed and Random Effects models include large standard deviations, which is likely the reason for its inconsistency.
 <<signs, echo = F, fig.cap = "Marginal effects of COMP with respect to HEXP or EDUC, as a function of the other">>=
