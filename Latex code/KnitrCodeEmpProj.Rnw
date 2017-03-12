@@ -141,7 +141,7 @@ rm(list = ls())
 library(lmtest)
 library(sandwich)
 library(micEcon)
-library(micEconCES)
+# library(micEconCES)
 library(miscTools)
 library(xtable)
 library(stargazer)
@@ -1183,7 +1183,7 @@ detach(df97)
 # library(stats4)
 # library(bbmle)
 library(micEcon)
-library(micEconCES)
+# library(micEconCES)
 # library(ks)
 library(stargazer)
 library(xtable)
@@ -1234,7 +1234,7 @@ At first we consider a Constant Elasticity of Substitution (CES) functional form
 COMP_i = \gamma \left( \delta \times HEXP_i^{-\rho} + (1- \delta) \times EDUC_i^{-\rho} \right)^{-\frac{\nu}{\rho}}
 \end{equation}
 where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
-<<CES, eval=TRUE, echo=F, warning=FALSE, results='asis'>>=
+<<CES, eval=F, echo=F, warning=FALSE, results='asis'>>=
 ### Cross-sectional CES for 1997
 # Constant Elasticity
 ces.comp <- cesEst("COMP", c("HEXP", "EDUC"), l.df97, method = "Kmenta", vrs = F)
