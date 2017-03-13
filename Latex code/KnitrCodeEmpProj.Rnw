@@ -1299,11 +1299,11 @@ Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top
 <<TransLog, eval=TRUE, echo=F, results='asis', warning=FALSE>>=
 ## Trying t keep the trans-log for the two main explanatory variable
 trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-trans.log.s <- paste(trans.log.s, "GDPC + POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)",
+trans.log.s <- paste(trans.log.s, "GDPC + POPDEN + VOICE + GINI + I(GINI^2)",
                      sep = " + ")
 
 cb <- "COMP ~ HEXP + EDUC"
-cb <- paste(cb, "GDPC + VOICE + GINI + I(GINI^2)",
+cb <- paste(cb, "GDPC + GINI + I(GINI^2)",
                      sep = " + ")
 # CS
 tl1 <- lm(as.formula(trans.log.s), data = l.df97)
@@ -1315,14 +1315,6 @@ nonpanel <- list(tl1, cb1, tl2, cb2)
 # summary(tl2)
 se.nonpanel <- sapply(nonpanel,
                       function(x){sqrt(diag(vcovHC(x, type="HC0")))})
-# tl2.se <- sqrt(diag(vcovHC(tl2, type="HC0")))
-# stargazer(tl1, tl2, tl2, se=list(NULL, NULL, robust.se),
-#         dep.var.labels = c("COMP", "COMP"),
-#         column.labels = c("Cross-Section", "Pooled", "Pooled, White s.e."),
-#         title = "Trans-Log results",
-#         label = "tab:tl", font.size = "footnotesize",
-#         covariate.labels = c('HEXP', 'EDUC', 'EDUC Sq.', 'HEXP Sq.', 'POPDEN', 'PUBTHE',
-#                              'VOICE', 'GINI', 'GINI Sq.', 'YEAR', 'HEXP X EDUC'))
 @
 
 We also estimate the same production function in a panel setting (Table \ref{tab:big}). We compare the fixed effects and the random effects model. White standard errors are used in this part as well.
@@ -1369,7 +1361,7 @@ stargazer(models.tl, se=se.tl,
         label = "tab:big", font.size = "scriptsize",
         model.names = FALSE, df = FALSE,
         covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'GDPC', 'POPDEN',
-                             'PUBTHE', 'VOICE', 'GINI', 'GINI Sq.', 'YEAR (continuous)',
+                             'VOICE', 'GINI', 'GINI Sq.', 'YEAR (continuous)',
                              'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997',
                              'HEXP X EDUC'))
 stargazer(models.cb, se=se.cb,
@@ -1396,15 +1388,15 @@ Figure \ref{fig:signs} shows the signs of the values of the derivatives of the t
 quant.hexp <- quantile(l.df$HEXP)
 quant.educ <- quantile(l.df$EDUC)
 
-hexp1 <- coef(tl1)[c(2, 4, 12)]
-hexp2 <- coef(tl2)[c(2, 4, 13)]
-hexp3 <- coef(FE)[c(1, 3, 9)]
-hexp4 <- coef(RE)[c(2, 4, 16)]
+hexp1 <- coef(tl1)[c(2, 4, 11)]
+hexp2 <- coef(tl2)[c(2, 4, 12)]
+hexp3 <- coef(FE)[c(1, 3, 8)]
+hexp4 <- coef(RE)[c(2, 4, 15)]
 
-educ1 <- coef(tl1)[c(3, 5, 12)]
-educ2 <- coef(tl2)[c(3, 5, 13)]
-educ3 <- coef(FE)[c(2, 4, 9)]
-educ4 <- coef(RE)[c(3, 5, 16)]
+educ1 <- coef(tl1)[c(3, 5, 11)]
+educ2 <- coef(tl2)[c(3, 5, 12)]
+educ3 <- coef(FE)[c(2, 4, 8)]
+educ4 <- coef(RE)[c(3, 5, 15)]
 
 d <- function(level, betas, x) {
         tmp <- sapply(level, function(level, betas, x){
@@ -1449,7 +1441,7 @@ tmp <- lapply(list(list(tl1, 'CS'), list(tl2, 'Pooled'), list(FE, 'FE'), list(RE
                         res = as.numeric(model[[1]]$residuals), 
                         model = model[[2]])})
 {
-        tmp2 <- FE$model[,c(1:5, 12, 13)]
+        tmp2 <- FE$model[,c(1:5, 11, 12)]
         for (i in 0:4){
                 tmp2 <- cbind.data.frame(tmp2, as.numeric(tmp2$YEAR == (1993 + i)))
                 names(tmp2)[ncol(tmp2)] <- paste(c(1993 + i))
@@ -1472,7 +1464,7 @@ tmp <- lapply(list(list(tl1, 'CS'), list(tl2, 'Pooled'), list(FE, 'FE'), list(RE
         }
         tmp3 <- cbind(tmp3, inter = tmp3$EDUC*tmp3$HEXP)
         tmp3 <- cbind(tmp3,
-                pred = apply(tmp3[,c(2:11, 14:18)], 1, function(x){
+                pred = apply(tmp3[,c(2:10, 13:17)], 1, function(x){
                         return(coef(RE)[1] + sum(x*(coef(RE)[-1])))
                         }
                         ))

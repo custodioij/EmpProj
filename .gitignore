@@ -1,3 +1,27 @@
 .Rproj.user
 .Rhistory
 .RData
+
+*.rdb
+
+*.RData
+
+*.rdx
+
+*.pdf
+
+*.csv
+
+*.xlsx
+
+*.gz
+
+*.toc
+
+*.log
+
+*.aux
+
+Latex code/KnitrCodeEmpProj-concordance.tex
+
+Latex code/cache/__packages
