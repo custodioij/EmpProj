@@ -320,7 +320,7 @@ boxplot(data$EDUC~(data$HEXP),data=data, subset=data$TROPICS==0, main="Health ex
 
 \subsection{Cluster analysis}
 
-<<>>=
+<<eval=F>>=
 N <- length(prod.CD.contr.pooled$residuals)
 p <- length(prod.CD.contr.pooled$coefficients)
 sigma <- sqrt(var(prod.CD.contr.pooled$residuals)) * sqrt((N-p)/N)
@@ -1388,11 +1388,11 @@ Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top
 <<TransLog, eval=TRUE, echo=F, results='asis', warning=FALSE>>=
 ## Trying t keep the trans-log for the two main explanatory variable
 trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-trans.log.s <- paste(trans.log.s, "GDPC + POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)",
+trans.log.s <- paste(trans.log.s, "GINI + I(GINI^2) + POPDEN + VOICE + OECD",
                      sep = " + ")
 
 cb <- "COMP ~ HEXP + EDUC"
-cb <- paste(cb, "GDPC + POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)",
+cb <- paste(cb, "GINI + I(GINI^2) + POPDEN + VOICE + OECD",
                      sep = " + ")
 # CS
 tl1 <- lm(as.formula(trans.log.s), data = l.df97)
