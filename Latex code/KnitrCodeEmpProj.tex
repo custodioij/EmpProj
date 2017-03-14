@@ -257,17 +257,7 @@ Based on the axiom that  rationality, that we can easily associate to the years 
 
 \subsection{Cluster analysis}
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlstd{N} \hlkwb{<-} \hlkwd{length}\hlstd{(prod.CD.contr.pooled}\hlopt{$}\hlstd{residuals)}
-\hlstd{p} \hlkwb{<-} \hlkwd{length}\hlstd{(prod.CD.contr.pooled}\hlopt{$}\hlstd{coefficients)}
-\hlstd{sigma} \hlkwb{<-} \hlkwd{sqrt}\hlstd{(}\hlkwd{var}\hlstd{(prod.CD.contr.pooled}\hlopt{$}\hlstd{residuals))} \hlopt{*} \hlkwd{sqrt}\hlstd{((N}\hlopt{-}\hlstd{p)}\hlopt{/}\hlstd{N)}
-\hlkwd{sum}\hlstd{(}\hlkwd{dnorm}\hlstd{(comp,} \hlkwc{mean}\hlstd{=}\hlkwd{fitted}\hlstd{(prod.CD.contr.pooled),} \hlkwc{sd}\hlstd{=sigma,} \hlkwc{log}\hlstd{=}\hlnum{TRUE}\hlstd{))}
-\hlkwd{sum}\hlstd{(}\hlkwd{dnorm}\hlstd{(}\hlkwd{resid}\hlstd{(prod.CD.contr.pooled),} \hlkwc{mean}\hlstd{=}\hlnum{0}\hlstd{,} \hlkwc{sd}\hlstd{=sigma,} \hlkwc{log}\hlstd{=}\hlnum{TRUE}\hlstd{))}
-\end{alltt}
-\end{kframe}
-\end{knitrout}
+
 
 
 
@@ -425,7 +415,7 @@ The truncated translog funtion, which has been widely used in the literature\foo
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Tue, Mar 14, 2017 - 04:02:22
+% Date and time: Tue, Mar 14, 2017 - 04:08:06
 \begin{table}[!htbp] \centering 
   \caption{Regression results for Cobb-Douglas and translog in the cross section 1997} 
   \label{} 
@@ -475,7 +465,7 @@ F Statistic & 263.197$^{***}$ & 107.246$^{***}$ \\
 As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT} and \ref{LR} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms. For both tests the null hypothesis that the additional coefficient are equal to 0 cannot be rejected. Therefore, in the interest of parsimony, we adopt the Codd-Douglas specification. THE SAME TESTS WITH THE AGREED CONTROLS POINT TO TL, BUT THEN EDUC IS NOT SIGNIFICANT!
 
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Tue Mar 14 04:02:23 2017
+% Tue Mar 14 04:08:06 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas compared to translog} 
@@ -490,7 +480,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Tue Mar 14 04:02:23 2017
+% Tue Mar 14 04:08:06 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas compared to translog} 
@@ -621,7 +611,7 @@ We also estimate the same production function in a panel setting (Table \ref{tab
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Tue, Mar 14, 2017 - 04:02:27
+% Date and time: Tue, Mar 14, 2017 - 04:08:11
 \begin{table}[!htbp] \centering 
   \caption{Regression results, Trans-Log specification} 
   \label{tab:big} 
@@ -695,7 +685,7 @@ F Statistic & 69.896$^{***}$ & 353.786$^{***}$ & 23.300$^{***}$ & 53.406$^{***}$
 \end{table} 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Tue, Mar 14, 2017 - 04:02:28
+% Date and time: Tue, Mar 14, 2017 - 04:08:13
 \begin{table}[!htbp] \centering 
   \caption{Regression results, Cobb-Douglas specification} 
   \label{tab:bigcb} 

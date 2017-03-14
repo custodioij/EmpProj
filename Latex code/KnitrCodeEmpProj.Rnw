@@ -320,7 +320,7 @@ boxplot(data$EDUC~(data$HEXP),data=data, subset=data$TROPICS==0, main="Health ex
 
 \subsection{Cluster analysis}
 
-<<eval=F>>=
+<<eval=F,include=F>>=
 N <- length(prod.CD.contr.pooled$residuals)
 p <- length(prod.CD.contr.pooled$coefficients)
 sigma <- sqrt(var(prod.CD.contr.pooled$residuals)) * sqrt((N-p)/N)
