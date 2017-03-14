@@ -178,7 +178,7 @@ The data have been collected by the World Health Organization and have served in
 \begin{table}[htbp] \centering 
   \caption{Variables definition} 
   \label{Variables definition} 
-  \normalsize
+  \footnotesize
 \begin{tabular}{p{3cm} p{9cm}} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
@@ -214,7 +214,7 @@ GDPC* & Normalized per capita GDP in 1997 PPP\$ \\
 \textit{Note:} & \multicolumn{1}{r}{* are only observed for 1997} \\ 
 \end{tabular} 
 \end{table} 
-
+\normalsize
 
 \subsection{Descriptive statistics}
 
@@ -353,7 +353,7 @@ As in the case for only 1997, when looking at the pooled data in the univariate 
 The dataset provides two measures of population health: DALE (disability-adjusted life expectancy) and COMP (composite meansure of population health). DALE is a measure of life expectancy, adjusted downward to take into account the time lived with a disability. COMP is a measure composed by three elements: the first element is the disability-adjusted life expectancy (the DALE measure), the second element is a measure for resposiveness\footnote{Responsiveness measures "how the system performs relative to non-health aspects" and whether it meets or not "a population's expectations of how it should be treated by providers of prevention and care". How the system responds to health needs already shows up in the DALE measure.} and the third element is a measure for fair financing\footnote{Fair financing measures whether "the risks each household faces due to the costs of the health system are distributed according to ability to pay rather than to the risk of illness".}. The elements are weighted according to the importance that people on average attribute to each of them. The weights are 50\%, 25\% and 25\% respectively. \\
 
 
-%HERE SOME MORE ARGUMENTS
+HERE SOME MORE ARGUMENTS DERIVED FROM ABOVE
 
 
 A further criterion for the choice of the output variable consists in chosing the variable with larger variation both within and between countries. An overview of the variation over time of the two output variables is given in Figure \ref{fig:boxplot_DALE_COMP} in the Appendix. Table \ref{Within variance of DALE and COMP} and Table \ref{Between variance of DALE and COMP} show the within and between variance of the two output variables. The within variance has been computed for each country over the observed five years. Consequently, mean and median have been built. The between variance is displayed for each of the five years. DALE has a larger variation over time and over countries. However, the difference in comparison with the variance of COMP seems to be small. In conclusion, we select COMP as the dependent output variable.
@@ -425,7 +425,7 @@ The truncated translog funtion, which has been widely used in the literature\foo
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Mon, Mar 13, 2017 - 22:35:09
+% Date and time: Tue, Mar 14, 2017 - 04:02:22
 \begin{table}[!htbp] \centering 
   \caption{Regression results for Cobb-Douglas and translog in the cross section 1997} 
   \label{} 
@@ -472,13 +472,13 @@ F Statistic & 263.197$^{***}$ & 107.246$^{***}$ \\
 
 
 \subsubsection{Evaluation of different functional forms: Tests}
-As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT}, \ref{LR}, \ref{WT with controls} and \ref{LR with controls} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms with and without control variables. 
+As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT} and \ref{LR} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms. For both tests the null hypothesis that the additional coefficient are equal to 0 cannot be rejected. Therefore, in the interest of parsimony, we adopt the Codd-Douglas specification. THE SAME TESTS WITH THE AGREED CONTROLS POINT TO TL, BUT THEN EDUC IS NOT SIGNIFICANT!
 
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Mon Mar 13 22:35:09 2017
+% Tue Mar 14 04:02:23 2017
 \begin{table}[ht]
 \centering
-\caption{Wald Test: Cobb-Douglas vs Translog; no sign. difference} 
+\caption{Wald Test: Cobb-Douglas compared to translog} 
 \label{WT}
 \begin{tabular}{lrrrr}
   \hline
@@ -490,10 +490,10 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Mon Mar 13 22:35:09 2017
+% Tue Mar 14 04:02:23 2017
 \begin{table}[ht]
 \centering
-\caption{LR Test: Cobb-Douglas vs Translog; no sign. difference} 
+\caption{LR Test: Cobb-Douglas compared to translog} 
 \label{LR}
 \begin{tabular}{lrrrrr}
   \hline
@@ -504,46 +504,32 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
    \hline
 \end{tabular}
 \end{table}
-% latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Mon Mar 13 22:35:09 2017
-\begin{table}[ht]
-\centering
-\caption{Wald Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
-\label{WT with controls}
-\begin{tabular}{lrrrr}
-  \hline
- & Res.Df & Df & F & Pr($>$F) \\ 
-  \hline
-1 & 129 &  &  &  \\ 
-  2 & 126 & 3 & 4.94 & 0.0028 \\ 
-   \hline
-\end{tabular}
-\end{table}
-% latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Mon Mar 13 22:35:09 2017
-\begin{table}[ht]
-\centering
-\caption{LR Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
-\label{LR with controls}
-\begin{tabular}{lrrrrr}
-  \hline
- & \#Df & LogLik & Df & Chisq & Pr($>$Chisq) \\ 
-  \hline
-1 & 11 & 174.31 &  &  &  \\ 
-  2 & 14 & 182.03 & 3 & 15.45 & 0.0015 \\ 
-   \hline
-\end{tabular}
-\end{table}
 
 
 
 
 \subsubsection{Evaluation of different functional forms: Analysis of the fitted values}
 
-Translog with controls looks the most normal, even though it presents a fatter left tail.
+In Figure \ref{fig:modselection_resdistribution}, Cobb-Douglas and translog residuals resemble a normal distribution centered at 0. Nevertheless, both present a fatter left tail and a mean slightly above 0. In the Q-Q plots, the sample quantiles depart from the normal quantiles underlining the fatter left tail of the distribution. Overall, the Cobb-Douglas residuals seem to do a better job in satisfying the normality assumption.
 
-The Q-Q plots contain the same information as the density plots. The quantiles of the translog model with controls are the closest to the quantiles of a normal distribution.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[htbp]
 
+{\centering \includegraphics[width=0.7\textwidth]{figure/modselection_resdistribution-1} 
+
+}
+
+\caption[Kernel density and Q-Q plots of residuals]{Kernel density and Q-Q plots of residuals}\label{fig:modselection_resdistribution}
+\end{figure}
+
+
+\end{knitrout}
+
+
+
+
+
+Figure \ref{fig:modselection_resvsfitted} shows the residuals and the squared residuals plotted against the fitted values. The solid line is a nonparametric smooth spline that captures the trend in the data. The residuals for both specifications do not present any systematic trend, as the spline runs straight and horizontal around zero. From the observation of the upper two figures, however, the heteroskedasticity of the residuals becomes evident, as the variance of the residuals seems to decline with increasing fitted values. The figures of squared residuals provide further evidence for the heteroskedasticity problem.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[htbp]
@@ -552,30 +538,17 @@ The Q-Q plots contain the same information as the density plots. The quantiles o
 
 }
 
-\caption[Plot of fitted values and residuals]{Plot of fitted values and residuals}\label{fig:modselection_resvsfitted}
+\caption[Plot of fitted values and residuals (squared)]{Plot of fitted values and residuals (squared)}\label{fig:modselection_resvsfitted}
 \end{figure}
 
 
 \end{knitrout}
 
-Cobb-Douglas with controls looks biases. The other specifications seem unbiased, as they do not present any particular shape. However, there is heterogeneity among residuals as they decrease (in absolute value) as the fitted values increase, instead of being spead out evenly at every level of fitted values.
 
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[htbp]
-
-{\centering \includegraphics[width=0.7\textwidth]{figure/modselection_ressqvsfitted-1} 
-
-}
-
-\caption[Plot of fitted values and residuals squared]{Plot of fitted values and residuals squared}\label{fig:modselection_ressqvsfitted}
-\end{figure}
 
 
-\end{knitrout}
-
-In all plots, the change in spread of the residuals suggests heterogeneity. Moreover, since the smooth spline that fits the data is not straight, we may expect some bias.
-
+Finally, Figure \ref{fig:modselection_resvsCOMP} shows residuals plotted against input and output variables. The nonparametric solid line captures the trend in the data. The two upper plots, which include residuals and the output variable comp, show evidence of a systematic trend. The increasing shape in the residuals is common to both Cobb-Douglas and translog specification and hints to some bias, since for low values of comp, the model constantly predicts too high fitted values, i.e. negative residuals. The plots which include hexp are less problematic and the Cobb-Douglas specification look more independent than the translog specification with respect to the variable educ. In all plots, the change in spread of the residuals' distribution suggests heterogeneity.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[htbp]
@@ -584,7 +557,7 @@ In all plots, the change in spread of the residuals suggests heterogeneity. More
 
 }
 
-\caption[Plot of COMP and residuals]{Plot of COMP and residuals}\label{fig:modselection_resvsCOMP}
+\caption[Plot of comp, hexp, educ and residuals]{Plot of comp, hexp, educ and residuals}\label{fig:modselection_resvsCOMP}
 \end{figure}
 
 
@@ -592,36 +565,7 @@ In all plots, the change in spread of the residuals suggests heterogeneity. More
 
 
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[htbp]
 
-{\centering \includegraphics[width=0.7\textwidth]{figure/modselection_resvslogHEXP-1} 
-
-}
-
-\caption[Plot of log(HEXP) and residuals]{Plot of log(HEXP) and residuals}\label{fig:modselection_resvslogHEXP}
-\end{figure}
-
-
-\end{knitrout}
-
-The translog specification is the most independent with respect to the variable log(HEXP).
-
-
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[htbp]
-
-{\centering \includegraphics[width=0.7\textwidth]{figure/modselection_resvslogEDUC-1} 
-
-}
-
-\caption[Plot of log(EDUC) and residuals]{Plot of log(EDUC) and residuals}\label{fig:modselection_resvslogEDUC}
-\end{figure}
-
-
-\end{knitrout}
-
-The Cobb-Douglas specification is the most independent with respect to the variable educ.
 
 
 
@@ -630,31 +574,6 @@ The Cobb-Douglas specification is the most independent with respect to the varia
 
 
 \subsection{Model specification}
-
-
-
-
-
-
-
-
-Cross section for 1997
-
-Pooled OLS
-
-Panel random effects
-
-Panel fixed effects
-
-(Test for "poolability")
-
-Nonparametric regression
-
-Tests
-
---> choose production function and model specification
-
-Estimation of substitution elasticity, output elasticity, marginal rate of technical substitution, return to scale, ...
 
 
 
@@ -679,42 +598,6 @@ At first we consider a Constant Elasticity of Substitution (CES) functional form
 COMP_i = \gamma \left( \delta \times HEXP_i^{-\rho} + (1- \delta) \times EDUC_i^{-\rho} \right)^{-\frac{\nu}{\rho}}
 \end{equation}
 where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
-% latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Mon Mar 13 22:35:10 2017
-\begin{table}[ht]
-\centering
-\begin{tabular}{llrrrr}
-  \toprule
-Model & Parameter & Estimate & s.e. & t-stat. & p-value \\ 
-  \midrule
-Cross-Section & $\epsilon$ & 6.904 & 16.786 & 0.411 & 0.681 \\ 
-   & $\gamma$ & 0.869 & 0.103 & 8.398 & 0.000 \\ 
-   & $\delta$ & 0.882 & 0.132 & 6.661 & 0.000 \\ 
-   & $\rho$ & -0.855 & 0.352 & -2.428 & 0.015 \\ 
-   \midrule
-Cross-Section, & $\epsilon$ & 1.728 & 0.325 & 5.310 & 0.000 \\ 
-  variable returns of scale & $\gamma$ & 3.559 & 0.056 & 63.349 & 0.000 \\ 
-   & $\delta$ & 0.690 & 0.090 & 7.701 & 0.000 \\ 
-   & $\rho$ & -0.421 & 0.109 & -3.864 & 0.000 \\ 
-   & $\nu$ & 0.138 & 0.007 & 20.063 & 0.000 \\ 
-   \midrule
-Pooled OLS & $\epsilon$ & 0.033 & 1.640 & 0.020 & 0.984 \\ 
-   & $\gamma$ & 0.804 & 0.034 & 23.365 & 0.000 \\ 
-   & $\delta$ & 1.001 & 0.044 & 22.790 & 0.000 \\ 
-   & $\rho$ & 29.399 & 1515.887 & 0.019 & 0.985 \\ 
-   \midrule
-Pooled OLS, & $\epsilon$ & 1.453 & 0.065 & 22.464 & 0.000 \\ 
-  variable returns of scale & $\gamma$ & 3.568 & 0.022 & 158.960 & 0.000 \\ 
-   & $\delta$ & 0.739 & 0.030 & 24.913 & 0.000 \\ 
-   & $\rho$ & -0.312 & 0.031 & -10.186 & 0.000 \\ 
-   & $\nu$ & 0.134 & 0.003 & 45.724 & 0.000 \\ 
-   \midrule 
- \multicolumn{5}{l}{\footnotesize{Note: $\epsilon$ denotes the elasticity of substitution}} \\ 
- \bottomrule
-\end{tabular}
-\caption{Estimates of the CES production function} 
-\label{tab:ces}
-\end{table}
 
 %\\multicolumn{5}{l}
 \subsection{Trans-log}
@@ -738,7 +621,7 @@ We also estimate the same production function in a panel setting (Table \ref{tab
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Mon, Mar 13, 2017 - 22:35:13
+% Date and time: Tue, Mar 14, 2017 - 04:02:27
 \begin{table}[!htbp] \centering 
   \caption{Regression results, Trans-Log specification} 
   \label{tab:big} 
@@ -812,7 +695,7 @@ F Statistic & 69.896$^{***}$ & 353.786$^{***}$ & 23.300$^{***}$ & 53.406$^{***}$
 \end{table} 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Mon, Mar 13, 2017 - 22:35:15
+% Date and time: Tue, Mar 14, 2017 - 04:02:28
 \begin{table}[!htbp] \centering 
   \caption{Regression results, Cobb-Douglas specification} 
   \label{tab:bigcb} 
@@ -1018,31 +901,6 @@ This means that the technology has strong decreasing returns to scale.
 
 \end{knitrout}
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[htbp]
-
-{\centering \includegraphics[width=0.7\textwidth]{figure/modselection_resdistribution-1} 
-
-}
-
-\caption[Kernel density of residuals]{Kernel density of residuals}\label{fig:modselection_resdistribution}
-\end{figure}
-
-
-\end{knitrout}
-
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[htbp]
-
-{\centering \includegraphics[width=0.7\textwidth]{figure/modselection_qqplots-1} 
-
-}
-
-\caption[Q-Q plots of residuals]{Q-Q plots of residuals}\label{fig:modselection_qqplots}
-\end{figure}
-
-
-\end{knitrout}
 
 
 
