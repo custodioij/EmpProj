@@ -261,30 +261,12 @@ Based on the axiom that  rationality, that we can easily associate to the years 
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlstd{N} \hlkwb{<-} \hlkwd{length}\hlstd{(prod.CD.contr.pooled}\hlopt{$}\hlstd{residuals)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'prod.CD.contr.pooled' not found}}\begin{alltt}
 \hlstd{p} \hlkwb{<-} \hlkwd{length}\hlstd{(prod.CD.contr.pooled}\hlopt{$}\hlstd{coefficients)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'prod.CD.contr.pooled' not found}}\begin{alltt}
 \hlstd{sigma} \hlkwb{<-} \hlkwd{sqrt}\hlstd{(}\hlkwd{var}\hlstd{(prod.CD.contr.pooled}\hlopt{$}\hlstd{residuals))} \hlopt{*} \hlkwd{sqrt}\hlstd{((N}\hlopt{-}\hlstd{p)}\hlopt{/}\hlstd{N)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in is.data.frame(x): object 'prod.CD.contr.pooled' not found}}\begin{alltt}
 \hlkwd{sum}\hlstd{(}\hlkwd{dnorm}\hlstd{(comp,} \hlkwc{mean}\hlstd{=}\hlkwd{fitted}\hlstd{(prod.CD.contr.pooled),} \hlkwc{sd}\hlstd{=sigma,} \hlkwc{log}\hlstd{=}\hlnum{TRUE}\hlstd{))}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in dnorm(comp, mean = fitted(prod.CD.contr.pooled), sd = sigma, : object 'comp' not found}}\begin{alltt}
 \hlkwd{sum}\hlstd{(}\hlkwd{dnorm}\hlstd{(}\hlkwd{resid}\hlstd{(prod.CD.contr.pooled),} \hlkwc{mean}\hlstd{=}\hlnum{0}\hlstd{,} \hlkwc{sd}\hlstd{=sigma,} \hlkwc{log}\hlstd{=}\hlnum{TRUE}\hlstd{))}
 \end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in resid(prod.CD.contr.pooled): object 'prod.CD.contr.pooled' not found}}\end{kframe}
+\end{kframe}
 \end{knitrout}
 
 
@@ -443,46 +425,46 @@ The truncated translog funtion, which has been widely used in the literature\foo
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Mon, Mar 13, 2017 - 18:50:32
+% Date and time: Mon, Mar 13, 2017 - 22:35:09
 \begin{table}[!htbp] \centering 
-  \caption{Regression results for three possible functional forms} 
+  \caption{Regression results for Cobb-Douglas and translog in the cross section 1997} 
   \label{} 
 \small 
-\begin{tabular}{@{\extracolsep{5pt}}lccc} 
+\begin{tabular}{@{\extracolsep{5pt}}lcc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
- & \multicolumn{3}{c}{Dependent variable = comp} \\ 
-\cline{2-4} 
- & CD OLS & TTL OLS & TL OLS \\ 
-\\[-1.8ex] & (1) & (2) & (3)\\ 
+ & \multicolumn{2}{c}{Dependent variable = comp} \\ 
+\cline{2-3} 
+ & CD OLS & TL OLS \\ 
+\\[-1.8ex] & (1) & (2)\\ 
 \hline \\[-1.8ex] 
- hexp & 0.080$^{***}$ & 0.079$^{***}$ & 0.149$^{**}$ \\ 
-  & (0.007) & (0.008) & (0.059) \\ 
-  & & & \\ 
- educ & 0.109$^{***}$ & 0.088 & 0.120 \\ 
-  & (0.017) & (0.055) & (0.094) \\ 
-  & & & \\ 
- hexp$^2$ &  &  & $-$0.00001 \\ 
-  &  &  & (0.008) \\ 
-  & & & \\ 
- educ$^2$ &  & 0.008 & 0.052 \\ 
-  &  & (0.019) & (0.033) \\ 
-  & & & \\ 
- hexp*edux &  &  & $-$0.036 \\ 
-  &  &  & (0.031) \\ 
-  & & & \\ 
- Constant & 3.680$^{***}$ & 3.695$^{***}$ & 3.473$^{***}$ \\ 
-  & (0.029) & (0.046) & (0.133) \\ 
-  & & & \\ 
+ hexp & 0.080$^{***}$ & 0.149$^{**}$ \\ 
+  & (0.007) & (0.059) \\ 
+  & & \\ 
+ educ & 0.109$^{***}$ & 0.120 \\ 
+  & (0.017) & (0.094) \\ 
+  & & \\ 
+ hexp$^2$ &  & $-$0.00001 \\ 
+  &  & (0.008) \\ 
+  & & \\ 
+ educ$^2$ &  & 0.052 \\ 
+  &  & (0.033) \\ 
+  & & \\ 
+ hexp*edux &  & $-$0.036 \\ 
+  &  & (0.031) \\ 
+  & & \\ 
+ Constant & 3.680$^{***}$ & 3.473$^{***}$ \\ 
+  & (0.029) & (0.133) \\ 
+  & & \\ 
 \hline \\[-1.8ex] 
-Observations & 139 & 139 & 139 \\ 
-R$^{2}$ & 0.795 & 0.795 & 0.801 \\ 
-Adjusted R$^{2}$ & 0.792 & 0.790 & 0.794 \\ 
-Residual Std. Error & 0.078 & 0.078 & 0.078 \\ 
-F Statistic & 263.197$^{***}$ & 174.448$^{***}$ & 107.246$^{***}$ \\ 
+Observations & 139 & 139 \\ 
+R$^{2}$ & 0.795 & 0.801 \\ 
+Adjusted R$^{2}$ & 0.792 & 0.794 \\ 
+Residual Std. Error & 0.078 & 0.078 \\ 
+F Statistic & 263.197$^{***}$ & 107.246$^{***}$ \\ 
 \hline 
 \hline \\[-1.8ex] 
-\textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\textit{Note:}  & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
 \end{tabular} 
 \end{table} 
 
@@ -493,7 +475,7 @@ F Statistic & 263.197$^{***}$ & 174.448$^{***}$ & 107.246$^{***}$ \\
 As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT}, \ref{LR}, \ref{WT with controls} and \ref{LR with controls} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms with and without control variables. 
 
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Mon Mar 13 18:50:32 2017
+% Mon Mar 13 22:35:09 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas vs Translog; no sign. difference} 
@@ -508,7 +490,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Mon Mar 13 18:50:32 2017
+% Mon Mar 13 22:35:09 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas vs Translog; no sign. difference} 
@@ -523,7 +505,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Mon Mar 13 18:50:32 2017
+% Mon Mar 13 22:35:09 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
@@ -538,7 +520,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Mon Mar 13 18:50:32 2017
+% Mon Mar 13 22:35:09 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas vs Translog (incl. controls); sign. difference} 
@@ -698,7 +680,7 @@ COMP_i = \gamma \left( \delta \times HEXP_i^{-\rho} + (1- \delta) \times EDUC_i^
 \end{equation}
 where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Mon Mar 13 18:50:33 2017
+% Mon Mar 13 22:35:10 2017
 \begin{table}[ht]
 \centering
 \begin{tabular}{llrrrr}
@@ -750,13 +732,13 @@ We also estimate the same production function in a panel setting (Table \ref{tab
 [1] 1.628915
 [1] 7.814728
 [1] 0.6528514
-[1] -13.52038
+[1] -9.262988
 [1] 7.814728
 [1] 1
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Mon, Mar 13, 2017 - 18:50:36
+% Date and time: Mon, Mar 13, 2017 - 22:35:13
 \begin{table}[!htbp] \centering 
   \caption{Regression results, Trans-Log specification} 
   \label{tab:big} 
@@ -769,63 +751,60 @@ We also estimate the same production function in a panel setting (Table \ref{tab
  & Cross-Section & Pooled & Fixed Effects & Random Effects \\ 
 \\[-1.8ex] & (1) & (2) & (3) & (4)\\ 
 \hline \\[-1.8ex] 
- HEXP & 0.166$^{***}$ & 0.174$^{***}$ & $-$0.001 & 0.007 \\ 
-  & (0.051) & (0.020) & (0.015) & (0.014) \\ 
+ HEXP & 0.233$^{***}$ & 0.227$^{***}$ & $-$0.001 & $-$0.005 \\ 
+  & (0.048) & (0.020) & (0.015) & (0.015) \\ 
   & & & & \\ 
- EDUC & 0.117 & 0.102$^{***}$ & 0.043 & 0.059 \\ 
-  & (0.074) & (0.031) & (0.052) & (0.045) \\ 
+ EDUC & 0.150$^{*}$ & 0.142$^{***}$ & 0.043 & 0.111$^{**}$ \\ 
+  & (0.077) & (0.032) & (0.052) & (0.044) \\ 
   & & & & \\ 
- HEXP Sq. & $-$0.009$^{*}$ & $-$0.010$^{***}$ & 0.001 & 0.001 \\ 
-  & (0.005) & (0.002) & (0.001) & (0.001) \\ 
+ HEXP Sq. & $-$0.009 & $-$0.009$^{***}$ & 0.001 & 0.003$^{**}$ \\ 
+  & (0.006) & (0.002) & (0.001) & (0.001) \\ 
   & & & & \\ 
- EDUC Sq. & 0.028 & 0.028$^{**}$ & 0.009 & 0.012 \\ 
-  & (0.028) & (0.011) & (0.020) & (0.017) \\ 
+ EDUC Sq. & 0.025 & 0.026$^{**}$ & 0.009 & 0.017 \\ 
+  & (0.031) & (0.012) & (0.020) & (0.017) \\ 
   & & & & \\ 
- GDPC & 0.071$^{***}$ & 0.067$^{***}$ &  & 0.085$^{***}$ \\ 
-  & (0.023) & (0.009) &  & (0.010) \\ 
+ GDPC & $-$0.587$^{***}$ & $-$0.563$^{***}$ &  & $-$0.510$^{**}$ \\ 
+  & (0.210) & (0.093) &  & (0.251) \\ 
   & & & & \\ 
- POPDEN & 0.008$^{*}$ & 0.006$^{***}$ &  & 0.005 \\ 
-  & (0.004) & (0.002) &  & (0.004) \\ 
+ POPDEN & $-$0.221$^{**}$ & $-$0.213$^{***}$ &  & $-$0.188$^{*}$ \\ 
+  & (0.092) & (0.041) &  & (0.112) \\ 
   & & & & \\ 
- PUBTHE & 0.0001 & 0.0001 &  & 0.0002 \\ 
-  & (0.0003) & (0.0001) &  & (0.0004) \\ 
+ PUBTHE & 0.008$^{*}$ & 0.007$^{***}$ &  & 0.007 \\ 
+  & (0.004) & (0.002) &  & (0.005) \\ 
   & & & & \\ 
- VOICE & 0.026$^{***}$ & 0.026$^{***}$ &  & 0.017$^{*}$ \\ 
-  & (0.010) & (0.004) &  & (0.009) \\ 
+ VOICE & 0.022$^{**}$ & 0.023$^{***}$ &  & 0.053$^{***}$ \\ 
+  & (0.011) & (0.005) &  & (0.010) \\ 
   & & & & \\ 
- GINI & $-$0.542$^{***}$ & $-$0.532$^{***}$ &  & $-$0.517$^{**}$ \\ 
-  & (0.209) & (0.091) &  & (0.215) \\ 
+ GINI & 0.012 & 0.012$^{**}$ &  & 0.033$^{*}$ \\ 
+  & (0.012) & (0.006) &  & (0.019) \\ 
   & & & & \\ 
- GINI Sq. & $-$0.199$^{**}$ & $-$0.196$^{***}$ &  & $-$0.201$^{**}$ \\ 
-  & (0.092) & (0.040) &  & (0.096) \\ 
-  & & & & \\ 
- YEAR (continuous) &  & 0.001 &  &  \\ 
+ GINI Sq. &  & $-$0.001 &  &  \\ 
   &  & (0.002) &  &  \\ 
   & & & & \\ 
- YEAR = 1994 &  &  & 0.001$^{**}$ & 0.001$^{**}$ \\ 
+ YEAR (continuous) &  &  & 0.001$^{**}$ & $-$0.0001 \\ 
   &  &  & (0.0005) & (0.0004) \\ 
   & & & & \\ 
- YEAR = 1995 &  &  & 0.002$^{***}$ & 0.002$^{**}$ \\ 
+ YEAR = 1994 &  &  & 0.002$^{***}$ & 0.0002 \\ 
   &  &  & (0.001) & (0.001) \\ 
   & & & & \\ 
- YEAR = 1996 &  &  & 0.004$^{***}$ & 0.003$^{***}$ \\ 
+ YEAR = 1995 &  &  & 0.004$^{***}$ & 0.0004 \\ 
   &  &  & (0.001) & (0.001) \\ 
   & & & & \\ 
- YEAR = 1997 &  &  & 0.005$^{***}$ & 0.004$^{***}$ \\ 
+ YEAR = 1996 &  &  & 0.005$^{***}$ & 0.001 \\ 
   &  &  & (0.002) & (0.002) \\ 
   & & & & \\ 
- HEXP X EDUC & $-$0.028 & $-$0.025$^{***}$ & $-$0.002 & $-$0.004 \\ 
-  & (0.024) & (0.010) & (0.005) & (0.005) \\ 
+ YEAR = 1997 & $-$0.033 & $-$0.032$^{***}$ & $-$0.002 & $-$0.009$^{*}$ \\ 
+  & (0.025) & (0.010) & (0.005) & (0.005) \\ 
   & & & & \\ 
- Constant & 2.688$^{***}$ & 1.599 &  & 3.083$^{***}$ \\ 
-  & (0.171) & (3.436) &  & (0.124) \\ 
+ HEXP X EDUC & 2.906$^{***}$ & 5.829 &  & 3.715$^{***}$ \\ 
+  & (0.170) & (3.561) &  & (0.132) \\ 
   & & & & \\ 
 \hline \\[-1.8ex] 
 Observations & 139 & 695 & 695 & 695 \\ 
-R$^{2}$ & 0.858 & 0.864 & 0.277 & 0.593 \\ 
-Adjusted R$^{2}$ & 0.845 & 0.861 & 0.083 & 0.584 \\ 
-Residual Std. Error & 0.067 & 0.063 &  &  \\ 
-F Statistic & 69.610$^{***}$ & 360.561$^{***}$ & 23.300$^{***}$ & 65.932$^{***}$ \\ 
+R$^{2}$ & 0.845 & 0.851 & 0.277 & 0.524 \\ 
+Adjusted R$^{2}$ & 0.833 & 0.848 & 0.083 & 0.514 \\ 
+Residual Std. Error & 0.070 & 0.066 &  &  \\ 
+F Statistic & 69.896$^{***}$ & 353.786$^{***}$ & 23.300$^{***}$ & 53.406$^{***}$ \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{4}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
@@ -833,7 +812,7 @@ F Statistic & 69.610$^{***}$ & 360.561$^{***}$ & 23.300$^{***}$ & 65.932$^{***}$
 \end{table} 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Mon, Mar 13, 2017 - 18:50:38
+% Date and time: Mon, Mar 13, 2017 - 22:35:15
 \begin{table}[!htbp] \centering 
   \caption{Regression results, Cobb-Douglas specification} 
   \label{tab:bigcb} 
@@ -846,54 +825,51 @@ F Statistic & 69.610$^{***}$ & 360.561$^{***}$ & 23.300$^{***}$ & 65.932$^{***}$
  & Cross-Section & Pooled & Fixed Effects & Random Effects \\ 
 \\[-1.8ex] & (1) & (2) & (3) & (4)\\ 
 \hline \\[-1.8ex] 
- HEXP & 0.011 & 0.017$^{**}$ & 0.005$^{*}$ & 0.005$^{*}$ \\ 
-  & (0.021) & (0.008) & (0.003) & (0.003) \\ 
+ HEXP & 0.077$^{***}$ & 0.075$^{***}$ & 0.005$^{*}$ & 0.009$^{***}$ \\ 
+  & (0.009) & (0.004) & (0.003) & (0.003) \\ 
   & & & & \\ 
- EDUC & 0.091$^{***}$ & 0.091$^{***}$ & 0.048$^{*}$ & 0.068$^{***}$ \\ 
-  & (0.015) & (0.006) & (0.028) & (0.016) \\ 
+ EDUC & 0.092$^{***}$ & 0.093$^{***}$ & 0.048$^{*}$ & 0.106$^{***}$ \\ 
+  & (0.017) & (0.007) & (0.028) & (0.015) \\ 
   & & & & \\ 
- GDPC & 0.075$^{***}$ & 0.067$^{***}$ &  & 0.087$^{***}$ \\ 
-  & (0.023) & (0.010) &  & (0.010) \\ 
+ GDPC & $-$0.553$^{***}$ & $-$0.528$^{***}$ &  & $-$0.531$^{**}$ \\ 
+  & (0.213) & (0.096) &  & (0.257) \\ 
   & & & & \\ 
- POPDEN & 0.006 & 0.005$^{***}$ &  & 0.005 \\ 
-  & (0.004) & (0.002) &  & (0.004) \\ 
+ POPDEN & $-$0.212$^{**}$ & $-$0.201$^{***}$ &  & $-$0.192$^{*}$ \\ 
+  & (0.094) & (0.043) &  & (0.114) \\ 
   & & & & \\ 
- PUBTHE & 0.0002 & 0.0002 &  & 0.0003 \\ 
-  & (0.0003) & (0.0002) &  & (0.0004) \\ 
+ PUBTHE & 0.006 & 0.005$^{***}$ &  & 0.007 \\ 
+  & (0.004) & (0.002) &  & (0.005) \\ 
   & & & & \\ 
- VOICE & 0.016$^{*}$ & 0.015$^{***}$ &  & 0.018$^{**}$ \\ 
-  & (0.009) & (0.004) &  & (0.008) \\ 
+ VOICE & 0.014 & 0.014$^{***}$ &  & 0.058$^{***}$ \\ 
+  & (0.010) & (0.005) &  & (0.010) \\ 
   & & & & \\ 
- GINI & $-$0.527$^{**}$ & $-$0.518$^{***}$ &  & $-$0.528$^{**}$ \\ 
-  & (0.219) & (0.096) &  & (0.217) \\ 
+ GINI & $-$0.026 & $-$0.028$^{***}$ &  & 0.041$^{**}$ \\ 
+  & (0.018) & (0.008) &  & (0.018) \\ 
   & & & & \\ 
- GINI Sq. & $-$0.207$^{**}$ & $-$0.204$^{***}$ &  & $-$0.204$^{**}$ \\ 
-  & (0.098) & (0.043) &  & (0.097) \\ 
-  & & & & \\ 
- YEAR (continuous) &  & 0.0004 &  &  \\ 
+ GINI Sq. &  & $-$0.002 &  &  \\ 
   &  & (0.002) &  &  \\ 
   & & & & \\ 
- YEAR = 1994 &  &  & 0.001$^{***}$ & 0.001$^{***}$ \\ 
+ YEAR (continuous) &  &  & 0.001$^{***}$ & 0.0003 \\ 
   &  &  & (0.0004) & (0.0004) \\ 
   & & & & \\ 
- YEAR = 1995 &  &  & 0.003$^{***}$ & 0.002$^{***}$ \\ 
+ YEAR = 1994 &  &  & 0.003$^{***}$ & 0.001 \\ 
   &  &  & (0.001) & (0.001) \\ 
   & & & & \\ 
- YEAR = 1996 &  &  & 0.004$^{***}$ & 0.003$^{***}$ \\ 
+ YEAR = 1995 &  &  & 0.004$^{***}$ & 0.001 \\ 
   &  &  & (0.001) & (0.001) \\ 
   & & & & \\ 
- YEAR = 1997 &  &  & 0.006$^{***}$ & 0.005$^{***}$ \\ 
+ YEAR = 1996 &  &  & 0.006$^{***}$ & 0.002 \\ 
   &  &  & (0.002) & (0.001) \\ 
   & & & & \\ 
- Constant & 3.109$^{***}$ & 2.348 &  & 3.070$^{***}$ \\ 
-  & (0.136) & (3.627) &  & (0.132) \\ 
+ YEAR = 1997 & 3.372$^{***}$ & 6.994$^{*}$ &  & 3.691$^{***}$ \\ 
+  & (0.120) & (3.738) &  & (0.135) \\ 
   & & & & \\ 
 \hline \\[-1.8ex] 
 Observations & 139 & 695 & 695 & 695 \\ 
-R$^{2}$ & 0.842 & 0.846 & 0.275 & 0.576 \\ 
-Adjusted R$^{2}$ & 0.833 & 0.844 & 0.086 & 0.569 \\ 
-Residual Std. Error & 0.070 & 0.067 &  &  \\ 
-F Statistic & 86.888$^{***}$ & 419.274$^{***}$ & 34.840$^{***}$ & 77.239$^{***}$ \\ 
+R$^{2}$ & 0.830 & 0.834 & 0.275 & 0.505 \\ 
+Adjusted R$^{2}$ & 0.820 & 0.833 & 0.086 & 0.497 \\ 
+Residual Std. Error & 0.073 & 0.070 &  &  \\ 
+F Statistic & 91.086$^{***}$ & 432.170$^{***}$ & 34.840$^{***}$ & 63.351$^{***}$ \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{4}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
@@ -903,7 +879,12 @@ F Statistic & 86.888$^{***}$ & 419.274$^{***}$ & 34.840$^{***}$ & 77.239$^{***}$
 \subsection{Marginal Effects}
 Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross-Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables). The marginal effects for the Fixed and Random Effects models include large standard deviations, which is likely the reason for its inconsistency.
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: Removed 300 rows containing missing values (geom\_point).}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: Removed 300 rows containing missing values (geom\_path).}}\end{kframe}\begin{figure}
 \includegraphics[width=\maxwidth]{figure/signs-1} \caption[Marginal effects of COMP with respect to HEXP or EDUC, as a function of the other]{Marginal effects of COMP with respect to HEXP or EDUC, as a function of the other}\label{fig:signs}
 \end{figure}
 
@@ -913,7 +894,16 @@ Figure \ref{fig:signs} shows the signs of the values of the derivatives of the t
 \subsection{Residuals}
 Visual inspection of the residuals of regression Figure \ref{fig:residuals} indicates heteroskedasticity dependant on COMP, HEXP and EDUC. This is consistent with Figure \ref{on_joses_part} on which we can see that higher variations of COMP over time are associated to more developed countries (a combination of higher values for these three variables). This justifies or use of white standard errors.
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[!htbp]
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in `[.data.frame`(x, , c(1, 2, 3, 4, 5, 12, 13)): undefined columns selected}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in `[.data.frame`(tmp3, , c(2:11, 14:18)): undefined columns selected}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'tmp2' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in tmp\$Fitted[which(tmp\$model == "{}RE"{})] <- tmp3\$pred: replacement has length zero}}\end{kframe}\begin{figure}[!htbp]
 
 {\centering \includegraphics[width=\maxwidth]{figure/residuals-1} 
 

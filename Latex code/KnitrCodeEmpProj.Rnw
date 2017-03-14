@@ -800,7 +800,7 @@ pubthe <- log(PUBTHE)
 The dataset provides two measures of population health: DALE (disability-adjusted life expectancy) and COMP (composite meansure of population health). DALE is a measure of life expectancy, adjusted downward to take into account the time lived with a disability. COMP is a measure composed by three elements: the first element is the disability-adjusted life expectancy (the DALE measure), the second element is a measure for resposiveness\footnote{Responsiveness measures "how the system performs relative to non-health aspects" and whether it meets or not "a population's expectations of how it should be treated by providers of prevention and care". How the system responds to health needs already shows up in the DALE measure.} and the third element is a measure for fair financing\footnote{Fair financing measures whether "the risks each household faces due to the costs of the health system are distributed according to ability to pay rather than to the risk of illness".}. The elements are weighted according to the importance that people on average attribute to each of them. The weights are 50\%, 25\% and 25\% respectively. \\
 
 
-%HERE SOME MORE ARGUMENTS
+HERE SOME MORE ARGUMENTS DERIVED FROM ABOVE
 
 
 A further criterion for the choice of the output variable consists in chosing the variable with larger variation both within and between countries. An overview of the variation over time of the two output variables is given in Figure \ref{fig:boxplot_DALE_COMP} in the Appendix. Table \ref{Within variance of DALE and COMP} and Table \ref{Between variance of DALE and COMP} show the within and between variance of the two output variables. The within variance has been computed for each country over the observed five years. Consequently, mean and median have been built. The between variance is displayed for each of the five years. DALE has a larger variation over time and over countries. However, the difference in comparison with the variance of COMP seems to be small. In conclusion, we select COMP as the dependent output variable.
@@ -876,7 +876,7 @@ prod.CD <- lm(comp ~ hexp + educ, data = df97)
 summary(prod.CD)
 # Cobb-Douglas plus controls
 prod.CD.contr <- lm(comp ~ hexp + educ 
-                    + TROPICS + GEFF + VOICE + PUBTHE + popden + gdpc + gini, data = df97)
+                    + gini + I(gini^2) + popden + VOICE +  OECD, data = df97)
 summary(prod.CD.contr)
 
 # Translog
@@ -888,7 +888,7 @@ summary(prod.TL)
 prod.TL.contr <- lm(comp ~ hexp + educ 
                     + I(hexp^2) + I(educ^2) 
                     + I(hexp*educ)
-                    + TROPICS + GEFF + VOICE + PUBTHE + popden + gdpc + gini, data = df97)
+                    + gini + I(gini^2) + popden + VOICE +  OECD, data = df97)
 summary(prod.TL.contr)
 
 # Truncated Translog
@@ -898,7 +898,7 @@ summary(prod.TTL)
 # Truncated Translog plus controls
 prod.TTL.contr <- lm(comp ~ hexp + educ
                      + I(educ^2)
-                     + TROPICS + GEFF + VOICE + PUBTHE + popden + gdpc + gini, data = df97)
+                     + gini + I(gini^2) + popden + VOICE +  OECD, data = df97)
 summary(prod.TTL.contr)
 
 # Wald and LR tests
@@ -948,20 +948,20 @@ The truncated translog funtion, which has been widely used in the literature\foo
 
 
 <<include=TRUE,results='asis',echo=FALSE,eval=TRUE>>=
-stargazer(prod.CD,prod.TTL,prod.TL, font.size = "small", dep.var.labels.include = FALSE, dep.var.caption = c("Dependent variable = comp"), column.labels = c("CD OLS","TTL OLS","TL OLS"), se=list(NULL,NULL,NULL), covariate.labels = c('hexp', 'educ', 'hexp$^2$', 'educ$^2$', 'hexp*edux', 'Constant'), df = FALSE, title = 'Regression results for three possible functional forms')
+stargazer(prod.CD,prod.TL, font.size = "small", dep.var.labels.include = FALSE, dep.var.caption = c("Dependent variable = comp"), column.labels = c("CD OLS","TL OLS"), se=list(NULL,NULL,NULL), covariate.labels = c('hexp', 'educ', 'hexp$^2$', 'educ$^2$', 'hexp*edux', 'Constant'), df = FALSE, title = 'Regression results for Cobb-Douglas and translog in the cross section 1997')
 #omit.stat = c("f","ser"), 
 @
 
 
 
 \subsubsection{Evaluation of different functional forms: Tests}
-As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT}, \ref{LR}, \ref{WT with controls} and \ref{LR with controls} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms with and without control variables. 
+As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT} and \ref{LR} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms. For both tests the null hypothesis that the additional coefficient are equal to 0 cannot be rejected. Therefore, in the interest of parsimony, we adopt the Codd-Douglas specification. THE SAME TESTS WITH THE AGREED CONTROLS POINT TO TL, BUT THEN EDUC IS NOT SIGNIFICANT!
 
 <<include=TRUE,results='asis',echo=FALSE,eval=TRUE>>=
-print(xtable(WT.CDvTL, caption = c("Wald Test: Cobb-Douglas vs Translog; no sign. difference"), label= "WT"), caption.placement="top")
-print(xtable(LR.CDvTL, caption = c("LR Test: Cobb-Douglas vs Translog; no sign. difference"), label= "LR"), caption.placement="top")
-print(xtable(WT.CDvTL.contr, caption = c("Wald Test: Cobb-Douglas vs Translog (incl. controls); sign. difference"), label= "WT with controls"), caption.placement="top")
-print(xtable(LR.CDvTL.contr, caption = c("LR Test: Cobb-Douglas vs Translog (incl. controls); sign. difference"), label= "LR with controls"), caption.placement="top")
+print(xtable(WT.CDvTL, caption = c("Wald Test: Cobb-Douglas compared to translog"), label= "WT"), caption.placement="top")
+print(xtable(LR.CDvTL, caption = c("LR Test: Cobb-Douglas compared to translog"), label= "LR"), caption.placement="top")
+#print(xtable(WT.CDvTL.contr, caption = c("Wald Test: Cobb-Douglas vs Translog (incl. controls); sign. difference"), label= "WT with controls"), caption.placement="top")
+#print(xtable(LR.CDvTL.contr, caption = c("LR Test: Cobb-Douglas vs Translog (incl. controls); sign. difference"), label= "LR with controls"), caption.placement="top")
 @
 
 <<include=F,results='asis',echo=FALSE,eval=TRUE>>=
@@ -981,31 +981,67 @@ print(xtable(LR.TTLvTL.contr, caption = c("LR Test: Truncated Translog vs Transl
 
 \subsubsection{Evaluation of different functional forms: Analysis of the fitted values}
 
-Translog with controls looks the most normal, even though it presents a fatter left tail.
+In Figure \ref{fig:modselection_resdistribution}, Cobb-Douglas and translog residuals resemble a normal distribution centered at 0. Nevertheless, both present a fatter left tail and a mean slightly above 0. In the Q-Q plots, the sample quantiles depart from the normal quantiles underlining the fatter left tail of the distribution. Overall, the Cobb-Douglas residuals seem to do a better job in satisfying the normality assumption.
 
-The Q-Q plots contain the same information as the density plots. The quantiles of the translog model with controls are the closest to the quantiles of a normal distribution.
+<<modselection_resdistribution,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Kernel density and Q-Q plots of residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
+x <- seq(-0.3,0.3,length=1000)
+y1 <- dnorm(x, mean=0, sd=0.0626)
 
-
-<<modselection_resvsfitted,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Plot of fitted values and residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
 par(mfrow=c(2,2))
-plot(prod.CD$fitted, prod.CD$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas')
-  abline(h=0, lty=2)
-  lines(smooth.spline(prod.CD$fitted, prod.CD$residuals))
-plot(prod.TL$fitted, prod.TL$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Translog')
-  abline(h=0, lty=2)
-  lines(smooth.spline(prod.TL$fitted, prod.TL$residuals))
-plot(prod.CD.contr$fitted, prod.CD.contr$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas with controls')
-  abline(h=0, lty=2)
-  lines(smooth.spline(prod.CD.contr$fitted, prod.CD.contr$residuals))
-plot(prod.TL.contr$fitted, prod.TL.contr$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Translog with controls')
-  abline(h=0, lty=2)
-  lines(smooth.spline(prod.TL.contr$fitted, prod.TL.contr$residuals))
+plot(density(prod.CD$residuals,'ucv'), main='Cobb-Douglas density')
+lines(x, y1, lty=2)
+legend("topleft", c("Residuals","Normal (0, 0.004)"), lty = c(1,2), cex = 0.75)
+plot(density(prod.TL$residuals,'ucv'), main='Translog density')
+lines(x, y1, lty=2)
+#plot(density(prod.CD.contr$residuals, 'ucv'), main='Cobb-Douglas with controls')  # !!!!!!!!!!! BANDWIDTH !!!!!!!!!!!!
+#plot(density(prod.TL.contr$residuals,'ucv'), main='Translog with controls')
+qqnorm(prod.CD$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Cobb-Douglas Q-Q plot')
+ qqline(prod.CD$residuals)
+qqnorm(prod.TL$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Translog Q-Q plot')
+ qqline(prod.TL$residuals)
 @
 
+<<modselection_qqplots,include=F,echo=FALSE,eval=F,fig.cap='Q-Q plots of residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
+par(mfrow=c(2,2))
+qqnorm(prod.CD$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Cobb-Douglas')
+ qqline(prod.CD$residuals)
+qqnorm(prod.TL$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Translog')
+ qqline(prod.TL$residuals)
+qqnorm(prod.CD.contr$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Cobb-Douglas with controls')
+ qqline(prod.CD.contr$residuals)
+qqnorm(prod.TL.contr$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Translog with controls')
+ qqline(prod.TL.contr$residuals)
+@
+
+Figure \ref{fig:modselection_resvsfitted} shows the residuals and the squared residuals 
 Cobb-Douglas with controls looks biases. The other specifications seem unbiased, as they do not present any particular shape. However, there is heterogeneity among residuals as they decrease (in absolute value) as the fitted values increase, instead of being spead out evenly at every level of fitted values.
 
 
-<<modselection_ressqvsfitted,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Plot of fitted values and residuals squared',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
+
+
+<<modselection_resvsfitted,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Plot of fitted values and residuals (squared)',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
+par(mfrow=c(2,2))
+plot(prod.CD$fitted, prod.CD$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas residuals')
+  abline(h=0, lty=2)
+  lines(smooth.spline(prod.CD$fitted, prod.CD$residuals))
+plot(prod.TL$fitted, prod.TL$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Translog residuals')
+  abline(h=0, lty=2)
+  lines(smooth.spline(prod.TL$fitted, prod.TL$residuals))
+#plot(prod.CD.contr$fitted, prod.CD.contr$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas with controls')
+  #abline(h=0, lty=2)
+  #lines(smooth.spline(prod.CD.contr$fitted, prod.CD.contr$residuals))
+#plot(prod.TL.contr$fitted, prod.TL.contr$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Translog with controls')
+  #abline(h=0, lty=2)
+  #lines(smooth.spline(prod.TL.contr$fitted, prod.TL.contr$residuals))
+plot(prod.CD$fitted, prod.CD$residuals^2, xlab = 'Fitted Values', ylab = 'Squared Residuals', main='Cobb-Douglas squared residuals')
+  lines(smooth.spline(prod.CD$fitted, prod.CD$residuals^2))
+plot(prod.TL$fitted, prod.TL$residuals^2, xlab = 'Fitted Values', ylab = 'Squared Residuals', main='Translog squared residuals')
+  lines(smooth.spline(prod.TL$fitted, prod.TL$residuals^2))
+@
+
+
+
+<<modselection_ressqvsfitted,include=F,echo=FALSE,eval=F,fig.cap='Plot of fitted values and residuals squared',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
 par(mfrow=c(2,2))
 plot(prod.CD$fitted, prod.CD$residuals^2, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas')
   lines(smooth.spline(prod.CD$fitted, prod.CD$residuals^2))
@@ -1337,7 +1373,7 @@ At first we consider a Constant Elasticity of Substitution (CES) functional form
 COMP_i = \gamma \left( \delta \times HEXP_i^{-\rho} + (1- \delta) \times EDUC_i^{-\rho} \right)^{-\frac{\nu}{\rho}}
 \end{equation}
 where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
-<<CES, eval=TRUE, echo=F, warning=FALSE, results='asis'>>=
+<<CES, eval=F, echo=F, warning=FALSE, results='asis'>>=
 ### Cross-sectional CES for 1997
 # Constant Elasticity
 ces.comp <- cesEst("COMP", c("HEXP", "EDUC"), l.df97, method = "Kmenta", vrs = F)
@@ -1807,25 +1843,6 @@ boxplot(DALE~YEAR,data=subset(df2,OECD==1), main="DALE over time for OECD countr
 boxplot(COMP~YEAR,data=subset(df2,OECD==1), main="COMP over time for OECD countries", xlab="YEAR", ylab="COMP")
 @
 
-<<modselection_resdistribution,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Kernel density of residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
-par(mfrow=c(2,2))
-plot(density(prod.CD$residuals,'ucv'), main='Cobb-Douglas')
-plot(density(prod.TL$residuals,'ucv'), main='Translog')
-plot(density(prod.CD.contr$residuals), main='Cobb-Douglas with controls')  # !!!!!!!!!!! BANDWIDTH !!!!!!!!!!!!
-plot(density(prod.TL.contr$residuals,'ucv'), main='Translog with controls')
-@
-
-<<modselection_qqplots,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Q-Q plots of residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
-par(mfrow=c(2,2))
-qqnorm(prod.CD$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Cobb-Douglas')
- qqline(prod.CD$residuals)
-qqnorm(prod.TL$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Translog')
- qqline(prod.TL$residuals)
-qqnorm(prod.CD.contr$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Cobb-Douglas with controls')
- qqline(prod.CD.contr$residuals)
-qqnorm(prod.TL.contr$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Translog with controls')
- qqline(prod.TL.contr$residuals)
-@
 
 
 
