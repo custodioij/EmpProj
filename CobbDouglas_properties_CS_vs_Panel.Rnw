@@ -1,0 +1,102 @@
+\section{Production function properties}
+In what follows, we are going to focuse our attention on the results related to the production function. More precisely, we are going to analyse the reaction and the behaviour of the inputs according to the two, previously found, specifications of the production function. 
+
+\subsection{Output elasticities}
+In this section we are interested in to see how the output will react if there is an increase of 1\% in the use of any input. Based on cross-sectional results, we may conclude that if the education in a country increases by 1\% the health care attainment will increase on average by 0.0899\%. In what concerns the second output : "Health Expenditure", the 1\% increase of this "input" will lead to a positive change of 0.0761\% in health care attainment.However, if we consider the panel data setting, we observe that the increase of the output will be by 0.02\% higher, as a response to a 1\% increase in years of education. But, an important difference is observed concerning the second input "Health Expenidture", which will lead to a very small increase of output, about : 0.0085\%.
+<<>>=
+#Cobb Douglas cross-section vs panel  Properties
+
+#comp=hexp+educ+gini+gini2+popden+voice+oecd
+####Cobb-Douglas Cross Section
+library(ggplot2)
+cb<-"COMP ~ HEXP + EDUC + GINI + I(GINI^2) + POPDEN + VOICE + OECD +log(PUBTHE)"
+cb1 <- lm(as.formula(cb), data = l.df97)
+
+
+#Cobb-Douglas Panel
+
+RE.form.cb <- as.formula(paste(cb, "+ YEAR"))
+REcb <- plm(RE.form.cb, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
+
+#output elasticities  = coeff  CS
+output_elasticity_EDUC_CS<-coef(cb1)["EDUC"] #0.08995508
+output_elasticity_HEXP_CS<-coef(cb1)["HEXP"] #0.07614115
+
+#output elasticities  = coeff  panel
+output_elasticity_EDUC_panel<-coef(REcb)["EDUC"] #0.1037372
+output_elasticity_HEXP_panel<-coef(REcb)["HEXP"] #0.008592725
+
+@
+\subsection{Marginal Products}
+In a production function, marginal productivity depends on both input and output 
+quantities. 
+If the health expenditure in a country increases  by one unit 
+the measure of healthcare atteinment of most of the countries 
+will increase on average by less than 0.05 units(Cross-Section), or by less that  0.005 units in the panel setting.
+If the education will increase by 1 year, for the most of the countries, the 
+health care attainment will increase by beween 0.5 units (in the cross-sectional setting) and by 1.5 units if we consider the panel setting.
+<<>>=
+#marginal products CS
+marginal_product_HEXP_CS<-coef(cb1)["HEXP"]*
+  (df$COMP/df$HEXP)
+marginal_product_EDUC_CS<-coef(cb1)["EDUC"]*
+  (df$COMP/df$EDUC)
+#visualize the variation of these marginal products 
+hist(marginal_product_EDUC_CS, main="Marginal Productivity of Education for 1997")
+hist(marginal_product_HEXP_CS, main="Marginal Productivity of Health Expenditure for 1997")
+qplot(marginal_product_EDUC_CS,geom="density",main="Marginal Productivity of Education for 1997")
+qplot(marginal_product_HEXP_CS,geom="density",main="Marginal Productivity of Health Expenditure for 1997")
+
+
+#marginal productivity panel
+marginal_product_HEXP_panel<-coef(REcb)["HEXP"]*
+  (df$COMP/df$HEXP)
+marginal_product_EDUC_panel<-coef(REcb)["EDUC"]*
+  (df$COMP/df$EDUC)
+#visualize the variation of these marginal products 
+hist(marginal_product_EDUC_panel, main="Marginal Productivity of Education for 1993-1997")
+hist(marginal_product_HEXP_panel, main="Marginal Productivity of Health Expenditure for 1993-1997")
+qplot(marginal_product_EDUC_panel,geom="density",main="Marginal Productivity of Education for 1993-1997")
+qplot(marginal_product_HEXP_panel,geom="density",main="Marginal Productivity of Health Expenditure for 1993-1997")
+@
+\subsection{Elasticity of Scale}
+The elasticity of scale is the sum of all output elasticities. Hence, increasing all  inputs by one percent, for most of countries
+the output COMP will increase by between 0.11\% and 0.16\% depending on the cross-section or panel setting consideration.
+We can conclude, therefore, that the technology has strong decreasing returns to scale.
+
+<<>>=
+#elasticity of scale CS
+# It is the sum of all output elasticities
+elasticity_of_scale_CS<-(coef(cb1)["HEXP"])+(coef(cb1)["EDUC"]) #0.1660962
+
+#elasticity of scale panel
+# It is the sum of all output elasticities
+elasticity_of_scale_CS<-sum(coef(REcb)["HEXP"])+(coef(REcb)["EDUC"]) #0.1123299
+@
+\subsection{Marginal Rate of Technical Substitution}
+If the average education per capita reduces by 1 unit, the Health expenditure has to increase by 50 units for most of the countries(CS), 500 units(Panel), in order to keep the same health care attainment level.
+On the other hand, if the health ependiture decreases by 1 unit, the nb of years of education should decrease by 0.01, which would correspond to 3.65 days.
+
+<<>>=
+#marginal rates of technical substitution CS
+
+MRTS_HEXP_to_EDUC_CS<-marginal_product_EDUC_CS/marginal_product_HEXP_CS
+MRTS_EDUC_to_HEXP_CS<-marginal_product_HEXP_CS/marginal_product_EDUC_CS
+#visualization of the variation of these MRTSs
+hist(MRTS_EDUC_to_HEXP_CS, main="MRTS of Education to Health Expenditure for 1997",
+     xlab="MRTS")
+hist(MRTS_HEXP_to_EDUC_CS, main="MRTS of Health Expenditure to Education for 1997",
+     xlab="MRTS") 
+
+#marginal rates of technical substitution panel
+
+MRTS_HEXP_to_EDUC_panel<-marginal_product_EDUC_panel/marginal_product_HEXP_panel
+MRTS_EDUC_to_HEXP_panel<-marginal_product_HEXP_panel/marginal_product_EDUC_panel
+#visualization of the variation of these MRTSs
+hist(MRTS_EDUC_to_HEXP_panel, main ="MRTS of Education to Health Expenditure for 1993-1997",
+     xlab="MRTS")
+hist(MRTS_HEXP_to_EDUC_panel, main="MRTS of Health Expenditure to Education for 1993-1997",
+     xlab="MRTS") 
+
+@
+
