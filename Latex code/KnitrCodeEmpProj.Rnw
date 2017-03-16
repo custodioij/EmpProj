@@ -154,7 +154,7 @@ rm(list = ls())
 #setwd(" ")  # Jose
 #setwd("C:/Users/Nicola/OneDrive/Human Capital/15-17 TSE/AA Semestres/3. Semestre/Empirical project/GitHub Files/EmpProj/Latex code")  # Nicola
 #setwd(" ")  # Irina 
-#setwd(" ")  # Igor
+#setwd("/Users/custodioij/Dropbox/TSE/M2/Empirical Project/Empirical Project repository/Latex code")  # Igor
 
 #library(pglm)
 
@@ -1485,19 +1485,19 @@ se.panel <- sapply(panel,
                       function(x){sqrt(diag(vcovHC(x, type="HC0", cluster="group")))})
 
 # Likelihood ratio test = 2 ∗ (log likelihood unconstrained − log likelihood constrained)
-LL.FE <- sum(dnorm(resid(FE), mean=0, sd=(sqrt(var(FE$residuals)) * sqrt((length(FE$residuals)-length(FE$coefficients))/length(FE$residuals))), log=TRUE))
-LL.FEcb <- sum(dnorm(resid(FEcb), mean=0, sd=(sqrt(var(FEcb$residuals)) * sqrt((length(FEcb$residuals)-length(FEcb$coefficients))/length(FEcb$residuals))), log=TRUE))
-LR.FE = 2 * (LL.FE - LL.FEcb)
-LR.FE
-qchisq(0.95,3)  # Treshold value
-1-pchisq(LR.FE,3)  # p-value
-
-LL.RE <- sum(dnorm(resid(RE), mean=0, sd=(sqrt(var(RE$residuals)) * sqrt((length(RE$residuals)-length(RE$coefficients))/length(RE$residuals))), log=TRUE))
-LL.REcb <- sum(dnorm(resid(REcb), mean=0, sd=(sqrt(var(REcb$residuals)) * sqrt((length(REcb$residuals)-length(REcb$coefficients))/length(REcb$residuals))), log=TRUE))
-LR.RE = 2 * (LL.RE - LL.REcb)
-LR.RE
-qchisq(0.95,3)  # Treshold value
-1-pchisq(LR.RE,3)  # p-value
+# LL.FE <- sum(dnorm(resid(FE), mean=0, sd=(sqrt(var(FE$residuals)) * sqrt((length(FE$residuals)-length(FE$coefficients))/length(FE$residuals))), log=TRUE))
+# LL.FEcb <- sum(dnorm(resid(FEcb), mean=0, sd=(sqrt(var(FEcb$residuals)) * sqrt((length(FEcb$residuals)-length(FEcb$coefficients))/length(FEcb$residuals))), log=TRUE))
+# LR.FE = 2 * (LL.FE - LL.FEcb)
+# LR.FE
+# qchisq(0.95,3)  # Treshold value
+# 1-pchisq(LR.FE,3)  # p-value
+# 
+# LL.RE <- sum(dnorm(resid(RE), mean=0, sd=(sqrt(var(RE$residuals)) * sqrt((length(RE$residuals)-length(RE$coefficients))/length(RE$residuals))), log=TRUE))
+# LL.REcb <- sum(dnorm(resid(REcb), mean=0, sd=(sqrt(var(REcb$residuals)) * sqrt((length(REcb$residuals)-length(REcb$coefficients))/length(REcb$residuals))), log=TRUE))
+# LR.RE = 2 * (LL.RE - LL.REcb)
+# LR.RE
+# qchisq(0.95,3)  # Treshold value
+# 1-pchisq(LR.RE,3)  # p-value
 
 @
 <<bigtable, echo = F, results='asis'>>=
@@ -1506,26 +1506,30 @@ models.tl <- c(nonpanel[c(1, 3)], panel[c(1, 3)])
 se.cb <- c(se.nonpanel[c(2, 4)], se.panel[c(2, 4)])
 se.tl <- c(se.nonpanel[c(1, 3)], se.panel[c(1, 3)])
 
-stargazer(cb1, tl1, se=se.nonpanel[2:1],
-        column.labels = c("Cobb-Douglas", "Trans-log"),
-        dep.var.labels.include = FALSE,
-        dep.var.caption  = "Dependent variable = COMP",
-        title = "Regression results, cross-section 1997",
-        label = "tab:cs", #font.size = "scriptsize",
-        model.names = FALSE, df = FALSE,
-        covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'OECD', 'POPDEN',
-                             'VOICE', 'GINI', 'GINI Sq.', 'HEXP X EDUC'))
-stargazer(cb2, FEcb, REcb, se=list(se.nonpanel[[4]], se.FE.cb, se.RE.cb),
-        column.labels = c("Pooled", "Fixed Effects", "Random Effects"),
-        dep.var.labels.include = FALSE,
-        dep.var.caption  = "Dependent variable = COMP",
+# stargazer(cb1, tl1, se=se.nonpanel[2:1],
+#         column.labels = c("Cobb-Douglas", "Trans-log"),
+#         dep.var.labels.include = FALSE,
+#         dep.var.caption  = "Dependent variable = COMP",
+#         title = "Regression results, cross-section 1997",
+#         label = "tab:cs", #font.size = "scriptsize",
+#         model.names = FALSE, df = FALSE,
+#         covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'OECD', 'POPDEN',
+#                              'VOICE', 'GINI', 'GINI Sq.', 'HEXP X EDUC'))
+stargazer(cb1, tl1, cb2, FEcb, REcb,
+          se=list(se.nonpanel[[2]], se.nonpanel[[1]], se.nonpanel[[4]], se.FE.cb, se.RE.cb),
+        column.labels = c("Cobb-Douglas", "Trans-log", "Pooled",
+                          "Fixed Effects", "Random Effects"),
+        # column.separate = c(2, 3),
+        # dep.var.labels.include = FALSE,
+        dep.var.caption  = c("Dependent variable: COMP"),
+        multicolumn = FALSE,
+        dep.var.labels  = c("1997", "1997", "1993-7", "1993-7", "1993-7"),
         title = "Regression results, whole dataset",
-        label = "tab:big", #font.size = "scriptsize",
+        label = "tab:big", font.size = "scriptsize",
         model.names = FALSE, df = FALSE,
-        covariate.labels = c('HEXP', 'EDUC', 'OECD', 'POPDEN',
-                             'VOICE', 'GINI', 'GINI Sq.', 'YEAR (continuous)',
+        covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'GINI', 'GINI Sq.',
+                             'HEXP X EDUC', 'POPDEN', 'VOICE', 'OECD', 'YEAR (continuous)',
                              'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997'))
-
 @
 <<hausman, echo = F>>=
 haustest <- phtest(FEcb, REcb)
@@ -1637,337 +1641,110 @@ ggplot(tmp, aes(x = value, y = res)) +
 % #' quant.reg <- npqreg(tydat = l.df97$COMP, txdat = l.df97[,'HEXP'], exdat = z)
 % #' plot(z, quantile(quant.reg), type = "l")
 % #' @
+\section{Production function properties}
+In what follows, we are going to focuse our attention on the results related to the production function. More precisely, we are going to analyse the reaction and the behaviour of the inputs according to the two, previously found, specifications of the production function. 
 
-%' \section{Properties of Production Function}
-%' 
-%' \subsection{Output Elasticities}
-%' <<Properties, cache =F, eval=T, echo=F, results='asis' >>=
-%' #random effects translog final model
-%' 
-%' # Import data
-%' df = read.xls("who_data_cc.xlsx", sheet = 1, header = TRUE)[-c(701),]
-%' names(df)[length(names(df))] <- "GDPC"
-%' names(df)[which(names(df) == "COUNTRYNAME")] <- "COUNTRY"
-%' # Ireland has an error in 1993
-%' df <- subset(df, COUNTRYCODE != (df[which(df$COMP == 1),]$COUNTRYCODE))
-%' df$COUNTRY <- factor(df$COUNTRY)
-%' # df$YEAR <- factor(df$YEAR)
-%' df97 <- subset(df, YEAR == 1997)
-%' cont.vars <- c("HEXP", "EDUC", "GINI", "POPDEN", "GDPC")
-%' disc.vars <- c("COUNTRY", "YEAR", "TROPICS", "VOICE", "OECD", "GEFF", "PUBTHE")
-%' dep.vars <- c("COMP", "DALE")
-%' l.df <- cbind(log(df[c(dep.vars, cont.vars)]), df[disc.vars])
-%' l.df97 <- subset(l.df, YEAR == 1997)
-%' ########
-%' trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-%' trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-%' 
-%' RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-%' RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
-%' #summary(RE)
-%' ##Output elasticities
-%' 
-%' #The output elasticities correspond to the coefficients.
-%' # If the help expenditure incerases by 1%, the level of our dependent variable
-%' #COMP will increase by 0.08%, and if the level of education increases by 1%, the level of COMP will 
-%' #increase by 0.11%
-%' 
-%' @
-%' We can visualize the variation of the output elasticities with he following histograms. The resulting graphs show that if the education in countries increases 
-%'  by 1\%, the health care attainment of most of the countries 
-%' will increase by around 0.09\%. Additionaly, if the health expenditure will increase by 1\% , for the most of  
-%' countries, the health care attainment will decrease by 0.003\%.
-%' The monotonicity condition is satisfied for EDUC, as all the values for output elasticities
-%' are positive.
-%' However, for the HEXP, the monotonicity condition, is "almost" satisfied, 
-%' for the majority of observations the output elasticity is negative, but, there are
-%' around 9.7\% of observations with positive output elasticities. 
-%' <<Properties of production function, cache =F, eval=T, echo=F, results='asis' >>=
-%' 
-%' 
-%' 
-%' ###translog output elasticities
-%' # trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-%' # trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-%' # 
-%' # RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-%' # RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
-%' outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
-%'   coef(RE)["HEXP:EDUC"]*l.df$EDUC
-%' outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
-%'   coef(RE)["HEXP:EDUC"]*l.df$HEXP
-%' #we can visualize the variation of these output elasticities with histograms
-%' hist(outputelasticityEDUC)
-%' #the resulting grapsh show that if the education in countries increases 
-%' # by 1% the health care attainment of most of the countries 
-%' #will increase by around 0.09%
-%' hist(outputelasticityHEXP)
-%' # if the health expenditure will increase by 1% , for most of the 
-%' # countries, the health care attainment will decrease by 0.003%
-%' 
-%' #sum(outputelasticityEDUC<0)
-%' #sum(outputelasticityHEXP>0)
-%' #68/695
-%' # the monotonicy condition is satisfied for EDUC, as all the values for output elasticities
-%' #are positive
-%' # however for the HEXP, the monotonicity condition, is almost satisfied, 
-%' # for the majority of observations the output elasticity is egative, but, there are
-%' # some posiive output elasticities (around 9.7%)
-%' @
-%' \subsection{Marginal Products}
-%' In a production function, marginal productivity depends on both input and output 
-%' quantities.
-%' If the health expenditure in a country increases  by one unit 
-%' the measure of healthcare atteinment of the most of countries 
-%' will decrease by 0.005 units.
-%' If the education will increase by 1 year, for the most of  countries, the 
-%' health care attainment will increase by beween 1 and 2 units.
-%' 
-%' <<Marginal Products, cache =F, eval=T, echo=F, results='asis' >>=
-%' 
-%' 
-%' 
-%' ##Marginal products
-%' 
-%' #In a production function marginal production depends on both input and output 
-%' #quantities
-%' # trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-%' # trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-%' # 
-%' # RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-%' # RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
-%' outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
-%'   coef(RE)["HEXP:EDUC"]*l.df$EDUC
-%' outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
-%'   coef(RE)["HEXP:EDUC"]*l.df$HEXP
-%' mg_prod_HEXP<-outputelasticityHEXP*(df$COMP/df$HEXP)
-%' mg_prod_EDUC<-outputelasticityEDUC*(df$COMP/df$EDUC)
-%' 
-%' ## translog marginal products
-%' 
-%' ##Visualize the variation of these marginal products:
-%' hist(mg_prod_EDUC, main="Marginal productivity of Education") 
-%' hist(mg_prod_HEXP, main="Marginal productivity of Health Expediture")
-%' # If the health expenditure in a country increases  by one unit 
-%' # the measure of healthcare atteinment of most of the countries 
-%' #will decrease by between 0.005 units.
-%' #If the education will increase by 1 year, for th emost of the countries, the 
-%' #health care attainment will increase by beween 1 and 2 unis.
-%' @
-%' 
-%' \subsection{Elasticity of Scale}
-%' The elasticity of scale is the sum of all output elasticities. Hence, increasing all  inputs by one percent, for most of countries
-%' the output COMP will increase by 0.087\% .
-%' This means that the technology has strong decreasing returns to scale.
-%' <<Elasticity of Scale, cache =F, eval=T, echo=F, results='asis' >>=
-%' 
-%' #Elasticity of Scale
-%' 
-%' #the elasticity of scale is the sum of all output elasticities
-%' # trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-%' # trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-%' # 
-%' # RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-%' # RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
-%' outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
-%'   coef(RE)["HEXP:EDUC"]*l.df$EDUC
-%' outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
-%'   coef(RE)["HEXP:EDUC"]*l.df$HEXP
-%' mg_prod_HEXP<-outputelasticityHEXP*(df$COMP/df$HEXP)
-%' mg_prod_EDUC<-outputelasticityEDUC*(df$COMP/df$EDUC)
-%' 
-%' elasticityofscale<-outputelasticityEDUC+outputelasticityHEXP 
-%' 
-%' hist(elasticityofscale)
-%' 
-%' #Hence, increasing all the inputs by one percent, for most of the countries 
-%' #the output   COMP will increase by 0.087% .
-%' #This means that the technology has strong decreasing returns to scale.
-%' @
-%' \subsection{Marginal Rate of Technical Substitution}
-%' 
-%' <<Marginal Rate of Technical Substitution, cache =F, eval=T, echo=F, results='asis' >>=
-%' 
-%' 
-%' # #Marginal Rate of Tecnical Substitution
-%' # 
-%'  MRTS_EDUC_HEXP<- -mg_prod_HEXP/mg_prod_EDUC
-%'  MRTS_HEXP_EDUC<- -mg_prod_EDUC/mg_prod_HEXP
-%'  #Visualize The MRTS with histograms
-%'  hist(MRTS_EDUC_HEXP,xlab="MRTS education to health expenditure", main="MRTS of education to health expenditure",15)
-%'  hist((MRTS_HEXP_EDUC)/10,xlab="MRTS health expenditure to education", main="MRTS of health expenditure to education")
-%' # #according to the graph most countries need betwwen 0.005
-%' # #additional units of education to replace one unit of "health expenditure"
-%' # # in order to replace one unit of education, most of the countries need 
-%' # #between 0 and 20 units of 
-%' # #health expenditure to keep the same level of health care atteinment.
-%' @
-\section{Properties of Production Function}
+\subsection{Output elasticities}
+In this section we are interested in to see how the output will react if there is an increase of 1\% in the use of any input. Based on cross-sectional results, we may conclude that if the education in a country increases by 1\% the health care attainment will increase on average by 0.0899\%. In what concerns the second output : "Health Expenditure", the 1\% increase of this "input" will lead to a positive change of 0.0761\% in health care attainment.However, if we consider the panel data setting, we observe that the increase of the output will be by 0.02\% higher, as a response to a 1\% increase in years of education. But, an important difference is observed concerning the second input "Health Expenidture", which will lead to a very small increase of output, about : 0.0085\%.
+<<echo = F>>=
+#Cobb Douglas cross-section vs panel  Properties
 
-\subsection{Output Elasticities}
-<<Properties, cache =F, eval=T, echo=F, results='asis' >>=
-#random effects translog final model
+#comp=hexp+educ+gini+gini2+popden+voice+oecd
+####Cobb-Douglas Cross Section
+library(ggplot2)
+cb<-"COMP ~ HEXP + EDUC + GINI + I(GINI^2) + POPDEN + VOICE + OECD +log(PUBTHE)"
+cb1 <- lm(as.formula(cb), data = l.df97)
 
-# Import data
-df = read.xls("who_data_cc.xlsx", sheet = 1, header = TRUE)[-c(701),]
-names(df)[length(names(df))] <- "GDPC"
-names(df)[which(names(df) == "COUNTRYNAME")] <- "COUNTRY"
-# Ireland has an error in 1993
-df <- subset(df, COUNTRYCODE != (df[which(df$COMP == 1),]$COUNTRYCODE))
-df$COUNTRY <- factor(df$COUNTRY)
-# df$YEAR <- factor(df$YEAR)
-df97 <- subset(df, YEAR == 1997)
-cont.vars <- c("HEXP", "EDUC", "GINI", "POPDEN", "GDPC")
-disc.vars <- c("COUNTRY", "YEAR", "TROPICS", "VOICE", "OECD", "GEFF", "PUBTHE")
-dep.vars <- c("COMP", "DALE")
-l.df <- cbind(log(df[c(dep.vars, cont.vars)]), df[disc.vars])
-l.df97 <- subset(l.df, YEAR == 1997)
-########
-trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
 
-RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
-#summary(RE)
-##Output elasticities
+#Cobb-Douglas Panel
 
-#The output elasticities correspond to the coefficients.
-# If the help expenditure incerases by 1%, the level of our dependent variable
-#COMP will increase by 0.08%, and if the level of education increases by 1%, the level of COMP will 
-#increase by 0.11%
+RE.form.cb <- as.formula(paste(cb, "+ YEAR"))
+REcb <- plm(RE.form.cb, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
 
-@
-We can visualize the variation of the output elasticities with he following histograms. The resulting graphs show that if the education in countries increases 
- by 1\%, the health care attainment of most of the countries 
-will increase by around 0.09\%. Additionaly, if the health expenditure will increase by 1\% , for the most of  
-countries, the health care attainment will decrease by 0.003\%.
-The monotonicity condition is satisfied for EDUC, as all the values for output elasticities
-are positive.
-However, for the HEXP, the monotonicity condition, is "almost" satisfied, 
-for the majority of observations the output elasticity is negative, but, there are
-around 9.7\% of observations with positive output elasticities. 
-<<Properties of production function, cache =F, eval=T, echo=F, results='asis' >>=
+#output elasticities  = coeff  CS
+output_elasticity_EDUC_CS<-coef(cb1)["EDUC"] #0.08995508
+output_elasticity_HEXP_CS<-coef(cb1)["HEXP"] #0.07614115
 
-###translog output elasticities
-trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
+#output elasticities  = coeff  panel
+output_elasticity_EDUC_panel<-coef(REcb)["EDUC"] #0.1037372
+output_elasticity_HEXP_panel<-coef(REcb)["HEXP"] #0.008592725
 
-RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
-outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
-  coef(RE)["HEXP:EDUC"]*l.df$EDUC
-outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
-  coef(RE)["HEXP:EDUC"]*l.df$HEXP
-#we can visualize the variation of these output elasticities with histograms
-hist(outputelasticityEDUC)
-#the resulting grapsh show that if the education in countries increases 
-# by 1% the health care attainment of most of the countries 
-#will increase by around 0.09%
-hist(outputelasticityHEXP)
-# if the health expenditure will increase by 1% , for most of the 
-# countries, the health care attainment will decrease by 0.003%
-
-#sum(outputelasticityEDUC<0)
-#sum(outputelasticityHEXP>0)
-#68/695
-# the monotonicy condition is satisfied for EDUC, as all the values for output elasticities
-#are positive
-# however for the HEXP, the monotonicity condition, is almost satisfied, 
-# for the majority of observations the output elasticity is egative, but, there are
-# some posiive output elasticities (around 9.7%)
 @
 \subsection{Marginal Products}
 In a production function, marginal productivity depends on both input and output 
-quantities.
+quantities. 
 If the health expenditure in a country increases  by one unit 
-the measure of healthcare atteinment of the most of countries 
-will decrease by 0.005 units.
-If the education will increase by 1 year, for the most of  countries, the 
-health care attainment will increase by beween 1 and 2 units.
-
-<<Marginal Products, cache =F, eval=T, echo=F, results='asis' >>=
-
-
-
-##Marginal products
-
-#In a production function marginal production depends on both input and output 
-#quantities
-trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-
-RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
-outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
-  coef(RE)["HEXP:EDUC"]*l.df$EDUC
-outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
-  coef(RE)["HEXP:EDUC"]*l.df$HEXP
-mg_prod_HEXP<-outputelasticityHEXP*(df$COMP/df$HEXP)
-mg_prod_EDUC<-outputelasticityEDUC*(df$COMP/df$EDUC)
-
-## translog marginal products
-
-##Visualize the variation of these marginal products:
-hist(mg_prod_EDUC, main="Marginal productivity of Education") 
-hist(mg_prod_HEXP, main="Marginal productivity of Health Expediture")
-# If the health expenditure in a country increases  by one unit 
-# the measure of healthcare atteinment of most of the countries 
-#will decrease by between 0.005 units.
-#If the education will increase by 1 year, for th emost of the countries, the 
-#health care attainment will increase by beween 1 and 2 unis.
+the measure of healthcare atteinment of most of the countries 
+will increase on average by less than 0.05 units(Cross-Section), or by less that  0.005 units in the panel setting.
+If the education will increase by 1 year, for the most of the countries, the 
+health care attainment will increase by beween 0.5 units (in the cross-sectional setting) and by 1.5 units if we consider the panel setting.
+<<echo = F, fig.cap= "Histogram of the Marginal Productivity of Education and Health Expenditure">>=
+#marginal products CS
+marginal_product_HEXP_CS<-coef(cb1)["HEXP"]*
+  (subset(df, YEAR == 1997)$COMP/subset(df, YEAR == 1997)$HEXP)
+marginal_product_EDUC_CS<-coef(cb1)["EDUC"]*
+  (subset(df, YEAR == 1997)$COMP/subset(df, YEAR == 1997)$EDUC)
+marginal_product_HEXP_panel<-coef(REcb)["HEXP"]*
+  (df$COMP/df$HEXP)
+marginal_product_EDUC_panel<-coef(REcb)["EDUC"]*
+  (df$COMP/df$EDUC)
+#visualize the variation of these marginal products 
+tmp <- cbind.data.frame(els = marginal_product_HEXP_CS, variable = "HEXP",
+                        model = "Cross-Section (1997)")
+tmp <- rbind(tmp, cbind.data.frame(els = marginal_product_EDUC_CS, variable = "EDUC",
+                                   model = "Cross-Section (1997)"))
+tmp <- rbind(tmp, cbind.data.frame(els = marginal_product_EDUC_panel, variable = "EDUC",
+                                   model = "Random-Effects (1993-7)"))
+tmp <- rbind(tmp, cbind.data.frame(els = marginal_product_HEXP_panel, variable = "HEXP",
+                                   model = "Random-Effects (1993-7)"))
+ggplot(tmp, aes(x = els)) + geom_histogram(bins = 30) + ylab("Frequency") +
+        facet_grid(model~variable, scale = "free") + xlab("Marginal Productivity")
 @
-
+<<echo = F, fig.cap= "Density estimation of the Marginal Productivity of Education and Health Expenditure">>=
+ggplot(tmp, aes(x = els)) + geom_density() + ylab("Density") +
+        facet_grid(model~variable, scale = "free") + xlab("Marginal Productivity")
+@
 \subsection{Elasticity of Scale}
+<<echo = F>>=
+#elasticity of scale CS
+# It is the sum of all output elasticities
+elasticity_of_scale_CS<-(coef(cb1)["HEXP"])+(coef(cb1)["EDUC"]) #0.1660962
+
+#elasticity of scale panel
+# It is the sum of all output elasticities
+elasticity_of_scale_CS<-sum(coef(REcb)["HEXP"])+(coef(REcb)["EDUC"]) #0.1123299
+@
+
 The elasticity of scale is the sum of all output elasticities. Hence, increasing all  inputs by one percent, for most of countries
-the output COMP will increase by 0.087\% .
-This means that the technology has strong decreasing returns to scale.
-<<Elasticity of Scale, cache =F, eval=T, echo=F, results='asis' >>=
+the output COMP will increase by between 0.11\% and 0.16\% depending on the cross-section or panel setting consideration.
+We can conclude, therefore, that the technology has strong decreasing returns to scale.
 
-#Elasticity of Scale
-
-#the elasticity of scale is the sum of all output elasticities
-trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-
-RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
-outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
-  coef(RE)["HEXP:EDUC"]*l.df$EDUC
-outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
-  coef(RE)["HEXP:EDUC"]*l.df$HEXP
-mg_prod_HEXP<-outputelasticityHEXP*(df$COMP/df$HEXP)
-mg_prod_EDUC<-outputelasticityEDUC*(df$COMP/df$EDUC)
-
-elasticityofscale<-outputelasticityEDUC+outputelasticityHEXP 
-
-hist(elasticityofscale)
-
-#Hence, increasing all the inputs by one percent, for most of the countries 
-#the output   COMP will increase by 0.087% .
-#This means that the technology has strong decreasing returns to scale.
-@
 \subsection{Marginal Rate of Technical Substitution}
+If the average education per capita reduces by 1 unit, the Health expenditure has to increase by 50 units for most of the countries (CS), 500 units (Panel), in order to keep the same health care attainment level.
+On the other hand, if the health ependiture decreases by 1 unit, the nb of years of education should decrease by 0.01, which would correspond to 3.65 days.
 
-<<Marginal Rate of Technical Substitution, cache =F, eval=T, echo=F, results='asis' >>=
-
-
-# #Marginal Rate of Tecnical Substitution
-# 
- MRTS_EDUC_HEXP<- -mg_prod_HEXP/mg_prod_EDUC
- MRTS_HEXP_EDUC<- -mg_prod_EDUC/mg_prod_HEXP
- #Visualize The MRTS with histograms
- hist(MRTS_EDUC_HEXP,xlab="MRTS education to health expenditure", main="MRTS of education to health expenditure",15)
- hist((MRTS_HEXP_EDUC)/10,xlab="MRTS health expenditure to education", main="MRTS of health expenditure to education")
-# #according to the graph most countries need betwwen 0.005
-# #additional units of education to replace one unit of "health expenditure"
-# # in order to replace one unit of education, most of the countries need 
-# #between 0 and 20 units of 
-# #health expenditure to keep the same level of health care atteinment.
-
-
-  
+<<echo = F, fig.cap= "Histogram of the Marginal Rates of Substitution Between Education and Health Expenditure">>=
+#marginal rates of technical substitution CS
+MRTS_HEXP_to_EDUC_CS<-marginal_product_EDUC_CS/marginal_product_HEXP_CS
+MRTS_EDUC_to_HEXP_CS<-marginal_product_HEXP_CS/marginal_product_EDUC_CS
+MRTS_HEXP_to_EDUC_panel<-marginal_product_EDUC_panel/marginal_product_HEXP_panel
+MRTS_EDUC_to_HEXP_panel<-marginal_product_HEXP_panel/marginal_product_EDUC_panel
+#visualization of the variation of these MRTSs
+tmp <- cbind.data.frame(els = MRTS_HEXP_to_EDUC_CS, variable = "HEXP to EDUC",
+                        model = "Cross-Section (1997)")
+tmp <- rbind(tmp, cbind.data.frame(els = MRTS_EDUC_to_HEXP_CS, variable = "EDUC to HEXP",
+                                   model = "Cross-Section (1997)"))
+tmp <- rbind(tmp, cbind.data.frame(els = MRTS_EDUC_to_HEXP_panel, variable = "EDUC to HEXP",
+                                   model = "Random-Effects (1993-7)"))
+tmp <- rbind(tmp, cbind.data.frame(els = MRTS_HEXP_to_EDUC_panel, variable = "HEXP to EDUC",
+                                   model = "Random-Effects (1993-7)"))
+ggplot(tmp, aes(x = els)) + geom_histogram(bins = 30) + ylab("Frequency") +
+        facet_grid(model~variable, scale = "free") + xlab("Marginal Rates of Substitution")
 @
-
+<<echo = F, fig.cap= "Density Estimation of the Marginal Rates of Substitution Between Education and Health Expenditure">>=
+ggplot(tmp, aes(x = els)) + geom_density() + ylab("Density") +
+        facet_grid(model~variable, scale = "free") + xlab("Marginal Rates of Substitution")
+@
 
 \section{Conclusion}
 

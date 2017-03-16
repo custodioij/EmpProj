@@ -236,7 +236,7 @@ GDPC* & Normalized per capita GDP in 1997 PPP\$ \\
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Thu, Mar 16, 2017 - 13:49:31
+% Date and time: Thu, Mar 16, 2017 - 15:03:30
 \begin{table}[!htbp] \centering 
   \caption{Descriptive statistics} 
   \label{} 
@@ -470,7 +470,7 @@ The truncated translog funtion, which has been widely used in the literature\foo
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Thu, Mar 16, 2017 - 13:50:03
+% Date and time: Thu, Mar 16, 2017 - 15:03:32
 \begin{table}[!htbp] \centering 
   \caption{Regression results for Cobb-Douglas and translog in the cross section 1997} 
   \label{} 
@@ -520,7 +520,7 @@ F Statistic & 263.197$^{***}$ & 107.246$^{***}$ \\
 As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT} and \ref{LR} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms. For both tests the null hypothesis that the additional coefficient are equal to 0 cannot be rejected. Therefore, in the interest of parsimony, we adopt the Codd-Douglas specification. THE SAME TESTS WITH THE AGREED CONTROLS POINT TO TL, BUT THEN EDUC IS NOT SIGNIFICANT!
 
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Thu Mar 16 13:50:03 2017
+% Thu Mar 16 15:03:32 2017
 \begin{table}[ht]
 \centering
 \caption{Wald Test: Cobb-Douglas compared to translog} 
@@ -535,7 +535,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Thu Mar 16 13:50:03 2017
+% Thu Mar 16 15:03:32 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test: Cobb-Douglas compared to translog} 
@@ -658,133 +658,80 @@ Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top
 
 We also estimate the same production function in a panel setting (Table \ref{tab:big}). We compare the fixed effects and the random effects model. White standard errors are used in this part as well.
 % dens <- subset(df[order(df$POPDEN),c('YEAR', 'POPDEN', 'COUNTRY', 'GDPC', 'OECD')], YEAR == 1997) # Makes no sense
-[1] 1.628915
-[1] 7.814728
-[1] 0.6528514
-[1] -9.262988
-[1] 7.814728
-[1] 1
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Thu, Mar 16, 2017 - 13:50:07
-\begin{table}[!htbp] \centering 
-  \caption{Regression results, cross-section 1997} 
-  \label{tab:cs} 
-\begin{tabular}{@{\extracolsep{5pt}}lcc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & \multicolumn{2}{c}{Dependent variable = COMP} \\ 
-\cline{2-3} 
- & Cobb-Douglas & Trans-log \\ 
-\\[-1.8ex] & (1) & (2)\\ 
-\hline \\[-1.8ex] 
- HEXP & 0.077$^{***}$ & 0.233$^{***}$ \\ 
-  & (0.009) & (0.048) \\ 
-  & & \\ 
- EDUC & 0.092$^{***}$ & 0.150$^{*}$ \\ 
-  & (0.017) & (0.077) \\ 
-  & & \\ 
- HEXP Sq. &  & $-$0.009 \\ 
-  &  & (0.006) \\ 
-  & & \\ 
- EDUC Sq. &  & 0.025 \\ 
-  &  & (0.031) \\ 
-  & & \\ 
- OECD & $-$0.553$^{***}$ & $-$0.587$^{***}$ \\ 
-  & (0.213) & (0.210) \\ 
-  & & \\ 
- POPDEN & $-$0.212$^{**}$ & $-$0.221$^{**}$ \\ 
-  & (0.094) & (0.092) \\ 
-  & & \\ 
- VOICE &  & $-$0.033 \\ 
-  &  & (0.025) \\ 
-  & & \\ 
- GINI & 0.006 & 0.008$^{*}$ \\ 
-  & (0.004) & (0.004) \\ 
-  & & \\ 
- GINI Sq. & 0.014 & 0.022$^{**}$ \\ 
-  & (0.010) & (0.011) \\ 
-  & & \\ 
- HEXP X EDUC & $-$0.026 & 0.012 \\ 
-  & (0.018) & (0.012) \\ 
-  & & \\ 
- Constant & 3.372$^{***}$ & 2.906$^{***}$ \\ 
-  & (0.120) & (0.170) \\ 
-  & & \\ 
-\hline \\[-1.8ex] 
-Observations & 139 & 139 \\ 
-R$^{2}$ & 0.830 & 0.845 \\ 
-Adjusted R$^{2}$ & 0.820 & 0.833 \\ 
-Residual Std. Error & 0.073 & 0.070 \\ 
-F Statistic & 91.086$^{***}$ & 69.896$^{***}$ \\ 
-\hline 
-\hline \\[-1.8ex] 
-\textit{Note:}  & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
-\end{tabular} 
-\end{table} 
-
-% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Thu, Mar 16, 2017 - 13:50:08
+% Date and time: Thu, Mar 16, 2017 - 15:03:37
 \begin{table}[!htbp] \centering 
   \caption{Regression results, whole dataset} 
   \label{tab:big} 
-\begin{tabular}{@{\extracolsep{5pt}}lccc} 
+\scriptsize 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
- & \multicolumn{3}{c}{Dependent variable = COMP} \\ 
-\cline{2-4} 
- & Pooled & Fixed Effects & Random Effects \\ 
-\\[-1.8ex] & (1) & (2) & (3)\\ 
+ & \multicolumn{5}{c}{Dependent variable: COMP} \\ 
+\cline{2-6} 
+\\[-1.8ex] & 1997 & 1997 & 1993-7 & 1993-7 & 1993-7 \\ 
+ & Cobb-Douglas & Trans-log & Pooled & Fixed Effects & Random Effects \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4) & (5)\\ 
 \hline \\[-1.8ex] 
- HEXP & 0.075$^{***}$ & 0.005$^{*}$ & 0.009$^{***}$ \\ 
-  & (0.004) & (0.003) & (0.003) \\ 
-  & & & \\ 
- EDUC & 0.093$^{***}$ & 0.048$^{*}$ & 0.106$^{***}$ \\ 
-  & (0.007) & (0.028) & (0.015) \\ 
-  & & & \\ 
- OECD & $-$0.528$^{***}$ &  & $-$0.531$^{**}$ \\ 
-  & (0.096) &  & (0.257) \\ 
-  & & & \\ 
- POPDEN & $-$0.201$^{***}$ &  & $-$0.192$^{*}$ \\ 
-  & (0.043) &  & (0.114) \\ 
-  & & & \\ 
- VOICE & 0.005$^{***}$ &  & 0.007 \\ 
-  & (0.002) &  & (0.005) \\ 
-  & & & \\ 
- GINI & 0.014$^{***}$ &  & 0.058$^{***}$ \\ 
-  & (0.005) &  & (0.010) \\ 
-  & & & \\ 
- GINI Sq. & $-$0.028$^{***}$ &  & 0.041$^{**}$ \\ 
-  & (0.008) &  & (0.018) \\ 
-  & & & \\ 
- YEAR (continuous) & $-$0.002 &  &  \\ 
-  & (0.002) &  &  \\ 
-  & & & \\ 
- YEAR = 1994 &  & 0.001$^{***}$ & 0.0003 \\ 
-  &  & (0.0004) & (0.0004) \\ 
-  & & & \\ 
- YEAR = 1995 &  & 0.003$^{***}$ & 0.001 \\ 
-  &  & (0.001) & (0.001) \\ 
-  & & & \\ 
- YEAR = 1996 &  & 0.004$^{***}$ & 0.001 \\ 
-  &  & (0.001) & (0.001) \\ 
-  & & & \\ 
- YEAR = 1997 &  & 0.006$^{***}$ & 0.002 \\ 
-  &  & (0.002) & (0.001) \\ 
-  & & & \\ 
- Constant & 6.994$^{*}$ &  & 3.691$^{***}$ \\ 
-  & (3.738) &  & (0.135) \\ 
-  & & & \\ 
+ HEXP & 0.077$^{***}$ & 0.233$^{***}$ & 0.075$^{***}$ & 0.005$^{*}$ & 0.009$^{***}$ \\ 
+  & (0.009) & (0.048) & (0.004) & (0.003) & (0.003) \\ 
+  & & & & & \\ 
+ EDUC & 0.092$^{***}$ & 0.150$^{*}$ & 0.093$^{***}$ & 0.048$^{*}$ & 0.106$^{***}$ \\ 
+  & (0.017) & (0.077) & (0.007) & (0.028) & (0.015) \\ 
+  & & & & & \\ 
+ HEXP Sq. &  & $-$0.009 &  &  &  \\ 
+  &  & (0.006) &  &  &  \\ 
+  & & & & & \\ 
+ EDUC Sq. &  & 0.025 &  &  &  \\ 
+  &  & (0.031) &  &  &  \\ 
+  & & & & & \\ 
+ GINI & $-$0.553$^{***}$ & $-$0.587$^{***}$ & $-$0.528$^{***}$ &  & $-$0.531$^{**}$ \\ 
+  & (0.213) & (0.210) & (0.096) &  & (0.257) \\ 
+  & & & & & \\ 
+ GINI Sq. & $-$0.212$^{**}$ & $-$0.221$^{**}$ & $-$0.201$^{***}$ &  & $-$0.192$^{*}$ \\ 
+  & (0.094) & (0.092) & (0.043) &  & (0.114) \\ 
+  & & & & & \\ 
+ HEXP X EDUC &  & $-$0.033 &  &  &  \\ 
+  &  & (0.025) &  &  &  \\ 
+  & & & & & \\ 
+ POPDEN & 0.006 & 0.008$^{*}$ & 0.005$^{***}$ &  & 0.007 \\ 
+  & (0.004) & (0.004) & (0.002) &  & (0.005) \\ 
+  & & & & & \\ 
+ VOICE & 0.014 & 0.022$^{**}$ & 0.014$^{***}$ &  & 0.058$^{***}$ \\ 
+  & (0.010) & (0.011) & (0.005) &  & (0.010) \\ 
+  & & & & & \\ 
+ OECD & $-$0.026 & 0.012 & $-$0.028$^{***}$ &  & 0.041$^{**}$ \\ 
+  & (0.018) & (0.012) & (0.008) &  & (0.018) \\ 
+  & & & & & \\ 
+ YEAR (continuous) &  &  & $-$0.002 &  &  \\ 
+  &  &  & (0.002) &  &  \\ 
+  & & & & & \\ 
+ YEAR = 1994 &  &  &  & 0.001$^{***}$ & 0.0003 \\ 
+  &  &  &  & (0.0004) & (0.0004) \\ 
+  & & & & & \\ 
+ YEAR = 1995 &  &  &  & 0.003$^{***}$ & 0.001 \\ 
+  &  &  &  & (0.001) & (0.001) \\ 
+  & & & & & \\ 
+ YEAR = 1996 &  &  &  & 0.004$^{***}$ & 0.001 \\ 
+  &  &  &  & (0.001) & (0.001) \\ 
+  & & & & & \\ 
+ YEAR = 1997 &  &  &  & 0.006$^{***}$ & 0.002 \\ 
+  &  &  &  & (0.002) & (0.001) \\ 
+  & & & & & \\ 
+ Constant & 3.372$^{***}$ & 2.906$^{***}$ & 6.994$^{*}$ &  & 3.691$^{***}$ \\ 
+  & (0.120) & (0.170) & (3.738) &  & (0.135) \\ 
+  & & & & & \\ 
 \hline \\[-1.8ex] 
-Observations & 695 & 695 & 695 \\ 
-R$^{2}$ & 0.834 & 0.275 & 0.505 \\ 
-Adjusted R$^{2}$ & 0.833 & 0.086 & 0.497 \\ 
-Residual Std. Error & 0.070 &  &  \\ 
-F Statistic & 432.170$^{***}$ & 34.840$^{***}$ & 63.351$^{***}$ \\ 
+Observations & 139 & 139 & 695 & 695 & 695 \\ 
+R$^{2}$ & 0.830 & 0.845 & 0.834 & 0.275 & 0.505 \\ 
+Adjusted R$^{2}$ & 0.820 & 0.833 & 0.833 & 0.086 & 0.497 \\ 
+Residual Std. Error & 0.073 & 0.070 & 0.070 &  &  \\ 
+F Statistic & 91.086$^{***}$ & 69.896$^{***}$ & 432.170$^{***}$ & 34.840$^{***}$ & 63.351$^{***}$ \\ 
 \hline 
 \hline \\[-1.8ex] 
-\textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\textit{Note:}  & \multicolumn{5}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
 \end{tabular} 
 \end{table} 
 
@@ -824,219 +771,59 @@ Visual inspection of the residuals of regression Figure \ref{fig:residuals} indi
 % #' quant.reg <- npqreg(tydat = l.df97$COMP, txdat = l.df97[,'HEXP'], exdat = z)
 % #' plot(z, quantile(quant.reg), type = "l")
 % #' @
+\section{Production function properties}
+In what follows, we are going to focuse our attention on the results related to the production function. More precisely, we are going to analyse the reaction and the behaviour of the inputs according to the two, previously found, specifications of the production function. 
 
-%' \section{Properties of Production Function}
-%' 
-%' \subsection{Output Elasticities}
-%' <<Properties, cache =F, eval=T, echo=F, results='asis' >>=
-%' #random effects translog final model
-%' 
-%' # Import data
-%' df = read.xls("who_data_cc.xlsx", sheet = 1, header = TRUE)[-c(701),]
-%' names(df)[length(names(df))] <- "GDPC"
-%' names(df)[which(names(df) == "COUNTRYNAME")] <- "COUNTRY"
-%' # Ireland has an error in 1993
-%' df <- subset(df, COUNTRYCODE != (df[which(df$COMP == 1),]$COUNTRYCODE))
-%' df$COUNTRY <- factor(df$COUNTRY)
-%' # df$YEAR <- factor(df$YEAR)
-%' df97 <- subset(df, YEAR == 1997)
-%' cont.vars <- c("HEXP", "EDUC", "GINI", "POPDEN", "GDPC")
-%' disc.vars <- c("COUNTRY", "YEAR", "TROPICS", "VOICE", "OECD", "GEFF", "PUBTHE")
-%' dep.vars <- c("COMP", "DALE")
-%' l.df <- cbind(log(df[c(dep.vars, cont.vars)]), df[disc.vars])
-%' l.df97 <- subset(l.df, YEAR == 1997)
-%' ########
-%' trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-%' trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-%' 
-%' RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-%' RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
-%' #summary(RE)
-%' ##Output elasticities
-%' 
-%' #The output elasticities correspond to the coefficients.
-%' # If the help expenditure incerases by 1%, the level of our dependent variable
-%' #COMP will increase by 0.08%, and if the level of education increases by 1%, the level of COMP will 
-%' #increase by 0.11%
-%' 
-%' @
-%' We can visualize the variation of the output elasticities with he following histograms. The resulting graphs show that if the education in countries increases 
-%'  by 1\%, the health care attainment of most of the countries 
-%' will increase by around 0.09\%. Additionaly, if the health expenditure will increase by 1\% , for the most of  
-%' countries, the health care attainment will decrease by 0.003\%.
-%' The monotonicity condition is satisfied for EDUC, as all the values for output elasticities
-%' are positive.
-%' However, for the HEXP, the monotonicity condition, is "almost" satisfied, 
-%' for the majority of observations the output elasticity is negative, but, there are
-%' around 9.7\% of observations with positive output elasticities. 
-%' <<Properties of production function, cache =F, eval=T, echo=F, results='asis' >>=
-%' 
-%' 
-%' 
-%' ###translog output elasticities
-%' # trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-%' # trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-%' # 
-%' # RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-%' # RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
-%' outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
-%'   coef(RE)["HEXP:EDUC"]*l.df$EDUC
-%' outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
-%'   coef(RE)["HEXP:EDUC"]*l.df$HEXP
-%' #we can visualize the variation of these output elasticities with histograms
-%' hist(outputelasticityEDUC)
-%' #the resulting grapsh show that if the education in countries increases 
-%' # by 1% the health care attainment of most of the countries 
-%' #will increase by around 0.09%
-%' hist(outputelasticityHEXP)
-%' # if the health expenditure will increase by 1% , for most of the 
-%' # countries, the health care attainment will decrease by 0.003%
-%' 
-%' #sum(outputelasticityEDUC<0)
-%' #sum(outputelasticityHEXP>0)
-%' #68/695
-%' # the monotonicy condition is satisfied for EDUC, as all the values for output elasticities
-%' #are positive
-%' # however for the HEXP, the monotonicity condition, is almost satisfied, 
-%' # for the majority of observations the output elasticity is egative, but, there are
-%' # some posiive output elasticities (around 9.7%)
-%' @
-%' \subsection{Marginal Products}
-%' In a production function, marginal productivity depends on both input and output 
-%' quantities.
-%' If the health expenditure in a country increases  by one unit 
-%' the measure of healthcare atteinment of the most of countries 
-%' will decrease by 0.005 units.
-%' If the education will increase by 1 year, for the most of  countries, the 
-%' health care attainment will increase by beween 1 and 2 units.
-%' 
-%' <<Marginal Products, cache =F, eval=T, echo=F, results='asis' >>=
-%' 
-%' 
-%' 
-%' ##Marginal products
-%' 
-%' #In a production function marginal production depends on both input and output 
-%' #quantities
-%' # trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-%' # trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-%' # 
-%' # RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-%' # RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
-%' outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
-%'   coef(RE)["HEXP:EDUC"]*l.df$EDUC
-%' outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
-%'   coef(RE)["HEXP:EDUC"]*l.df$HEXP
-%' mg_prod_HEXP<-outputelasticityHEXP*(df$COMP/df$HEXP)
-%' mg_prod_EDUC<-outputelasticityEDUC*(df$COMP/df$EDUC)
-%' 
-%' ## translog marginal products
-%' 
-%' ##Visualize the variation of these marginal products:
-%' hist(mg_prod_EDUC, main="Marginal productivity of Education") 
-%' hist(mg_prod_HEXP, main="Marginal productivity of Health Expediture")
-%' # If the health expenditure in a country increases  by one unit 
-%' # the measure of healthcare atteinment of most of the countries 
-%' #will decrease by between 0.005 units.
-%' #If the education will increase by 1 year, for th emost of the countries, the 
-%' #health care attainment will increase by beween 1 and 2 unis.
-%' @
-%' 
-%' \subsection{Elasticity of Scale}
-%' The elasticity of scale is the sum of all output elasticities. Hence, increasing all  inputs by one percent, for most of countries
-%' the output COMP will increase by 0.087\% .
-%' This means that the technology has strong decreasing returns to scale.
-%' <<Elasticity of Scale, cache =F, eval=T, echo=F, results='asis' >>=
-%' 
-%' #Elasticity of Scale
-%' 
-%' #the elasticity of scale is the sum of all output elasticities
-%' # trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-%' # trans.log.s <- paste(trans.log.s, "POPDEN + PUBTHE + VOICE + GINI + I(GINI^2)", sep = " + ")
-%' # 
-%' # RE.form <- as.formula(paste(trans.log.s, "+ YEAR"))
-%' # RE <- plm(RE.form, data = l.df, index = c("COUNTRY", "YEAR"), model = "random")
-%' outputelasticityHEXP<-coef(RE)["HEXP"]+coef(RE)["I(HEXP^2)"]*l.df$HEXP+
-%'   coef(RE)["HEXP:EDUC"]*l.df$EDUC
-%' outputelasticityEDUC<-coef(RE)["EDUC"]+coef(RE)["I(EDUC^2)"]*l.df$EDUC+
-%'   coef(RE)["HEXP:EDUC"]*l.df$HEXP
-%' mg_prod_HEXP<-outputelasticityHEXP*(df$COMP/df$HEXP)
-%' mg_prod_EDUC<-outputelasticityEDUC*(df$COMP/df$EDUC)
-%' 
-%' elasticityofscale<-outputelasticityEDUC+outputelasticityHEXP 
-%' 
-%' hist(elasticityofscale)
-%' 
-%' #Hence, increasing all the inputs by one percent, for most of the countries 
-%' #the output   COMP will increase by 0.087% .
-%' #This means that the technology has strong decreasing returns to scale.
-%' @
-%' \subsection{Marginal Rate of Technical Substitution}
-%' 
-%' <<Marginal Rate of Technical Substitution, cache =F, eval=T, echo=F, results='asis' >>=
-%' 
-%' 
-%' # #Marginal Rate of Tecnical Substitution
-%' # 
-%'  MRTS_EDUC_HEXP<- -mg_prod_HEXP/mg_prod_EDUC
-%'  MRTS_HEXP_EDUC<- -mg_prod_EDUC/mg_prod_HEXP
-%'  #Visualize The MRTS with histograms
-%'  hist(MRTS_EDUC_HEXP,xlab="MRTS education to health expenditure", main="MRTS of education to health expenditure",15)
-%'  hist((MRTS_HEXP_EDUC)/10,xlab="MRTS health expenditure to education", main="MRTS of health expenditure to education")
-%' # #according to the graph most countries need betwwen 0.005
-%' # #additional units of education to replace one unit of "health expenditure"
-%' # # in order to replace one unit of education, most of the countries need 
-%' # #between 0 and 20 units of 
-%' # #health expenditure to keep the same level of health care atteinment.
-%' @
-\section{Properties of Production Function}
-
-\subsection{Output Elasticities}
-
-We can visualize the variation of the output elasticities with he following histograms. The resulting graphs show that if the education in countries increases 
- by 1\%, the health care attainment of most of the countries 
-will increase by around 0.09\%. Additionaly, if the health expenditure will increase by 1\% , for the most of  
-countries, the health care attainment will decrease by 0.003\%.
-The monotonicity condition is satisfied for EDUC, as all the values for output elasticities
-are positive.
-However, for the HEXP, the monotonicity condition, is "almost" satisfied, 
-for the majority of observations the output elasticity is negative, but, there are
-around 9.7\% of observations with positive output elasticities. 
-
-\includegraphics[width=\maxwidth]{figure/Properties_of_production_function-1} 
-
-\includegraphics[width=\maxwidth]{figure/Properties_of_production_function-2} 
+\subsection{Output elasticities}
+In this section we are interested in to see how the output will react if there is an increase of 1\% in the use of any input. Based on cross-sectional results, we may conclude that if the education in a country increases by 1\% the health care attainment will increase on average by 0.0899\%. In what concerns the second output : "Health Expenditure", the 1\% increase of this "input" will lead to a positive change of 0.0761\% in health care attainment.However, if we consider the panel data setting, we observe that the increase of the output will be by 0.02\% higher, as a response to a 1\% increase in years of education. But, an important difference is observed concerning the second input "Health Expenidture", which will lead to a very small increase of output, about : 0.0085\%.
 
 \subsection{Marginal Products}
 In a production function, marginal productivity depends on both input and output 
-quantities.
+quantities. 
 If the health expenditure in a country increases  by one unit 
-the measure of healthcare atteinment of the most of countries 
-will decrease by 0.005 units.
-If the education will increase by 1 year, for the most of  countries, the 
-health care attainment will increase by beween 1 and 2 units.
+the measure of healthcare atteinment of most of the countries 
+will increase on average by less than 0.05 units(Cross-Section), or by less that  0.005 units in the panel setting.
+If the education will increase by 1 year, for the most of the countries, the 
+health care attainment will increase by beween 0.5 units (in the cross-sectional setting) and by 1.5 units if we consider the panel setting.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-15-1} \caption[Histogram of the Marginal Productivity of Education and Health Expenditure]{Histogram of the Marginal Productivity of Education and Health Expenditure}\label{fig:unnamed-chunk-15}
+\end{figure}
 
 
-\includegraphics[width=\maxwidth]{figure/Marginal_Products-1} 
+\end{knitrout}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-16-1} \caption[Density estimation of the Marginal Productivity of Education and Health Expenditure]{Density estimation of the Marginal Productivity of Education and Health Expenditure}\label{fig:unnamed-chunk-16}
+\end{figure}
 
-\includegraphics[width=\maxwidth]{figure/Marginal_Products-2} 
 
-
+\end{knitrout}
 \subsection{Elasticity of Scale}
-The elasticity of scale is the sum of all output elasticities. Hence, increasing all  inputs by one percent, for most of countries
-the output COMP will increase by 0.087\% .
-This means that the technology has strong decreasing returns to scale.
 
-\includegraphics[width=\maxwidth]{figure/Elasticity_of_Scale-1} 
+
+The elasticity of scale is the sum of all output elasticities. Hence, increasing all  inputs by one percent, for most of countries
+the output COMP will increase by between 0.11\% and 0.16\% depending on the cross-section or panel setting consideration.
+We can conclude, therefore, that the technology has strong decreasing returns to scale.
 
 \subsection{Marginal Rate of Technical Substitution}
+If the average education per capita reduces by 1 unit, the Health expenditure has to increase by 50 units for most of the countries (CS), 500 units (Panel), in order to keep the same health care attainment level.
+On the other hand, if the health ependiture decreases by 1 unit, the nb of years of education should decrease by 0.01, which would correspond to 3.65 days.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-18-1} \caption[Histogram of the Marginal Rates of Substitution Between Education and Health Expenditure]{Histogram of the Marginal Rates of Substitution Between Education and Health Expenditure}\label{fig:unnamed-chunk-18}
+\end{figure}
 
 
-\includegraphics[width=\maxwidth]{figure/Marginal_Rate_of_Technical_Substitution-1} 
+\end{knitrout}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-19-1} \caption[Density Estimation of the Marginal Rates of Substitution Between Education and Health Expenditure]{Density Estimation of the Marginal Rates of Substitution Between Education and Health Expenditure}\label{fig:unnamed-chunk-19}
+\end{figure}
 
-\includegraphics[width=\maxwidth]{figure/Marginal_Rate_of_Technical_Substitution-2} 
 
-
+\end{knitrout}
 
 \section{Conclusion}
 
