@@ -1299,11 +1299,11 @@ Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top
 <<TransLog, eval=TRUE, echo=F, results='asis', warning=FALSE>>=
 ## Trying t keep the trans-log for the two main explanatory variable
 trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
-trans.log.s <- paste(trans.log.s, "GDPC + POPDEN + VOICE + GINI + I(GINI^2)",
+trans.log.s <- paste(trans.log.s, "OECD + POPDEN + VOICE + GINI + I(GINI^2)",
                      sep = " + ")
 
 cb <- "COMP ~ HEXP + EDUC"
-cb <- paste(cb, "GDPC + GINI + I(GINI^2)",
+cb <- paste(cb, "OECD + POPDEN + VOICE + GINI + I(GINI^2)",
                      sep = " + ")
 # CS
 tl1 <- lm(as.formula(trans.log.s), data = l.df97)
@@ -1352,29 +1352,48 @@ models.cb <- c(nonpanel[c(2, 4)], panel[c(2, 4)])
 models.tl <- c(nonpanel[c(1, 3)], panel[c(1, 3)])
 se.cb <- c(se.nonpanel[c(2, 4)], se.panel[c(2, 4)])
 se.tl <- c(se.nonpanel[c(1, 3)], se.panel[c(1, 3)])
-stargazer(models.tl, se=se.tl,
-        column.labels = c("Cross-Section", "Pooled",
-                          "Fixed Effects", "Random Effects"),
+stargazer(cb1, tl1, se=se.nonpanel[2:1],
+        column.labels = c("Cobb-Douglas", "Trans-log"),
         dep.var.labels.include = FALSE,
         dep.var.caption  = "Dependent variable = COMP",
-        title = "Regression results, Trans-Log specification",
-        label = "tab:big", font.size = "scriptsize",
+        title = "Regression results, cross-section 1997",
+        label = "tab:cs", #font.size = "scriptsize",
         model.names = FALSE, df = FALSE,
-        covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'GDPC', 'POPDEN',
+        covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'OECD', 'POPDEN',
+                             'VOICE', 'GINI', 'GINI Sq.', 'HEXP X EDUC'))
+stargazer(cb2, FEcb, REcb, se=list(se.nonpanel[[4]], se.FE.cb, se.RE.cb),
+        column.labels = c("Pooled", "Fixed Effects", "Random Effects"),
+        dep.var.labels.include = FALSE,
+        dep.var.caption  = "Dependent variable = COMP",
+        title = "Regression results, whole dataset",
+        label = "tab:big", #font.size = "scriptsize",
+        model.names = FALSE, df = FALSE,
+        covariate.labels = c('HEXP', 'EDUC', 'OECD', 'POPDEN',
                              'VOICE', 'GINI', 'GINI Sq.', 'YEAR (continuous)',
-                             'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997',
-                             'HEXP X EDUC'))
-stargazer(models.cb, se=se.cb,
-        column.labels = c("Cross-Section", "Pooled",
-                          "Fixed Effects", "Random Effects"),
-        dep.var.labels.include = FALSE,
-        dep.var.caption  = "Dependent variable = COMP",
-        title = "Regression results, Cobb-Douglas specification",
-        label = "tab:bigcb", font.size = "footnotesize",
-        model.names = FALSE, df = FALSE,
-        covariate.labels = c('HEXP', 'EDUC', 'GDPC', 'VOICE', 'GINI', 'GINI Sq.',
-                             'YEAR (continuous)', 'YEAR = 1994','YEAR = 1995',
-                             'YEAR = 1996', 'YEAR = 1997'))
+                             'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997'))
+# stargazer(models.tl, se=se.tl,
+#         column.labels = c("Cross-Section", "Pooled",
+#                           "Fixed Effects", "Random Effects"),
+#         dep.var.labels.include = FALSE,
+#         dep.var.caption  = "Dependent variable = COMP",
+#         title = "Regression results, Trans-Log specification",
+#         label = "tab:big", font.size = "scriptsize",
+#         model.names = FALSE, df = FALSE,
+#         covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'GDPC', 'POPDEN',
+#                              'VOICE', 'GINI', 'GINI Sq.', 'YEAR (continuous)',
+#                              'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997',
+#                              'HEXP X EDUC'))
+# stargazer(models.cb, se=se.cb,
+#         column.labels = c("Cross-Section", "Pooled",
+#                           "Fixed Effects", "Random Effects"),
+#         dep.var.labels.include = FALSE,
+#         dep.var.caption  = "Dependent variable = COMP",
+#         title = "Regression results, Cobb-Douglas specification",
+#         label = "tab:bigcb", font.size = "footnotesize",
+#         model.names = FALSE, df = FALSE,
+#         covariate.labels = c('HEXP', 'EDUC', 'GDPC', 'VOICE', 'GINI', 'GINI Sq.',
+#                              'YEAR (continuous)', 'YEAR = 1994','YEAR = 1995',
+#                              'YEAR = 1996', 'YEAR = 1997'))
 @
 <<hausman, echo = F>>=
 haustest <- phtest(FEcb, REcb)
