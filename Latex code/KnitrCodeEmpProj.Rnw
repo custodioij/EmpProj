@@ -31,6 +31,8 @@
 %\usepackage{apacite}                      % Americ.Psych.Assoc. citations style
 \renewcommand{\bibname}{References}        % choose name for reference section
 
+\usepackage{rotating}
+
 %------------------------------------------------------------------%
 \begin{document}
 %------------------------------------------------------------------%
@@ -60,10 +62,10 @@ March 22, 2017
 
 \vfill
 
-\begin{abstract}
-\noindent
-The abstract goes here...
-\end{abstract}
+% \begin{abstract}
+% \noindent
+% The abstract goes here...
+% \end{abstract}
 
 %------------------------------------------------------------------%
 \newpage 
@@ -654,14 +656,16 @@ df.np.cs.uni <- rbind(tmp.plot1, tmp.plot3, tmp.plot2, tmp.plot4)
 ggplot(df.np.cs.uni, aes(x = x, y = y, linetype = type)) +
         facet_grid(yvar ~ xvar, scales = 'free') +
         geom_line(data = subset(df.np.cs.uni, type != 'points')) +
-        geom_point(data = subset(df.np.cs.uni, type == 'points'))
+        geom_point(data = subset(df.np.cs.uni, type == 'points'), alpha = .5) +
+        scale_linetype_discrete(name = "Title", labels = c("OLS", "LC", "LL"),
+                                limits = c("OLS", "LC", "LL"))
 @
 
 <<np.cs.multi, eval=TRUE, echo=FALSE, cache=TRUE, results='hide', include=TRUE, fig.cap='Multivariate nonparametric analysis for 1997',fig.align='center',out.width='\\textwidth',fig.pos='htbp'>>=
 par(mfrow=c(1,2))
 
 mod_comp_OLS <- lm(data1997$logcomp97 ~ data1997$logeduc97 + data1997$loghexp97)
-summary(mod_comp_OLS)
+# summary(mod_comp_OLS)
 
 comp_1997=data1997$logcomp97
 dale_1997=data1997$logdale97
@@ -670,7 +674,7 @@ hexp_97=data1997$loghexp97
 
 mod_comp_ll <- npreg(data1997$logcomp97 ~ data1997$logeduc97 + data1997$loghexp97, regtype = "ll")
 mod_comp_ll_2 <- npreg(comp_1997 ~ educ_1997 + hexp_97, regtype = "ll")
-summary(mod_comp_ll)
+# summary(mod_comp_ll)
 plot(mod_comp_ll_2, view = "fixed", xlab = "educ 1997", ylab= "hexp 97", zlab = "comp 1997", main="LL regression, comp 1997")
 
 mod_dale_OLS <- lm(data1997$logdale97 ~ data1997$logeduc97 + data1997$loghexp97)
@@ -684,9 +688,10 @@ plot(mod_dale_ll_2, view = "fixed", xlab = "educ 1997", ylab= "hexp 97", zlab = 
 
 \subsubsection{Pooled data from 1993 to 1997}
 
-As in the case for only 1997, when looking at the pooled data in the univariate case, all figures present an upward trend. The LL and LC estimators follow the OLS estimator, except in those parts where the lack of observations alters the smoothness of the lines (but this is a consequence of the bandwith). This reinforces the assumption of linear functional form of the production function. Worth mentioning is how little countries' dale and comp change overtime. Notice that each figure presents clusters of consecutive points, which represent a given country over the five-year period. This implies that there is little variation within the country. The source of variation should derive from between countries. Similarly, the greatest amount of variation between countries overtime appears at lower levels of hexp and educ, respectively. It appears that poorer countries' health care systems vary more while richer countries have similar outcomes. The cluster of points for poorer countries are more spread out that for the richer countries, which implies that a higher health expenditure/educational attainmnent overtime have a a greater impact on the given dependent variable and which could point out to economies of scale. We do not, however, present the graphs for the multivariate case. Planes were obtained, but results were not insightful due to the large variation in bandwiths.
+As in the case for only 1997, when looking at the pooled data in the univariate case, all figures present an upward trend. The LL and LC estimators follow the OLS estimator, except in those parts where the lack of observations alters the smoothness of the lines (but this is a consequence of the bandwith). This reinforces the assumption of linear functional form of the production function. Worth mentioning is how little countries' DALE and COMP change over time. Notice that each figure presents clusters of consecutive points, which represent a given country over the five-year period. This implies that there is little variation within the country. The source of variation should derive from between countries. Similarly, the greatest amount of variation between countries overtime appears at lower levels of HEXP and EDUC, respectively. It appears that poorer countries' health care systems vary more while richer countries have similar outcomes. The cluster of points for poorer countries are more spread out that for the richer countries, which implies that a higher health expenditure/educational attainmnent overtime have a a greater impact on the given dependent variable and which could point out to economies of scale. We do not, however, present the graphs for the multivariate case. Planes were obtained, but results were not insightful due to the large variation in bandwiths.
 
-<<all, eval=TRUE, echo=FALSE, cache=TRUE, results='hide', include=TRUE, fig.cap='Univariate nonparametric analysis for pooled data',fig.align='center',out.width='0.9\\textwidth',fig.pos='htbp'>>=
+The nonparametric analysis sugests that a linear functional form on the logs of EDUC and HEXP are an adequate model for COMP and DALE.
+<<all, eval=TRUE, echo=FALSE, cache=TRUE, results='hide', include=TRUE>>=
 par(mfrow=c(2,2))
 
 n <- nrow(data)
@@ -717,12 +722,23 @@ for (i in seq(1,length(z),by=1)){
       g.LL[i]<- LL(X,Y,z[i],h.ll-h.tol,"Ga",p=1)	 
       
 }
-plot(z,g.OLS,type="l",col=c("black"),lty=c(1), xlab = "educ", ylab = "comp", ylim=c(3.8,4.6), main="comp regr. on educ, pooled")
-points(data$logeduc, data$logcomp, type = "p", col=c("gray"))
-points(data1997$logeduc97, data1997$logcomp97, type = "p", col=c("black"))
-lines(z,g.LC,col=c("blue"),lty=c(1))
-lines(z,g.LL,col=c("red"),lty=c(1))
-legend("topleft", c("OLS","LC", "LL", "1997"), col = c("black","blue","red","black"), lty = c(1,1,1,NA), pch=c(NA,NA,NA,1), cex = 0.75)
+
+tmp.plot1 <- data.frame(x = z, y = g.OLS, type = 'OLS')
+tmp.plot1 <- rbind.data.frame(tmp.plot1, data.frame(
+                x = data1997$logeduc97, y = data1997$logcomp97, type = 'points97'),
+        data.frame(
+                x = data$logeduc, y = data$logcomp, type = 'points'),
+        data.frame(
+                x = z, y = g.LC, type = 'LC'),
+        data.frame(
+                x = z, y = g.LL, type = 'LL')
+)
+# plot(z,g.OLS,type="l",col=c("black"),lty=c(1), xlab = "educ", ylab = "comp", ylim=c(3.8,4.6), main="comp regr. on educ, pooled")
+# points(data$logeduc, data$logcomp, type = "p", col=c("gray"))
+# points(data1997$logeduc97, data1997$logcomp97, type = "p", col=c("black"))
+# lines(z,g.LC,col=c("blue"),lty=c(1))
+# lines(z,g.LL,col=c("red"),lty=c(1))
+# legend("topleft", c("OLS","LC", "LL", "1997"), col = c("black","blue","red","black"), lty = c(1,1,1,NA), pch=c(NA,NA,NA,1), cex = 0.75)
 
 
 
@@ -754,11 +770,21 @@ for (i in seq(1,length(z),by=1)){
       g.LL[i]<- LL(X,Y,z[i],h.ll-h.tol,"Ga",p=2)	 
       
 }
-plot(z,g.OLS,type="l",col=c("black"),lty=c(1), xlab = "educ", ylab = "dale", ylim=c(3.3,4.5), main="dale regr. on educ, pooled")
-points(data$logeduc, data$logdale, type = "p", col=c("gray"))
-points(data1997$logeduc97, data1997$logdale97, type = "p", col=c("black"))
-lines(z,g.LC,col=c("blue"),lty=c(1))
-lines(z,g.LL,col=c("red"),lty=c(1))
+tmp.plot2 <- data.frame(x = z, y = g.OLS, type = 'OLS')
+tmp.plot2 <- rbind.data.frame(tmp.plot2, data.frame(
+                x = data1997$logeduc97, y = data1997$logdale97, type = 'points97'),
+        data.frame(
+                x = data$logeduc, y = data$logdale, type = 'points'),
+        data.frame(
+                x = z, y = g.LC, type = 'LC'),
+        data.frame(
+                x = z, y = g.LL, type = 'LL')
+)
+# plot(z,g.OLS,type="l",col=c("black"),lty=c(1), xlab = "educ", ylab = "dale", ylim=c(3.3,4.5), main="dale regr. on educ, pooled")
+# points(data$logeduc, data$logdale, type = "p", col=c("gray"))
+# points(data1997$logeduc97, data1997$logdale97, type = "p", col=c("black"))
+# lines(z,g.LC,col=c("blue"),lty=c(1))
+# lines(z,g.LL,col=c("red"),lty=c(1))
 
 
 
@@ -790,11 +816,21 @@ for (i in seq(1,length(z),by=1)){
       g.LL[i]<- LL(X,Y,z[i],h.ll-h.tol,"Ga",p=1)	 
       
 }
-plot(z,g.OLS,type="l",col=c("black"),lty=c(1), xlab = "hexp", ylab = "comp", ylim=c(3.8,4.6), main="comp regr. on hexp, pooled")
-points(data$loghexp, data$logcomp, type = "p", col=c("gray"))
-points(data1997$loghexp97, data1997$logcomp97, type = "p", col=c("black"))
-lines(z,g.LC,col=c("blue"),lty=c(1))
-lines(z,g.LL,col=c("red"),lty=c(1))
+tmp.plot3 <- data.frame(x = z, y = g.OLS, type = 'OLS')
+tmp.plot3 <- rbind.data.frame(tmp.plot3, data.frame(
+                x = data1997$loghexp97, y = data1997$logcomp97, type = 'points97'),
+        data.frame(
+                x = data$loghexp, y = data$logcomp, type = 'points'),
+        data.frame(
+                x = z, y = g.LC, type = 'LC'),
+        data.frame(
+                x = z, y = g.LL, type = 'LL')
+)
+# plot(z,g.OLS,type="l",col=c("black"),lty=c(1), xlab = "hexp", ylab = "comp", ylim=c(3.8,4.6), main="comp regr. on hexp, pooled")
+# points(data$loghexp, data$logcomp, type = "p", col=c("gray"))
+# points(data1997$loghexp97, data1997$logcomp97, type = "p", col=c("black"))
+# lines(z,g.LC,col=c("blue"),lty=c(1))
+# lines(z,g.LL,col=c("red"),lty=c(1))
 
 
 
@@ -826,11 +862,38 @@ for (i in seq(1,length(z),by=1)){
       g.LL[i]<- LL(X,Y,z[i],h.ll-h.tol,"Ga",p=1)	 
       
 }
-plot(z,g.OLS,type="l",col=c("black"),lty=c(1), xlab = "hexp", ylab = "dale", ylim=c(3.3,4.5), main="dale regr. on hexp, pooled")
-points(data$loghexp, data$logdale, type = "p", col=c("gray"))
-points(data1997$loghexp97, data1997$logdale97, type = "p", col=c("black"))
-lines(z,g.LC,col=c("blue"),lty=c(1))
-lines(z,g.LL,col=c("red"),lty=c(1))
+tmp.plot4 <- data.frame(x = z, y = g.OLS, type = 'OLS')
+tmp.plot4 <- rbind.data.frame(tmp.plot4, data.frame(
+                x = data1997$loghexp97, y = data1997$logdale97, type = 'points97'),
+        data.frame(
+                x = data$loghexp, y = data$logdale, type = 'points'),
+        data.frame(
+                x = z, y = g.LC, type = 'LC'),
+        data.frame(
+                x = z, y = g.LL, type = 'LL')
+)
+# plot(z,g.OLS,type="l",col=c("black"),lty=c(1), xlab = "hexp", ylab = "dale", ylim=c(3.3,4.5), main="dale regr. on hexp, pooled")
+# points(data$loghexp, data$logdale, type = "p", col=c("gray"))
+# points(data1997$loghexp97, data1997$logdale97, type = "p", col=c("black"))
+# lines(z,g.LC,col=c("blue"),lty=c(1))
+# lines(z,g.LL,col=c("red"),lty=c(1))
+tmp.plot1 <- cbind(tmp.plot1, xvar = 'EDUC', yvar = 'COMP')
+tmp.plot2 <- cbind(tmp.plot2, xvar = 'EDUC', yvar = 'DALE')
+tmp.plot3 <- cbind(tmp.plot3, xvar = 'HEXP', yvar = 'COMP')
+tmp.plot4 <- cbind(tmp.plot4, xvar = 'HEXP', yvar = 'DALE')
+df.np.pooled.uni <- rbind(tmp.plot1, tmp.plot2, tmp.plot3, tmp.plot4)
+@
+
+<<np.pooled.uni.plot, eval=TRUE, echo=FALSE, cache=TRUE, results='hide', include=TRUE, fig.cap='Univariate nonparametric analysis for pooled data',fig.align='center',out.width='0.9\\textwidth',fig.pos='htbp'>>=
+ggplot(df.np.pooled.uni, aes(x = x, y = y, linetype = type)) +
+        facet_grid(yvar ~ xvar, scales = 'free') +
+        geom_line(data = subset(df.np.cs.uni, (type != 'points')&(type != 'points97'))) +
+        geom_point(data = subset(df.np.cs.uni, (type == 'points')),
+                   alpha = .2, colour = "black") +
+        geom_point(data = subset(df.np.cs.uni, (type == 'points97')),
+                   alpha = .5, colour = "red") +
+        scale_linetype_discrete(name = "Title", labels = c("OLS", "LC", "LL"),
+                                limits = c("OLS", "LC", "LL"))
 @
 
 <<include=FALSE,eval=TRUE>>=
@@ -853,45 +916,41 @@ pubthe <- log(PUBTHE)
 @
 
 \subsection{Choise of the output variable}
-The dataset provides two measures of population health: DALE (disability-adjusted life expectancy) and COMP (composite meansure of population health). DALE is a measure of life expectancy, adjusted downward to take into account the time lived with a disability. COMP is a measure composed by three elements: the first element is the disability-adjusted life expectancy (the DALE measure), the second element is a measure for resposiveness\footnote{Responsiveness measures "how the system performs relative to non-health aspects" and whether it meets or not "a population's expectations of how it should be treated by providers of prevention and care". How the system responds to health needs already shows up in the DALE measure.} and the third element is a measure for fair financing\footnote{Fair financing measures whether "the risks each household faces due to the costs of the health system are distributed according to ability to pay rather than to the risk of illness".}. The elements are weighted according to the importance that people on average attribute to each of them. The weights are 50\%, 25\% and 25\% respectively. \\
+The dataset provides two measures of population health: DALE (disability-adjusted life expectancy) and COMP (composite meansure of population health). DALE is a measure of life expectancy, adjusted downward to take into account the time lived with a disability. COMP is a measure composed by three elements: the first element is the disability-adjusted life expectancy (the DALE measure), the second element is a measure for resposiveness\footnote{Responsiveness measures "how the system performs relative to non-health aspects" and whether it meets or not "a population's expectations of how it should be treated by providers of prevention and care". How the system responds to health needs already shows up in the DALE measure.} and the third element is a measure for fair financing\footnote{Fair financing measures whether "the risks each household faces due to the costs of the health system are distributed according to ability to pay rather than to the risk of illness".}. These measure are calcualted by the World Health Organization and their elements are weighted according to the importance attributed to each of them on average. The weights are 50\%, 25\% and 25\% respectively. \\
 
-
-HERE SOME MORE ARGUMENTS DERIVED FROM ABOVE
-
-
-A further criterion for the choice of the output variable consists in chosing the variable with larger variation both within and between countries. An overview of the variation over time of the two output variables is given in Figure \ref{fig:boxplot_DALE_COMP} in the Appendix. Table \ref{Within variance of DALE and COMP} and Table \ref{Between variance of DALE and COMP} show the within and between variance of the two output variables. The within variance has been computed for each country over the observed five years. Consequently, mean and median have been built. The between variance is displayed for each of the five years. DALE has a larger variation over time and over countries. However, the difference in comparison with the variance of COMP seems to be small. In conclusion, we select COMP as the dependent output variable.
+A possible criterion for the choice of the output variable consists in chosing the variable with larger variation both within and between countries. An overview of the variation over time of the two output variables is given in Figure \ref{fig:boxplot_DALE_COMP} in the Appendix. Table \ref{Within variance of DALE and COMP} and Table \ref{Between variance of DALE and COMP} show the within and between variance of the two output variables. The within variance has been computed for each country over the observed five years. Consequently, mean and median have been built. The between variance is displayed for each of the five years. DALE has a larger variation over time and over countries. However, the difference in comparison with the variance of COMP seems to be small. We select COMP as the dependent output variable.
 
 <<include=FALSE,eval=TRUE>>=
 var.within.DALE <- c()
 for (i in 1:140) {
   var.within.DALE[i] <- var(subset(df2,COUNTRYCODE==COUNTRYCODE[i])$DALE)
 }
-mean(var.within.DALE)
-median(var.within.DALE)
+# mean(var.within.DALE)
+# median(var.within.DALE)
 
 var.within.COMP <- c()
 for (i in 1:140) {
   var.within.COMP[i] <- var(subset(df2,COUNTRYCODE==COUNTRYCODE[i])$COMP)
 }
-mean(var.within.COMP)
-median(var.within.COMP)
-
-
-var(subset(df2,YEAR==1993)$DALE)
-var(subset(df2,YEAR==1994)$DALE)
-var(subset(df2,YEAR==1995)$DALE)
-var(subset(df2,YEAR==1996)$DALE)
-var(subset(df2,YEAR==1997)$DALE)
-
-var(subset(df2,YEAR==1993)$COMP)
-var(subset(df2,YEAR==1994)$COMP)
-var(subset(df2,YEAR==1995)$COMP)
-var(subset(df2,YEAR==1996)$COMP)
-var(subset(df2,YEAR==1997)$COMP)
+# mean(var.within.COMP)
+# median(var.within.COMP)
+# 
+# 
+# var(subset(df2,YEAR==1993)$DALE)
+# var(subset(df2,YEAR==1994)$DALE)
+# var(subset(df2,YEAR==1995)$DALE)
+# var(subset(df2,YEAR==1996)$DALE)
+# var(subset(df2,YEAR==1997)$DALE)
+# 
+# var(subset(df2,YEAR==1993)$COMP)
+# var(subset(df2,YEAR==1994)$COMP)
+# var(subset(df2,YEAR==1995)$COMP)
+# var(subset(df2,YEAR==1996)$COMP)
+# var(subset(df2,YEAR==1997)$COMP)
 @
 
 \begin{table}[htbp] \centering 
-  \caption{Within variance of DALE and COMP} 
+  \caption{Within variance} 
   \label{Within variance of DALE and COMP} 
   \normalsize
 \begin{tabular}{p{5cm} p{1.5cm} p{1.5cm}} 
@@ -899,16 +958,16 @@ var(subset(df2,YEAR==1997)$COMP)
 \hline \\[-1.8ex] 
  & Mean & Median \\ 
 \hline \\[-1.8ex] 
-DALE within variance & \Sexpr{round(mean(var.within.DALE),2)} & \Sexpr{round(median(var.within.DALE),2)} \\
+DALE & \Sexpr{round(mean(var.within.DALE),2)} & \Sexpr{round(median(var.within.DALE),2)} \\
 \hline \\[-1.8ex] 
-COMP within variance & \Sexpr{round(mean(var.within.COMP),2)} & \Sexpr{round(median(var.within.COMP),2)} \\
+COMP & \Sexpr{round(mean(var.within.COMP),2)} & \Sexpr{round(median(var.within.COMP),2)} \\
 \hline
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 \begin{table}[htbp] \centering 
-  \caption{Between variance of DALE and COMP} 
+  \caption{Between variance} 
   \label{Between variance of DALE and COMP} 
   \normalsize
 \begin{tabular}{p{5cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm}} 
@@ -916,9 +975,9 @@ COMP within variance & \Sexpr{round(mean(var.within.COMP),2)} & \Sexpr{round(med
 \hline \\[-1.8ex] 
  & 1993 & 1994 & 1995 & 1996 & 1997 \\ 
 \hline \\[-1.8ex] 
-DALE between variance & \Sexpr{round(var(subset(df2,YEAR==1993)$DALE),2)} & \Sexpr{round(var(subset(df2,YEAR==1994)$DALE),2)} & \Sexpr{round(var(subset(df2,YEAR==1995)$DALE),2)} & \Sexpr{round(var(subset(df2,YEAR==1996)$DALE),2)} & \Sexpr{round(var(subset(df2,YEAR==1997)$DALE),2)} \\
+DALE & \Sexpr{round(var(subset(df2,YEAR==1993)$DALE),2)} & \Sexpr{round(var(subset(df2,YEAR==1994)$DALE),2)} & \Sexpr{round(var(subset(df2,YEAR==1995)$DALE),2)} & \Sexpr{round(var(subset(df2,YEAR==1996)$DALE),2)} & \Sexpr{round(var(subset(df2,YEAR==1997)$DALE),2)} \\
 \hline \\[-1.8ex] 
-COMP between variance & \Sexpr{round(var(subset(df2,YEAR==1993)$COMP),2)} & \Sexpr{round(var(subset(df2,YEAR==1994)$COMP),2)} & \Sexpr{round(var(subset(df2,YEAR==1995)$COMP),2)} & \Sexpr{round(var(subset(df2,YEAR==1996)$COMP),2)} & \Sexpr{round(var(subset(df2,YEAR==1997)$COMP),2)} \\
+COMP & \Sexpr{round(var(subset(df2,YEAR==1993)$COMP),2)} & \Sexpr{round(var(subset(df2,YEAR==1994)$COMP),2)} & \Sexpr{round(var(subset(df2,YEAR==1995)$COMP),2)} & \Sexpr{round(var(subset(df2,YEAR==1996)$COMP),2)} & \Sexpr{round(var(subset(df2,YEAR==1997)$COMP),2)} \\
 \hline
 \hline \\[-1.8ex] 
 \end{tabular} 
@@ -982,7 +1041,7 @@ LR.TTLvTL.contr <- lrtest(prod.TTL.contr, prod.TL.contr)  # significant differen
 
 
 \subsection{Functional form}
-Cobb-Douglas production function has the following form:
+The Cobb-Douglas production function has the following form:
 \begin{gather}
 COMP_i = HEXP_i^{\beta_1}EDUC_i^{\beta_2}
 \end{gather}
@@ -997,30 +1056,81 @@ comp_i = \beta_0 + \beta_1 hexp_i + \beta_2 educ_i + \varepsilon_i
 
 For Cobb-Douglas functional form, the output elasticities of the inputs are equal to the corresponding coefficients $\beta_1$ and $\beta_2$. \\
 
-The translog production function has the following form: 
+The translog production function (already in log and added to an error term) has the following form: 
 
-The truncated translog funtion, which has been widely used in the literature\footnote{This is the functional form chosen by Greene (2004) because (1) the full translog presented large diseconomies of scale, (2) the full translog was not monotonic in the inputs for all values, thereby allowing a "much looser interpretation" of the production relationship and (3) the truncated translog functional form allowed continuity with the literature.}, has the following form:
+\begin{equation}
+\label{eq:translog.nocontrols}
+\begin{aligned}
+comp_i &= \alpha + \beta_1 hexp_i + \beta_2 educ_i + \beta_3 hexp_i^2 + \beta_4 educ_i^2 + \beta_5 \left(hexp_i \times educ_i\right) + \varepsilon_i
+\end{aligned}
+\end{equation}
 
+% We don't talk about it anywhere else
+%The truncated translog funtion, which has been widely used in the literature\footnote{This is the functional form chosen by Greene (2004) because (1) the full translog presented large diseconomies of scale, (2) the full translog was not monotonic in the inputs for all values, thereby allowing a "much looser interpretation" of the production relationship and (3) the truncated translog functional form allowed continuity with the literature.}, has the following form:
 
+Table \ref{tab:func.form} compares the simplest estimates of the two functional forms above. These preliminary estimates suggest that the translog specification may be suffering from overfitting, as the added variables have no statistical significance. The results are nevertheless consistent with the theory. We proceed to test their fit.
 
 <<include=TRUE,results='asis',echo=FALSE,eval=TRUE>>=
-stargazer(prod.CD,prod.TL, font.size = "small", dep.var.labels.include = FALSE, dep.var.caption = c("Dependent variable = comp"), column.labels = c("CD OLS","TL OLS"), se=list(NULL,NULL,NULL), covariate.labels = c('hexp', 'educ', 'hexp$^2$', 'educ$^2$', 'hexp*edux', 'Constant'), df = FALSE, title = 'Regression results for Cobb-Douglas and translog in the cross section 1997')
+stargazer(prod.CD,prod.TL, font.size = "small", dep.var.labels.include = FALSE, dep.var.caption = c("Dependent variable = comp"), column.labels = c("Cobb-Douglas","Translog"), se=list(NULL,NULL,NULL), covariate.labels = c('hexp', 'educ', 'hexp$^2$', 'educ$^2$', 'hexp*edux', 'Constant'), df = FALSE, title = 'Regression results for Cobb-Douglas and translog in the cross section 1997', label = 'tab:func.form')
 #omit.stat = c("f","ser"), 
 @
 
+\subsubsection{Constant Elasticity of Substitution}
+We also consider a Constant Elasticity of Substitution (CES) functional form, with COMP as the dependent variable and HEXP and EDUC as the explanatory variables.
+\begin{equation}
+comp_i = \gamma \left( \delta \times hexp_i^{-\rho} + (1- \delta) \times educ_i^{-\rho} \right)^{-\frac{\nu}{\rho}}
+\end{equation}
+where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
+<<CES, eval=T, echo=F, warning=FALSE, results='hide', include=FALSE>>=
+library(micEconCES)
+cont.vars <- c("HEXP", "EDUC", "GINI", "POPDEN", "GDPC")
+disc.vars <- c("COUNTRYCODE", "YEAR", "TROPICS", "VOICE", "OECD", "GEFF", "PUBTHE")
+dep.vars <- c("COMP", "DALE")
+l.df <- cbind(log(df[,c(dep.vars, cont.vars)]), df[c(disc.vars)])
+l.df97 <- subset(l.df, YEAR == 1997)
+### Cross-sectional CES for 1997
+# Constant Elasticity
+ces.comp <- cesEst("COMP", c("HEXP", "EDUC"), l.df97, method = "Kmenta", vrs = F)
+ces.comp.vrs <- cesEst("COMP", c("HEXP", "EDUC"), l.df97, method = "Kmenta", vrs = T)
+ces.comp2 <- cesEst("COMP", c("HEXP", "EDUC"), l.df, method = "Kmenta")
+ces.comp2.vrs <- cesEst("COMP", c("HEXP", "EDUC"), l.df, method = "Kmenta", vrs = T)
+out <- rbind.data.frame(summary(ces.comp)$ela, summary(ces.comp)$coefficients,
+                        summary(ces.comp.vrs)$ela, summary(ces.comp.vrs)$coefficients,
+                        summary(ces.comp2)$ela, summary(ces.comp2)$coefficients,
+                        summary(ces.comp2.vrs)$ela, summary(ces.comp2.vrs)$coefficients)
+tmp <- rep(c("$\\epsilon$", "$\\gamma$", "$\\delta$", "$\\rho$",
+             "$\\epsilon$", "$\\gamma$", "$\\delta$", "$\\rho$", "$\\nu$"), 2)
+out <- cbind.data.frame(Model = c("Cross-Section", NA, NA, NA,
+                                  "Cross-Section,", "variable returns of scale", NA, NA, NA,
+                                  "Pooled OLS", NA, NA, NA,
+                                  "Pooled OLS,", "variable returns of scale", NA, NA, NA),
+                                  tmp, out)
+rownames(out) <- NULL
+names(out) <- c("Model", "Parameter", "Estimate", "s.e.", "t-stat.", "p-value")
+@
+<<CEStable, eval=T, echo=F, warning=FALSE, results='asis'>>=
+print(xtable(out, caption = "Estimates of the CES production function",
+        label = "tab:ces", auto = T,  digits = 3), include.rownames=FALSE, booktabs = TRUE,
+        hline.after = c(-1, 0, 4, 9, 13, 18),
+        sanitize.text.function = function(x) {x},
+        add.to.row = list(pos = list(18), command = paste0("\\midrule \n \\multicolumn{5}{l}",
+        "{\\footnotesize{Note: $\\epsilon$ denotes the elasticity of substitution}}",
+        " \\\\ \n")))
+
+@
 
 
-\subsubsection{Evaluation of different functional forms: Tests}
-As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT} and \ref{LR} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms. For both tests the null hypothesis that the additional coefficient are equal to 0 cannot be rejected. Therefore, in the interest of parsimony, we adopt the Codd-Douglas specification. THE SAME TESTS WITH THE AGREED CONTROLS POINT TO TL, BUT THEN EDUC IS NOT SIGNIFICANT!
+\subsubsection{Tests on the functional forms}
+Since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function" (Henningsen, 2014). Tables \ref{WT} and \ref{LR} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms. The null hypothesis is $$H_0: \beta_3 = \beta_4 = \beta_5 = 0$$, where the coefficients come from Equation \ref{eq:translog.nocontrols}. For both tests the null cannot be rejected. Therefore, in the interest of parsimony, we adopt the Cobb-Douglas specification.% THE SAME TESTS WITH THE AGREED CONTROLS POINT TO TL, BUT THEN EDUC IS NOT SIGNIFICANT!
 
 <<include=TRUE,results='asis',echo=FALSE,eval=TRUE>>=
-print(xtable(WT.CDvTL, caption = c("Wald Test: Cobb-Douglas compared to translog"), label= "WT"), caption.placement="top")
-print(xtable(LR.CDvTL, caption = c("LR Test: Cobb-Douglas compared to translog"), label= "LR"), caption.placement="top")
+print(xtable(WT.CDvTL, caption = c("Wald test, $H_0: \\beta_3 = \\beta_4 = \\beta_5 = 0$"), label= "WT"), caption.placement="top", include.rownames=FALSE)
+print(xtable(LR.CDvTL, caption = c("LR Test, $H_0: \\beta_3 = \\beta_4 = \\beta_5 = 0$"), label= "LR"), caption.placement="top", include.rownames=FALSE)
 #print(xtable(WT.CDvTL.contr, caption = c("Wald Test: Cobb-Douglas vs Translog (incl. controls); sign. difference"), label= "WT with controls"), caption.placement="top")
 #print(xtable(LR.CDvTL.contr, caption = c("LR Test: Cobb-Douglas vs Translog (incl. controls); sign. difference"), label= "LR with controls"), caption.placement="top")
 @
 
-<<include=F,results='asis',echo=FALSE,eval=TRUE>>=
+<<include=F,results='asis',echo=FALSE,eval=F>>=
 print(xtable(WT.CDvTL, caption = c("Wald Test: Cobb-Douglas vs Translog; no sign. difference")), caption.placement="top")
 print(xtable(WT.CDvTTL, caption = c("Wald Test: Cobb-Douglas vs Truncated Translog; no sign. difference")), caption.placement="top")
 print(xtable(WT.TTLvTL, caption = c("Wald Test: Truncated Translog vs Translog; no sign. difference")), caption.placement="top")
@@ -1035,7 +1145,7 @@ print(xtable(LR.CDvTTL.contr, caption = c("LR Test: Cobb-Douglas vs Tr. Translog
 print(xtable(LR.TTLvTL.contr, caption = c("LR Test: Truncated Translog vs Translog (incl. controls); sign. difference")), caption.placement="top")
 @
 
-\subsubsection{Evaluation of different functional forms: Analysis of the fitted values}
+\subsubsection{Fitted values analysis}
 
 In Figure \ref{fig:modselection_resdistribution}, Cobb-Douglas and translog residuals resemble a normal distribution centered at 0. Nevertheless, both present a fatter left tail and a mean slightly above 0. In the Q-Q plots, the sample quantiles depart from the normal quantiles underlining the fatter left tail of the distribution. Overall, the Cobb-Douglas residuals seem to do a better job in satisfying the normality assumption.
 
@@ -1210,7 +1320,14 @@ detach(df97)
 
 
 
-\subsection{Model specification}
+\subsection{Choice of controls}
+Having chosen the variable COMP as the dependant variable, and the Cobb-Douglas production function, we turn our attention to the choice of control variables. Table \ref{tab:cor} shows a high correlation between some of the possible control variables. We need to choose among some of them to preserve the interpretability of the coeficients. Using GDPC would make the identification of the effect of HEXP difficult, for example, so we discard it. We proceeded by including the most uncorrelated combination of variables and inspecting the fit of the resulting regression. The set of controls chosen is: GINI, GINI$^2$, POPDEN, VOICE, OECD.
+<<correlation, echo = F, results='asis'>>=
+tmp <- cor(df[, 4:15])
+tmp[lower.tri(tmp, diag = F)] <- NA
+print(xtable(tmp, label = 'tab:cor', caption = 'Correlation matrix of the data'),
+      size = "scriptsize", rotate.colnames = TRUE)
+@
 
 <<include=F,eval=F>>=
 # Selection of the controls
@@ -1260,7 +1377,6 @@ robust.se.TL.contrIII <- sqrt(diag(vcovHC(prod.TL.contrIII, type="HC1")))
 <<include=F,results='asis',echo=FALSE,eval=F>>=
 stargazer(prod.TL.contr,prod.TL.gini2,prod.TL.contrII,prod.TL.contrIII,prod.TL.contrIIII,prod.TL.contrIIIII, font.size = "scriptsize", dep.var.labels.include = FALSE, dep.var.caption = c("Dependent variable = comp"), column.labels = c("TL OLS","TL OLS","TL OLS","TL OLS","TL OLS","TL OLS"), se=list(NULL,NULL,NULL,NULL,NULL,NULL), df = FALSE, title = 'Regr. results for cross-sectional translog with different model spec.', covariate.labels = c('hexp', 'educ', 'hexp$^2$', 'educ$^2$', 'hexp*educ', 'TROPICS', 'GEFF', 'VOICE', 'PUBTHE', 'popden', 'gdpc', 'gini', 'gini$^2$', 'Constant'))
 @
-
 
 <<LR_pooled, include=FALSE,eval=F>>=
 
@@ -1349,9 +1465,6 @@ lrtest(TTL, TL)
 
 @
 
-
-
-
 \section{Estimation and results}
 
 <<setup, eval=TRUE, echo=F, include=F, cache = F>>=
@@ -1410,60 +1523,14 @@ l.df <- cbind(log(df[c(dep.vars, cont.vars)]), df[disc.vars])
 l.df97 <- subset(l.df, YEAR == 1997)
 @
 
-\subsection{Constant Elasticity of Substitution}
-At first we consider a Constant Elasticity of Substitution (CES) functional form, with COMP as the dependent variable and HEXP and EDUC as the explanatory variables.
-\begin{equation}
-COMP_i = \gamma \left( \delta \times HEXP_i^{-\rho} + (1- \delta) \times EDUC_i^{-\rho} \right)^{-\frac{\nu}{\rho}}
-\end{equation}
-where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
-<<CES, eval=F, echo=F, warning=FALSE, results='asis'>>=
-### Cross-sectional CES for 1997
-# Constant Elasticity
-ces.comp <- cesEst("COMP", c("HEXP", "EDUC"), l.df97, method = "Kmenta", vrs = F)
-ces.comp.vrs <- cesEst("COMP", c("HEXP", "EDUC"), l.df97, method = "Kmenta", vrs = T)
-# ces.dale <- cesEst("DALE", c("HEXP", "EDUC"), l.df97, method = "Kmenta")
-# summary(ces.comp)
-# summary(ces.dale)
-# ces.panel <- cesEst("COMP", c("HEXP", "EDUC"), l.df, "YEAR", vrs = T)
-### Pooled CES for 1997
-# Constant Elasticity
-ces.comp2 <- cesEst("COMP", c("HEXP", "EDUC"), l.df, method = "Kmenta")
-ces.comp2.vrs <- cesEst("COMP", c("HEXP", "EDUC"), l.df, method = "Kmenta", vrs = T)
-# ces.dale <- cesEst("DALE", c("HEXP", "EDUC"), l.df, method = "Kmenta")
-# summary(ces.comp)
-# summary(ces.dale)
-out <- rbind.data.frame(summary(ces.comp)$ela, summary(ces.comp)$coefficients,
-                        summary(ces.comp.vrs)$ela, summary(ces.comp.vrs)$coefficients,
-                        summary(ces.comp2)$ela, summary(ces.comp2)$coefficients,
-                        summary(ces.comp2.vrs)$ela, summary(ces.comp2.vrs)$coefficients)
-tmp <- rep(c("$\\epsilon$", "$\\gamma$", "$\\delta$", "$\\rho$",
-             "$\\epsilon$", "$\\gamma$", "$\\delta$", "$\\rho$", "$\\nu$"), 2)
-out <- cbind.data.frame(Model = c("Cross-Section", NA, NA, NA,
-                                  "Cross-Section,", "variable returns of scale", NA, NA, NA,
-                                  "Pooled OLS", NA, NA, NA,
-                                  "Pooled OLS,", "variable returns of scale", NA, NA, NA),
-                                  tmp, out)
-rownames(out) <- NULL
-names(out) <- c("Model", "Parameter", "Estimate", "s.e.", "t-stat.", "p-value")
-
-print(xtable(out, caption = "Estimates of the CES production function",
-        label = "tab:ces", auto = T,  digits = 3), include.rownames=FALSE, booktabs = TRUE,
-        hline.after = c(-1, 0, 4, 9, 13, 18),
-        sanitize.text.function = function(x) {x},
-        add.to.row = list(pos = list(18), command = paste0("\\midrule \n \\multicolumn{5}{l}",
-        "{\\footnotesize{Note: $\\epsilon$ denotes the elasticity of substitution}}",
-        " \\\\ \n")))
-
-@
-%\\multicolumn{5}{l}
-\subsection{Trans-log}
-We estimate the chosen trans-log model for the cross-sectional case. We then run the same model for the pooled case, and using clustered standard errors. Results are reported in Table \ref{tab:big}. The estimated model is:
-\begin{equation}
-\begin{aligned}
-COMP_i &= \alpha + \beta_1 HEXP_i + \beta_2 EDUC_i + \beta_3 HEXP_i^2 + \beta_4 EDUC_i^2 + \beta_5 \left(HEXP_i \times EDUC_i\right) \\ &+ \gamma X_i + \xi YEAR_i + \varepsilon_i
-\end{aligned}
-\end{equation}
-Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top$$ and YEAR can either be a vector of dummies for each year of the sample (and $\xi$ also a vector of coefficients), or the YEAR itself (and $\xi$ a single coefficient). Again, the values of COMP, HEXP, EDUC, GINI and POPDEN are in logs.
+We estimate the Cobb-Douglas and the translog model for the cross-sectional case. We then run the former model for the whole panel, with a pooled OLS, a Fixed Effects model and a Random Effects model. Results are reported in Table \ref{tab:big}. We report White standard errors for the first two models, and clustered standard errors for the other three. The results are consistent with the theory: all coefficients for HEXP and EDUC are positive. Moreover, the controls have the expected sings (except for OECD in the Cobb-Douglas and Pooled specifications). Time dummies also are associated to positive coefficients, as expected. The Fixed Effects model does not provide a good fit to the data, as it relies on within-variation and our controls are only available for a single year. The Random Effects model provide a much better fit and makes economic sense. We focus our analysis on it.
+%The estimated model is:
+% \begin{equation}
+% \begin{aligned}
+% COMP_i &= \alpha + \beta_1 HEXP_i + \beta_2 EDUC_i + \beta_3 HEXP_i^2 + \beta_4 EDUC_i^2 + \beta_5 \left(HEXP_i \times EDUC_i\right) \\ &+ \gamma X_i + \xi YEAR_i + \varepsilon_i
+% \end{aligned}
+% \end{equation}
+% Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top$$ and YEAR can either be a vector of dummies for each year of the sample (and $\xi$ also a vector of coefficients), or the YEAR itself (and $\xi$ a single coefficient). Again, the values of COMP, HEXP, EDUC, GINI and POPDEN are in logs.
 <<TransLog, eval=TRUE, echo=F, results='asis', warning=FALSE>>=
 ## Trying t keep the trans-log for the two main explanatory variable
 trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
@@ -1489,8 +1556,6 @@ nonpanel <- list(tl1, cb1, tl2, cb2)
 se.nonpanel <- sapply(nonpanel,
                       function(x){sqrt(diag(vcovHC(x, type="HC0")))})
 @
-
-We also estimate the same production function in a panel setting (Table \ref{tab:big}). We compare the fixed effects and the random effects model. White standard errors are used in this part as well.
 % dens <- subset(df[order(df$POPDEN),c('YEAR', 'POPDEN', 'COUNTRY', 'GDPC', 'OECD')], YEAR == 1997) # Makes no sense
 <<panel, cache =F, eval=T, echo=F, results='asis'>>=
 FE.form <- as.formula(paste(trans.log.s, "+ YEAR + COUNTRY"))
@@ -1565,9 +1630,9 @@ stargazer(cb1, tl1, cb2, FEcb, REcb,
 % #' @
 We also perform a Hausman test to decide between the fixed and random efects model in the Cobb-Douglas specification. The test gives a p-value of \Sexpr{phtest(FEcb, REcb)$p.value}. We do not reject the null hypothesis and therefore we prefer the random effects model.
 
-\subsection{Marginal Effects}
-Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross-Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables). The marginal effects for the Fixed and Random Effects models include large standard deviations, which is likely the reason for its inconsistency.
-<<signs, echo = F, fig.cap = "Marginal effects of COMP with respect to HEXP or EDUC, as a function of the other">>=
+% \subsection{Marginal Effects}
+% Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross-Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables). The marginal effects for the Fixed and Random Effects models include large standard deviations, which is likely the reason for its inconsistency.
+<<signs, echo = F, eval = F, fig.cap = "Marginal effects of COMP with respect to HEXP or EDUC, as a function of the other">>=
 ## Check where the derivative wrt EDUC and HEXP change sign (as a fct of the other)
 quant.hexp <- quantile(l.df$HEXP)
 quant.educ <- quantile(l.df$EDUC)
@@ -1618,7 +1683,8 @@ ggplot(derivatives, aes(x = Covariate, y = Derivative,
 \subsection{Residuals}
 Visual inspection of the residuals of regression Figure \ref{fig:residuals} indicates heteroskedasticity dependant on COMP, HEXP and EDUC. This is consistent with Figure \ref{on_joses_part} on which we can see that higher variations of COMP over time are associated to more developed countries (a combination of higher values for these three variables). This justifies or use of white standard errors.
 <<residuals, echo = F, fig.cap = "Residuals' scatterplot", fig.align='center', fig.pos="!htbp", fig.width = 10, fig.height = 5>>=
-tmp <- lapply(list(list(tl1, 'CS'), list(tl2, 'Pooled'), list(FE, 'FE'), list(RE, 'RE')),
+tmp <- lapply(list(list(cb1, 'CS'), list(tl1, 'Translog'), list(cb2, 'Pooled'),
+                   list(FEcb, 'FE'), list(RE, 'RE')),
                 function(model){cbind.data.frame(apply(
                         as.data.frame(model[[1]]$model)[,c('COMP', 'HEXP', 'EDUC')],
                         2, as.numeric), Fitted = as.numeric(predict(model[[1]])),
@@ -1670,11 +1736,11 @@ ggplot(tmp, aes(x = value, y = res)) +
 % #' quant.reg <- npqreg(tydat = l.df97$COMP, txdat = l.df97[,'HEXP'], exdat = z)
 % #' plot(z, quantile(quant.reg), type = "l")
 % #' @
-\section{Production function properties}
-In what follows, we are going to focuse our attention on the results related to the production function. More precisely, we are going to analyse the reaction and the behaviour of the inputs according to the two, previously found, specifications of the production function. 
+% \section{Production function properties}
+% In what follows, we are going to focuse our attention on the results related to the production function. More precisely, we are going to analyse the reaction and the behaviour of the inputs according to the two, previously found, specifications of the production function. 
 
 \subsection{Output elasticities}
-In this section we are interested in to see how the output will react if there is an increase of 1\% in the use of any input. Based on cross-sectional results, we may conclude that if the education in a country increases by 1\% the health care attainment will increase on average by 0.0899\%. In what concerns the second output : "Health Expenditure", the 1\% increase of this "input" will lead to a positive change of 0.0761\% in health care attainment.However, if we consider the panel data setting, we observe that the increase of the output will be by 0.02\% higher, as a response to a 1\% increase in years of education. But, an important difference is observed concerning the second input "Health Expenidture", which will lead to a very small increase of output, about : 0.0085\%.
+In this section we are interested in to see how the output will react if there is an increase of 1\% in the use of any input. Based on cross-sectional results, we may conclude that if the education in a country increases by 1\% the health care attainment will increase on average by 0.0899\%. In what concerns the second input: HEXP, the 1\% increase of this input will lead to a positive change of 0.0761\% in health care attainment. However, if we consider the panel data setting, we observe that the increase of the output will be by 0.02\% higher, as a response to a 1\% increase in years of education. But, an important difference is observed concerning HEXP, which will lead to a very small increase of output, about : 0.0085\%.
 <<echo = F>>=
 #Cobb Douglas cross-section vs panel  Properties
 
@@ -1700,13 +1766,7 @@ output_elasticity_HEXP_panel<-coef(REcb)["HEXP"] #0.008592725
 
 @
 \subsection{Marginal Products}
-In a production function, marginal productivity depends on both input and output 
-quantities. 
-If the health expenditure in a country increases  by one unit 
-the measure of healthcare atteinment of most of the countries 
-will increase on average by less than 0.05 units(Cross-Section), or by less that  0.005 units in the panel setting.
-If the education will increase by 1 year, for the most of the countries, the 
-health care attainment will increase by beween 0.5 units (in the cross-sectional setting) and by 1.5 units if we consider the panel setting.
+In a production function, marginal productivity depends on both input and output quantities. If the health expenditure in a country increases  by one unit the measure of healthcare atteinment of most of the countries will increase on average by less than 0.05 units(Cross-Section), or by less that  0.005 units in the panel setting. If the education will increase by 1 year, for the most of the countries, the health care attainment will increase by beween 0.5 units (in the cross-sectional setting) and by 1.5 units if we consider the panel setting.
 <<echo = F, fig.cap= "Histogram of the Marginal Productivity of Education and Health Expenditure">>=
 #marginal products CS
 marginal_product_HEXP_CS<-coef(cb1)["HEXP"]*

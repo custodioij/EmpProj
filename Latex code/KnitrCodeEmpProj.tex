@@ -81,6 +81,8 @@
 %\usepackage{apacite}                      % Americ.Psych.Assoc. citations style
 \renewcommand{\bibname}{References}        % choose name for reference section
 
+\usepackage{rotating}
+
 %------------------------------------------------------------------%
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
@@ -232,7 +234,7 @@ Table \ref{tab:desc.stats} shows some descriptive statistics of the dataset. Bot
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sat, Mar 18, 2017 - 11:57:24
+% Date and time: Sat, Mar 18, 2017 - 23:51:04
 \begin{table}[!htbp] \centering 
   \caption{Descriptive statistics} 
   \label{tab:desc.stats} 
@@ -370,16 +372,19 @@ When looking at both inputs simultaneously on each dependent vartiable (i.e. mul
 
 \subsubsection{Pooled data from 1993 to 1997}
 
-As in the case for only 1997, when looking at the pooled data in the univariate case, all figures present an upward trend. The LL and LC estimators follow the OLS estimator, except in those parts where the lack of observations alters the smoothness of the lines (but this is a consequence of the bandwith). This reinforces the assumption of linear functional form of the production function. Worth mentioning is how little countries' dale and comp change overtime. Notice that each figure presents clusters of consecutive points, which represent a given country over the five-year period. This implies that there is little variation within the country. The source of variation should derive from between countries. Similarly, the greatest amount of variation between countries overtime appears at lower levels of hexp and educ, respectively. It appears that poorer countries' health care systems vary more while richer countries have similar outcomes. The cluster of points for poorer countries are more spread out that for the richer countries, which implies that a higher health expenditure/educational attainmnent overtime have a a greater impact on the given dependent variable and which could point out to economies of scale. We do not, however, present the graphs for the multivariate case. Planes were obtained, but results were not insightful due to the large variation in bandwiths.
+As in the case for only 1997, when looking at the pooled data in the univariate case, all figures present an upward trend. The LL and LC estimators follow the OLS estimator, except in those parts where the lack of observations alters the smoothness of the lines (but this is a consequence of the bandwith). This reinforces the assumption of linear functional form of the production function. Worth mentioning is how little countries' DALE and COMP change over time. Notice that each figure presents clusters of consecutive points, which represent a given country over the five-year period. This implies that there is little variation within the country. The source of variation should derive from between countries. Similarly, the greatest amount of variation between countries overtime appears at lower levels of HEXP and EDUC, respectively. It appears that poorer countries' health care systems vary more while richer countries have similar outcomes. The cluster of points for poorer countries are more spread out that for the richer countries, which implies that a higher health expenditure/educational attainmnent overtime have a a greater impact on the given dependent variable and which could point out to economies of scale. We do not, however, present the graphs for the multivariate case. Planes were obtained, but results were not insightful due to the large variation in bandwiths.
+
+The nonparametric analysis sugests that a linear functional form on the logs of EDUC and HEXP are an adequate model for COMP and DALE.
+
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[htbp]
 
-{\centering \includegraphics[width=0.9\textwidth]{figure/all-1} 
+{\centering \includegraphics[width=0.9\textwidth]{figure/np_pooled_uni_plot-1} 
 
 }
 
-\caption[Univariate nonparametric analysis for pooled data]{Univariate nonparametric analysis for pooled data}\label{fig:all}
+\caption[Univariate nonparametric analysis for pooled data]{Univariate nonparametric analysis for pooled data}\label{fig:np.pooled.uni.plot}
 \end{figure}
 
 
@@ -388,18 +393,14 @@ As in the case for only 1997, when looking at the pooled data in the univariate 
 
 
 \subsection{Choise of the output variable}
-The dataset provides two measures of population health: DALE (disability-adjusted life expectancy) and COMP (composite meansure of population health). DALE is a measure of life expectancy, adjusted downward to take into account the time lived with a disability. COMP is a measure composed by three elements: the first element is the disability-adjusted life expectancy (the DALE measure), the second element is a measure for resposiveness\footnote{Responsiveness measures "how the system performs relative to non-health aspects" and whether it meets or not "a population's expectations of how it should be treated by providers of prevention and care". How the system responds to health needs already shows up in the DALE measure.} and the third element is a measure for fair financing\footnote{Fair financing measures whether "the risks each household faces due to the costs of the health system are distributed according to ability to pay rather than to the risk of illness".}. The elements are weighted according to the importance that people on average attribute to each of them. The weights are 50\%, 25\% and 25\% respectively. \\
+The dataset provides two measures of population health: DALE (disability-adjusted life expectancy) and COMP (composite meansure of population health). DALE is a measure of life expectancy, adjusted downward to take into account the time lived with a disability. COMP is a measure composed by three elements: the first element is the disability-adjusted life expectancy (the DALE measure), the second element is a measure for resposiveness\footnote{Responsiveness measures "how the system performs relative to non-health aspects" and whether it meets or not "a population's expectations of how it should be treated by providers of prevention and care". How the system responds to health needs already shows up in the DALE measure.} and the third element is a measure for fair financing\footnote{Fair financing measures whether "the risks each household faces due to the costs of the health system are distributed according to ability to pay rather than to the risk of illness".}. These measure are calcualted by the World Health Organization and their elements are weighted according to the importance attributed to each of them on average. The weights are 50\%, 25\% and 25\% respectively. \\
 
-
-HERE SOME MORE ARGUMENTS DERIVED FROM ABOVE
-
-
-A further criterion for the choice of the output variable consists in chosing the variable with larger variation both within and between countries. An overview of the variation over time of the two output variables is given in Figure \ref{fig:boxplot_DALE_COMP} in the Appendix. Table \ref{Within variance of DALE and COMP} and Table \ref{Between variance of DALE and COMP} show the within and between variance of the two output variables. The within variance has been computed for each country over the observed five years. Consequently, mean and median have been built. The between variance is displayed for each of the five years. DALE has a larger variation over time and over countries. However, the difference in comparison with the variance of COMP seems to be small. In conclusion, we select COMP as the dependent output variable.
+A possible criterion for the choice of the output variable consists in chosing the variable with larger variation both within and between countries. An overview of the variation over time of the two output variables is given in Figure \ref{fig:boxplot_DALE_COMP} in the Appendix. Table \ref{Within variance of DALE and COMP} and Table \ref{Between variance of DALE and COMP} show the within and between variance of the two output variables. The within variance has been computed for each country over the observed five years. Consequently, mean and median have been built. The between variance is displayed for each of the five years. DALE has a larger variation over time and over countries. However, the difference in comparison with the variance of COMP seems to be small. We select COMP as the dependent output variable.
 
 
 
 \begin{table}[htbp] \centering 
-  \caption{Within variance of DALE and COMP} 
+  \caption{Within variance} 
   \label{Within variance of DALE and COMP} 
   \normalsize
 \begin{tabular}{p{5cm} p{1.5cm} p{1.5cm}} 
@@ -407,16 +408,16 @@ A further criterion for the choice of the output variable consists in chosing th
 \hline \\[-1.8ex] 
  & Mean & Median \\ 
 \hline \\[-1.8ex] 
-DALE within variance & 0.31 & 0.14 \\
+DALE & 0.31 & 0.14 \\
 \hline \\[-1.8ex] 
-COMP within variance & 0.24 & 0.13 \\
+COMP & 0.24 & 0.13 \\
 \hline
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 \begin{table}[htbp] \centering 
-  \caption{Between variance of DALE and COMP} 
+  \caption{Between variance} 
   \label{Between variance of DALE and COMP} 
   \normalsize
 \begin{tabular}{p{5cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm}} 
@@ -424,9 +425,9 @@ COMP within variance & 0.24 & 0.13 \\
 \hline \\[-1.8ex] 
  & 1993 & 1994 & 1995 & 1996 & 1997 \\ 
 \hline \\[-1.8ex] 
-DALE between variance & 147.57 & 149.15 & 151.04 & 153.22 & 155.76 \\
+DALE & 147.57 & 149.15 & 151.04 & 153.22 & 155.76 \\
 \hline \\[-1.8ex] 
-COMP between variance & 144.28 & 144.86 & 145.7 & 146.71 & 147.98 \\
+COMP & 144.28 & 144.86 & 145.7 & 146.71 & 147.98 \\
 \hline
 \hline \\[-1.8ex] 
 \end{tabular} 
@@ -440,7 +441,7 @@ COMP between variance & 144.28 & 144.86 & 145.7 & 146.71 & 147.98 \\
 
 
 \subsection{Functional form}
-Cobb-Douglas production function has the following form:
+The Cobb-Douglas production function has the following form:
 \begin{gather}
 COMP_i = HEXP_i^{\beta_1}EDUC_i^{\beta_2}
 \end{gather}
@@ -455,25 +456,33 @@ comp_i = \beta_0 + \beta_1 hexp_i + \beta_2 educ_i + \varepsilon_i
 
 For Cobb-Douglas functional form, the output elasticities of the inputs are equal to the corresponding coefficients $\beta_1$ and $\beta_2$. \\
 
-The translog production function has the following form: 
+The translog production function (already in log and added to an error term) has the following form: 
 
-The truncated translog funtion, which has been widely used in the literature\footnote{This is the functional form chosen by Greene (2004) because (1) the full translog presented large diseconomies of scale, (2) the full translog was not monotonic in the inputs for all values, thereby allowing a "much looser interpretation" of the production relationship and (3) the truncated translog functional form allowed continuity with the literature.}, has the following form:
+\begin{equation}
+\label{eq:translog.nocontrols}
+\begin{aligned}
+comp_i &= \alpha + \beta_1 hexp_i + \beta_2 educ_i + \beta_3 hexp_i^2 + \beta_4 educ_i^2 + \beta_5 \left(hexp_i \times educ_i\right) + \varepsilon_i
+\end{aligned}
+\end{equation}
 
+% We don't talk about it anywhere else
+%The truncated translog funtion, which has been widely used in the literature\footnote{This is the functional form chosen by Greene (2004) because (1) the full translog presented large diseconomies of scale, (2) the full translog was not monotonic in the inputs for all values, thereby allowing a "much looser interpretation" of the production relationship and (3) the truncated translog functional form allowed continuity with the literature.}, has the following form:
 
+Table \ref{tab:func.form} compares the simplest estimates of the two functional forms above. These preliminary estimates suggest that the translog specification may be suffering from overfitting, as the added variables have no statistical significance. The results are nevertheless consistent with the theory. We proceed to test their fit.
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sat, Mar 18, 2017 - 11:57:26
+% Date and time: Sat, Mar 18, 2017 - 23:51:07
 \begin{table}[!htbp] \centering 
   \caption{Regression results for Cobb-Douglas and translog in the cross section 1997} 
-  \label{} 
+  \label{tab:func.form} 
 \small 
 \begin{tabular}{@{\extracolsep{5pt}}lcc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
  & \multicolumn{2}{c}{Dependent variable = comp} \\ 
 \cline{2-3} 
- & CD OLS & TL OLS \\ 
+ & Cobb-Douglas & Translog \\ 
 \\[-1.8ex] & (1) & (2)\\ 
 \hline \\[-1.8ex] 
  hexp & 0.080$^{***}$ & 0.149$^{**}$ \\ 
@@ -507,38 +516,82 @@ F Statistic & 263.197$^{***}$ & 107.246$^{***}$ \\
 \end{table} 
 
 
-
-
-\subsubsection{Evaluation of different functional forms: Tests}
-As Henningsen (2014) writes, since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function". Tables \ref{WT} and \ref{LR} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms. For both tests the null hypothesis that the additional coefficient are equal to 0 cannot be rejected. Therefore, in the interest of parsimony, we adopt the Codd-Douglas specification. THE SAME TESTS WITH THE AGREED CONTROLS POINT TO TL, BUT THEN EDUC IS NOT SIGNIFICANT!
+\subsubsection{Constant Elasticity of Substitution}
+We also consider a Constant Elasticity of Substitution (CES) functional form, with COMP as the dependent variable and HEXP and EDUC as the explanatory variables.
+\begin{equation}
+comp_i = \gamma \left( \delta \times hexp_i^{-\rho} + (1- \delta) \times educ_i^{-\rho} \right)^{-\frac{\nu}{\rho}}
+\end{equation}
+where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
 
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sat Mar 18 11:57:26 2017
+% Sat Mar 18 23:51:08 2017
 \begin{table}[ht]
 \centering
-\caption{Wald Test: Cobb-Douglas compared to translog} 
+\begin{tabular}{llrrrr}
+  \toprule
+Model & Parameter & Estimate & s.e. & t-stat. & p-value \\ 
+  \midrule
+Cross-Section & $\epsilon$ & 6.904 & 16.786 & 0.411 & 0.681 \\ 
+   & $\gamma$ & 0.869 & 0.103 & 8.398 & 0.000 \\ 
+   & $\delta$ & 0.882 & 0.132 & 6.661 & 0.000 \\ 
+   & $\rho$ & -0.855 & 0.352 & -2.428 & 0.015 \\ 
+   \midrule
+Cross-Section, & $\epsilon$ & 1.728 & 0.325 & 5.310 & 0.000 \\ 
+  variable returns of scale & $\gamma$ & 3.559 & 0.056 & 63.349 & 0.000 \\ 
+   & $\delta$ & 0.690 & 0.090 & 7.701 & 0.000 \\ 
+   & $\rho$ & -0.421 & 0.109 & -3.864 & 0.000 \\ 
+   & $\nu$ & 0.138 & 0.007 & 20.063 & 0.000 \\ 
+   \midrule
+Pooled OLS & $\epsilon$ & 0.033 & 1.640 & 0.020 & 0.984 \\ 
+   & $\gamma$ & 0.804 & 0.034 & 23.365 & 0.000 \\ 
+   & $\delta$ & 1.001 & 0.044 & 22.790 & 0.000 \\ 
+   & $\rho$ & 29.399 & 1515.887 & 0.019 & 0.985 \\ 
+   \midrule
+Pooled OLS, & $\epsilon$ & 1.453 & 0.065 & 22.464 & 0.000 \\ 
+  variable returns of scale & $\gamma$ & 3.568 & 0.022 & 158.960 & 0.000 \\ 
+   & $\delta$ & 0.739 & 0.030 & 24.913 & 0.000 \\ 
+   & $\rho$ & -0.312 & 0.031 & -10.186 & 0.000 \\ 
+   & $\nu$ & 0.134 & 0.003 & 45.724 & 0.000 \\ 
+   \midrule 
+ \multicolumn{5}{l}{\footnotesize{Note: $\epsilon$ denotes the elasticity of substitution}} \\ 
+ \bottomrule
+\end{tabular}
+\caption{Estimates of the CES production function} 
+\label{tab:ces}
+\end{table}
+
+
+
+\subsubsection{Tests on the functional forms}
+Since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function" (Henningsen, 2014). Tables \ref{WT} and \ref{LR} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms. The null hypothesis is $$H_0: \beta_3 = \beta_4 = \beta_5 = 0$$, where the coefficients come from Equation \ref{eq:translog.nocontrols}. For both tests the null cannot be rejected. Therefore, in the interest of parsimony, we adopt the Cobb-Douglas specification.% THE SAME TESTS WITH THE AGREED CONTROLS POINT TO TL, BUT THEN EDUC IS NOT SIGNIFICANT!
+
+% latex table generated in R 3.3.3 by xtable 1.8-2 package
+% Sat Mar 18 23:51:08 2017
+\begin{table}[ht]
+\centering
+\caption{Wald test, $H_0: \beta_3 = \beta_4 = \beta_5 = 0$} 
 \label{WT}
-\begin{tabular}{lrrrr}
+\begin{tabular}{rrrr}
   \hline
- & Res.Df & Df & F & Pr($>$F) \\ 
+Res.Df & Df & F & Pr($>$F) \\ 
   \hline
-1 & 136 &  &  &  \\ 
-  2 & 133 & 3 & 1.47 & 0.2262 \\ 
+136 &  &  &  \\ 
+  133 & 3 & 1.47 & 0.2262 \\ 
    \hline
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Sat Mar 18 11:57:26 2017
+% Sat Mar 18 23:51:08 2017
 \begin{table}[ht]
 \centering
-\caption{LR Test: Cobb-Douglas compared to translog} 
+\caption{LR Test, $H_0: \beta_3 = \beta_4 = \beta_5 = 0$} 
 \label{LR}
-\begin{tabular}{lrrrrr}
+\begin{tabular}{rrrrr}
   \hline
- & \#Df & LogLik & Df & Chisq & Pr($>$Chisq) \\ 
+\#Df & LogLik & Df & Chisq & Pr($>$Chisq) \\ 
   \hline
-1 & 4 & 158.64 &  &  &  \\ 
-  2 & 7 & 160.91 & 3 & 4.53 & 0.2098 \\ 
+4 & 158.64 &  &  &  \\ 
+  7 & 160.91 & 3 & 4.53 & 0.2098 \\ 
    \hline
 \end{tabular}
 \end{table}
@@ -546,7 +599,7 @@ As Henningsen (2014) writes, since "the Cobb-Douglas production function is nest
 
 
 
-\subsubsection{Evaluation of different functional forms: Analysis of the fitted values}
+\subsubsection{Fitted values analysis}
 
 In Figure \ref{fig:modselection_resdistribution}, Cobb-Douglas and translog residuals resemble a normal distribution centered at 0. Nevertheless, both present a fatter left tail and a mean slightly above 0. In the Q-Q plots, the sample quantiles depart from the normal quantiles underlining the fatter left tail of the distribution. Overall, the Cobb-Douglas residuals seem to do a better job in satisfying the normality assumption.
 
@@ -611,10 +664,35 @@ Finally, Figure \ref{fig:modselection_resvsCOMP} shows residuals plotted against
 
 
 
-\subsection{Model specification}
-
-
-
+\subsection{Choice of controls}
+Having chosen the variable COMP as the dependant variable, and the Cobb-Douglas production function, we turn our attention to the choice of control variables. Table \ref{tab:cor} shows a high correlation between some of the possible control variables. We need to choose among some of them to preserve the interpretability of the coeficients. Using GDPC would make the identification of the effect of HEXP difficult, for example, so we discard it. We proceeded by including the most uncorrelated combination of variables and inspecting the fit of the resulting regression. The set of controls chosen is: GINI, GINI$^2$, POPDEN, VOICE, OECD.
+% latex table generated in R 3.3.3 by xtable 1.8-2 package
+% Sat Mar 18 23:51:09 2017
+\begin{table}[ht]
+\centering
+\begingroup\scriptsize
+\begin{tabular}{rrrrrrrrrrrrr}
+  \hline
+ & \begin{sideways} COMP \end{sideways} & \begin{sideways} DALE \end{sideways} & \begin{sideways} HEXP \end{sideways} & \begin{sideways} EDUC \end{sideways} & \begin{sideways} OECD \end{sideways} & \begin{sideways} GINI \end{sideways} & \begin{sideways} GEFF \end{sideways} & \begin{sideways} VOICE \end{sideways} & \begin{sideways} TROPICS \end{sideways} & \begin{sideways} POPDEN \end{sideways} & \begin{sideways} PUBTHE \end{sideways} & \begin{sideways} GDPC \end{sideways} \\ 
+  \hline
+COMP & 1.00 & 0.94 & 0.71 & 0.79 & 0.62 & -0.52 & 0.72 & 0.66 & -0.58 & -0.05 & 0.43 & 0.78 \\ 
+  DALE &  & 1.00 & 0.61 & 0.76 & 0.53 & -0.48 & 0.61 & 0.55 & -0.58 & -0.00 & 0.34 & 0.68 \\ 
+  HEXP &  &  & 1.00 & 0.59 & 0.76 & -0.40 & 0.77 & 0.68 & -0.47 & -0.06 & 0.36 & 0.92 \\ 
+  EDUC &  &  &  & 1.00 & 0.54 & -0.48 & 0.52 & 0.57 & -0.57 & -0.03 & 0.46 & 0.59 \\ 
+  OECD &  &  &  &  & 1.00 & -0.48 & 0.67 & 0.62 & -0.45 & -0.07 & 0.41 & 0.73 \\ 
+  GINI &  &  &  &  &  & 1.00 & -0.34 & -0.27 & 0.51 & 0.03 & -0.28 & -0.42 \\ 
+  GEFF &  &  &  &  &  &  & 1.00 & 0.77 & -0.36 & -0.02 & 0.34 & 0.82 \\ 
+  VOICE &  &  &  &  &  &  &  & 1.00 & -0.32 & -0.08 & 0.43 & 0.66 \\ 
+  TROPICS &  &  &  &  &  &  &  &  & 1.00 & -0.06 & -0.32 & -0.49 \\ 
+  POPDEN &  &  &  &  &  &  &  &  &  & 1.00 & -0.27 & -0.06 \\ 
+  PUBTHE &  &  &  &  &  &  &  &  &  &  & 1.00 & 0.39 \\ 
+  GDPC &  &  &  &  &  &  &  &  &  &  &  & 1.00 \\ 
+   \hline
+\end{tabular}
+\endgroup
+\caption{Correlation matrix of the data} 
+\label{tab:cor}
+\end{table}
 
 
 
@@ -631,30 +709,20 @@ Finally, Figure \ref{fig:modselection_resvsCOMP} shows residuals plotted against
 
 
 
-\subsection{Constant Elasticity of Substitution}
-At first we consider a Constant Elasticity of Substitution (CES) functional form, with COMP as the dependent variable and HEXP and EDUC as the explanatory variables.
-\begin{equation}
-COMP_i = \gamma \left( \delta \times HEXP_i^{-\rho} + (1- \delta) \times EDUC_i^{-\rho} \right)^{-\frac{\nu}{\rho}}
-\end{equation}
-where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
+We estimate the Cobb-Douglas and the translog model for the cross-sectional case. We then run the former model for the whole panel, with a pooled OLS, a Fixed Effects model and a Random Effects model. Results are reported in Table \ref{tab:big}. We report White standard errors for the first two models, and clustered standard errors for the other three. The results are consistent with the theory: all coefficients for HEXP and EDUC are positive. Moreover, the controls have the expected sings (except for OECD in the Cobb-Douglas and Pooled specifications). Time dummies also are associated to positive coefficients, as expected. The Fixed Effects model does not provide a good fit to the data, as it relies on within-variation and our controls are only available for a single year. The Random Effects model provide a much better fit and makes economic sense. We focus our analysis on it.
+%The estimated model is:
+% \begin{equation}
+% \begin{aligned}
+% COMP_i &= \alpha + \beta_1 HEXP_i + \beta_2 EDUC_i + \beta_3 HEXP_i^2 + \beta_4 EDUC_i^2 + \beta_5 \left(HEXP_i \times EDUC_i\right) \\ &+ \gamma X_i + \xi YEAR_i + \varepsilon_i
+% \end{aligned}
+% \end{equation}
+% Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top$$ and YEAR can either be a vector of dummies for each year of the sample (and $\xi$ also a vector of coefficients), or the YEAR itself (and $\xi$ a single coefficient). Again, the values of COMP, HEXP, EDUC, GINI and POPDEN are in logs.
 
-%\\multicolumn{5}{l}
-\subsection{Trans-log}
-We estimate the chosen trans-log model for the cross-sectional case. We then run the same model for the pooled case, and using clustered standard errors. Results are reported in Table \ref{tab:big}. The estimated model is:
-\begin{equation}
-\begin{aligned}
-COMP_i &= \alpha + \beta_1 HEXP_i + \beta_2 EDUC_i + \beta_3 HEXP_i^2 + \beta_4 EDUC_i^2 + \beta_5 \left(HEXP_i \times EDUC_i\right) \\ &+ \gamma X_i + \xi YEAR_i + \varepsilon_i
-\end{aligned}
-\end{equation}
-Where $$ X_i = \left[ POPDEN_i, PUBTHE_i, VOICE_i, GINI_i, GINI_i^2 \right]^\top$$ and YEAR can either be a vector of dummies for each year of the sample (and $\xi$ also a vector of coefficients), or the YEAR itself (and $\xi$ a single coefficient). Again, the values of COMP, HEXP, EDUC, GINI and POPDEN are in logs.
-
-
-We also estimate the same production function in a panel setting (Table \ref{tab:big}). We compare the fixed effects and the random effects model. White standard errors are used in this part as well.
 % dens <- subset(df[order(df$POPDEN),c('YEAR', 'POPDEN', 'COUNTRY', 'GDPC', 'OECD')], YEAR == 1997) # Makes no sense
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sat, Mar 18, 2017 - 11:57:31
+% Date and time: Sat, Mar 18, 2017 - 23:51:13
 \begin{table}[!htbp] \centering 
   \caption{Regression results, whole dataset} 
   \label{tab:big} 
@@ -733,15 +801,9 @@ F Statistic & 91.086$^{***}$ & 69.896$^{***}$ & 432.170$^{***}$ & 34.840$^{***}$
 % #' @
 We also perform a Hausman test to decide between the fixed and random efects model in the Cobb-Douglas specification. The test gives a p-value of 0.0055605. We do not reject the null hypothesis and therefore we prefer the random effects model.
 
-\subsection{Marginal Effects}
-Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross-Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables). The marginal effects for the Fixed and Random Effects models include large standard deviations, which is likely the reason for its inconsistency.
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=\maxwidth]{figure/signs-1} \caption[Marginal effects of COMP with respect to HEXP or EDUC, as a function of the other]{Marginal effects of COMP with respect to HEXP or EDUC, as a function of the other}\label{fig:signs}
-\end{figure}
+% \subsection{Marginal Effects}
+% Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross-Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables). The marginal effects for the Fixed and Random Effects models include large standard deviations, which is likely the reason for its inconsistency.
 
-
-\end{knitrout}
 %, out.width='.5\\textwidth'
 \subsection{Residuals}
 Visual inspection of the residuals of regression Figure \ref{fig:residuals} indicates heteroskedasticity dependant on COMP, HEXP and EDUC. This is consistent with Figure \ref{on_joses_part} on which we can see that higher variations of COMP over time are associated to more developed countries (a combination of higher values for these three variables). This justifies or use of white standard errors.
@@ -766,20 +828,14 @@ Visual inspection of the residuals of regression Figure \ref{fig:residuals} indi
 % #' quant.reg <- npqreg(tydat = l.df97$COMP, txdat = l.df97[,'HEXP'], exdat = z)
 % #' plot(z, quantile(quant.reg), type = "l")
 % #' @
-\section{Production function properties}
-In what follows, we are going to focuse our attention on the results related to the production function. More precisely, we are going to analyse the reaction and the behaviour of the inputs according to the two, previously found, specifications of the production function. 
+% \section{Production function properties}
+% In what follows, we are going to focuse our attention on the results related to the production function. More precisely, we are going to analyse the reaction and the behaviour of the inputs according to the two, previously found, specifications of the production function. 
 
 \subsection{Output elasticities}
-In this section we are interested in to see how the output will react if there is an increase of 1\% in the use of any input. Based on cross-sectional results, we may conclude that if the education in a country increases by 1\% the health care attainment will increase on average by 0.0899\%. In what concerns the second output : "Health Expenditure", the 1\% increase of this "input" will lead to a positive change of 0.0761\% in health care attainment.However, if we consider the panel data setting, we observe that the increase of the output will be by 0.02\% higher, as a response to a 1\% increase in years of education. But, an important difference is observed concerning the second input "Health Expenidture", which will lead to a very small increase of output, about : 0.0085\%.
+In this section we are interested in to see how the output will react if there is an increase of 1\% in the use of any input. Based on cross-sectional results, we may conclude that if the education in a country increases by 1\% the health care attainment will increase on average by 0.0899\%. In what concerns the second input: HEXP, the 1\% increase of this input will lead to a positive change of 0.0761\% in health care attainment. However, if we consider the panel data setting, we observe that the increase of the output will be by 0.02\% higher, as a response to a 1\% increase in years of education. But, an important difference is observed concerning HEXP, which will lead to a very small increase of output, about : 0.0085\%.
 
 \subsection{Marginal Products}
-In a production function, marginal productivity depends on both input and output 
-quantities. 
-If the health expenditure in a country increases  by one unit 
-the measure of healthcare atteinment of most of the countries 
-will increase on average by less than 0.05 units(Cross-Section), or by less that  0.005 units in the panel setting.
-If the education will increase by 1 year, for the most of the countries, the 
-health care attainment will increase by beween 0.5 units (in the cross-sectional setting) and by 1.5 units if we consider the panel setting.
+In a production function, marginal productivity depends on both input and output quantities. If the health expenditure in a country increases  by one unit the measure of healthcare atteinment of most of the countries will increase on average by less than 0.05 units(Cross-Section), or by less that  0.005 units in the panel setting. If the education will increase by 1 year, for the most of the countries, the health care attainment will increase by beween 0.5 units (in the cross-sectional setting) and by 1.5 units if we consider the panel setting.
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
 \includegraphics[width=\maxwidth]{figure/unnamed-chunk-15-1} \caption[Histogram of the Marginal Productivity of Education and Health Expenditure]{Histogram of the Marginal Productivity of Education and Health Expenditure}\label{fig:unnamed-chunk-15}
