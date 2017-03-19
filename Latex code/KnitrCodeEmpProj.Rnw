@@ -887,10 +887,10 @@ df.np.pooled.uni <- rbind(tmp.plot1, tmp.plot2, tmp.plot3, tmp.plot4)
 <<np.pooled.uni.plot, eval=TRUE, echo=FALSE, cache=TRUE, results='hide', include=TRUE, fig.cap='Univariate nonparametric analysis for pooled data',fig.align='center',out.width='0.9\\textwidth',fig.pos='htbp'>>=
 ggplot(df.np.pooled.uni, aes(x = x, y = y, linetype = type)) +
         facet_grid(yvar ~ xvar, scales = 'free') +
-        geom_line(data = subset(df.np.cs.uni, (type != 'points')&(type != 'points97'))) +
-        geom_point(data = subset(df.np.cs.uni, (type == 'points')),
+        geom_line(data = subset(df.np.pooled.uni, (type != 'points')&(type != 'points97'))) +
+        geom_point(data = subset(df.np.pooled.uni, (type == 'points')),
                    alpha = .2, colour = "black") +
-        geom_point(data = subset(df.np.cs.uni, (type == 'points97')),
+        geom_point(data = subset(df.np.pooled.uni, (type == 'points97')),
                    alpha = .5, colour = "red") +
         scale_linetype_discrete(name = "Title", labels = c("OLS", "LC", "LL"),
                                 limits = c("OLS", "LC", "LL"))
