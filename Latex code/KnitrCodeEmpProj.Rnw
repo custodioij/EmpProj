@@ -1321,7 +1321,7 @@ detach(df97)
 
 
 \subsection{Choice of controls}
-Having chosen the variable COMP as the dependant variable, and the Cobb-Douglas production function, we turn our attention to the choice of control variables. Table \ref{tab:cor} shows a high correlation between some of the possible control variables. We need to choose among some of them to preserve the interpretability of the coeficients. Using GDPC would make the identification of the effect of HEXP difficult, for example, so we discard it. We proceeded by including the most uncorrelated combination of variables and inspecting the fit of the resulting regression. The set of controls chosen is: GINI, GINI$^2$, POPDEN, VOICE, OECD.
+Having chosen the variable COMP as the dependant variable, and the Cobb-Douglas production function, we turn our attention to the choice of control variables. Table \ref{tab:cor} shows a high correlation between some of the possible control variables. We need to choose among some of them to preserve the interpretability of the coeficients. Using GDPC would make the identification of the effect of HEXP difficult, for example, so we discard it. We proceeded by including the most uncorrelated combination of variables and inspecting the fit of the resulting regression. The set of controls chosen is: GINI, GINI$^2$, POPDEN, PUBTHE, VOICE, OECD.
 <<correlation, echo = F, results='asis'>>=
 tmp <- cor(df[, 4:15])
 tmp[lower.tri(tmp, diag = F)] <- NA
@@ -1535,15 +1535,11 @@ We estimate the Cobb-Douglas and the translog model for the cross-sectional case
 ## Trying t keep the trans-log for the two main explanatory variable
 trans.log.s <- "COMP ~ HEXP + EDUC + HEXP:EDUC + I(HEXP^2) + I(EDUC^2)"
 
-trans.log.s <- paste(trans.log.s, "OECD + POPDEN + VOICE + GINI + I(GINI^2)",
+trans.log.s <- paste(trans.log.s, "GINI + I(GINI^2) + log(PUBTHE) + POPDEN + VOICE + OECD",
                      sep = " + ")
 
 cb <- "COMP ~ HEXP + EDUC"
-cb <- paste(cb, "OECD + POPDEN + VOICE + GINI + I(GINI^2)",
-                     sep = " + ")
-
-cb <- "COMP ~ HEXP + EDUC"
-cb <- paste(cb, "GINI + I(GINI^2) + POPDEN + VOICE + OECD",
+cb <- paste(cb, "GINI + I(GINI^2) + log(PUBTHE) + POPDEN + VOICE + OECD",
                      sep = " + ")
 # CS
 tl1 <- lm(as.formula(trans.log.s), data = l.df97)
@@ -1622,7 +1618,8 @@ stargazer(cb1, tl1, cb2, FEcb, REcb,
         label = "tab:big", font.size = "scriptsize",
         model.names = FALSE, df = FALSE,
         covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'GINI', 'GINI Sq.',
-                             'HEXP X EDUC', 'POPDEN', 'VOICE', 'OECD', 'YEAR (continuous)',
+                             'HEXP X EDUC', 'PUBTHE', 'POPDEN', 'VOICE', 'OECD',
+                             'YEAR (continuous)',
                              'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997'))
 @
 % #' <<hausman, echo = F>>=
@@ -1691,7 +1688,7 @@ tmp <- lapply(list(list(cb1, 'CS'), list(tl1, 'Translog'), list(cb2, 'Pooled'),
                         res = as.numeric(model[[1]]$residuals), 
                         model = model[[2]])})
 {
-        tmp2 <- FE$model[,c(1:5, 11, 12)]
+        tmp2 <- FE$model[,c(1:5, 12, 13)]
         for (i in 0:4){
                 tmp2 <- cbind.data.frame(tmp2, as.numeric(tmp2$YEAR == (1993 + i)))
                 names(tmp2)[ncol(tmp2)] <- paste(c(1993 + i))
@@ -1714,7 +1711,7 @@ tmp <- lapply(list(list(cb1, 'CS'), list(tl1, 'Translog'), list(cb2, 'Pooled'),
         }
         tmp3 <- cbind(tmp3, inter = tmp3$EDUC*tmp3$HEXP)
         tmp3 <- cbind(tmp3,
-                pred = apply(tmp3[,c(2:10, 13:17)], 1, function(x){
+                pred = apply(tmp3[,c(2:11, 14:18)], 1, function(x){
                         return(coef(RE)[1] + sum(x*(coef(RE)[-1])))
                         }
                         ))
