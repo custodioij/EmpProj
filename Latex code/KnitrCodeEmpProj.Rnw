@@ -71,8 +71,8 @@ March 22, 2017
 \newpage 
 \pagenumbering{arabic}
 \tableofcontents
-%\listoffigures
-%\listoftables
+\listoffigures
+% \listoftables
 %------------------------------------------------------------------%
 
 \newpage
@@ -114,7 +114,25 @@ where both input(s) and output are indexed by country $i$ at time $t$. The compo
 
 In Greene (2004), $\alpha_i$ is treated as a measure of a country's production inefficiency that is unobserved to the econometrician. The idea behind it is that only country $i$ knows exactly how efficient or inefficient it is. Greene argues that what might seem unobserved heterogeneity might actually be country-specific inefficiency. Greene goes beyond the traditional FE and RE models by using a more flexible model: the true random effect model. Although we do not use this model, it is important to keep in mind Greene's point that unobserved heterogeneity might be unmeasured inefficiency.
 
-So farwe have not specified the functional form of the production function, $f(.)$. The standard production function involves a parametrically defined family of functions. Henningsen (2014) provides a good survey of these families of functions, the most popular one being the Cobb-Douglas production function. Less traditional production functions or, in other words, less restrictive models can also be used in estimating production functions (Afriat, 1972). One of these approaches is using nonparametric estimation methods. This paper focuses on the traditional approach, although nonparametric techniques are used to justify restrictive assumptions, such as assuming a linear functional form in the production function.
+Given the most generic production function $y = f(x)$, there is a lot of information that can be extracted from it. A measure for comparing productivity among companies or countries is the total factor productivity (TFP) computed as:
+\begin{align*}
+TFP = \frac{y}{X}
+\end{align*}
+where X is an index aggregated quantity. The marginal products of the inputs can be computed as:
+\begin{align*}
+MP_i = \frac{\partial f(x)}{\partial x_i}
+\end{align*}
+We can also obtain the output elasticities, in which the changes in inputs and outputs are measured in relative terms:
+\begin{align*}
+\eta_i =  \frac{\partial f(x)}{\partial x_i} \frac{x_i}{f(x)}
+\end{align*}
+By adding together all output elasticities for a given company or country, we obtain the elasticity of scale of the technology, which is increasing if the sum is larger than 1, decreasing if it smaller or constant if it is exactly 1.
+Finally, the marginal rate of technical substitution (MRTS) tells us how much a change in one input affects the other inputs in order to achieve the same output. It is computed as follows:
+\begin{align*}
+MRTS_{i,j} =  \frac{\partial x_i}{\partial x_j} = - \frac{MP_j}{MP_i}
+\end{align*}
+
+So far we have not specified the functional form of the production function, $f(.)$. The standard production function involves a parametrically defined family of functions. Henningsen (2014) provides a good survey of these families of functions, the most popular one being the Cobb-Douglas production function. Less traditional production functions or, in other words, less restrictive models can also be used in estimating production functions (Afriat, 1972). One of these approaches is using nonparametric estimation methods. This paper focuses on the traditional approach, although nonparametric techniques are used to justify restrictive assumptions, such as assuming a linear functional form in the production function.
 
 
 \subsubsection{Production frontier}
@@ -277,28 +295,21 @@ stargazer(df2[, -(1:3)], title = "Descriptive statistics", label = "tab:desc.sta
 
 %First of all, we had to choose our variable of interest on which we will base our analysis.  The two candidates where: DALE which is a measure of life expectancy and COMP which represents a composite variable of health care attainment. By looking at the evolution of these variables across time, we conclude that DALE varies less than COMP. This could be related to the fact that life expectancy is a feature which does not react immediately to a government intervention or to a policy that would affect the health status of citizens and eventually increase their life expectancy. Moreover, the available period in the dataset (5 years) is too short to allow us to conclude about an effect on life expectancy. However, the variable "COMP" is a measure that assess the overall state of healthcare system in a country, and which could be adjusted in  short run as an answer to the manipulation of the main factors of influence. We therefore selected  COMP as the explanatory variable for the further analysis.
 
-In the 1997 cross-sectional setting we split the countries in 3 (slightly balanced) groups depending on their GDP per capita level: low GDP, with a GDP per capita below the threshold of 3000; medium GDP, between 3000 and 7000; and high GDP, when it is greater than 7000.  
+In the 1997 cross-sectional setting we split the countries in 3 (slightly balanced) groups depending on their GDP per capita level: low GDP, with a GDP per capita below the threshold of 3000; medium GDP, between 3000 and 7000; and high GDP, when it is greater than 7000 (Figure \ref{fig:HEXPbyGDP}).  
 The health expenditure for the countries with low GDP lies between 0 and 150\$ per year, while countries with  high GDP level spend on average more than 1000\$ per capita on health care.  Additionally, if we look at the evolution of health expenditure per country, independently of their GDP level, we remark that the average health expenditure increased across time. However, in countries with high GDP the increase was relatively higher (about 11\%) in comparison with countries with low GDP, where the health expenditure has grown by only about 5\% in 5 years.
 
-<<Health expenditure 1997 given GDP, eval=TRUE, echo=F, warning=FALSE, results='asis', fig.cap = "Distribution of HEXP by GDP per capita", out.width='.5\\textwidth', fig.pos = '!htbp', fig.align= "center">>=
+<<echo = F>>=
 tmp <- data.frame(GDP = "Low GDP per capita", HEXP = df1997$HEXP[df1997$GDPC.<3000])
 tmp <- rbind(tmp, data.frame(GDP = "Medium GDP per capita",
                              HEXP = df1997$HEXP[df1997$GDPC.>3000 & df1997$GDPC.<7000]))
 tmp <- rbind(tmp, data.frame(GDP = "High GDP per capita", HEXP = df1997$HEXP[df1997$GDPC.>7000]))
-ggplot(tmp, aes(x = HEXP)) + geom_histogram(bins = 10) +
+fig1 <- ggplot(tmp, aes(x = HEXP)) + geom_histogram(bins = 10) +
         facet_grid(. ~ GDP, scales = "free_x") +
-        ylab("Frequency") + theme_gray(base_size = 15) #+ theme(aspect.ratio=.5)
-
-# hist(df1997$HEXP[df1997$GDPC.<3000],breaks="FD", main="Health expenditure 1997 for 
-#      countries with low GDP",xlab="Health expenditure",col="darkgray")
-# hist(df1997$HEXP[df1997$GDPC.>3000 & df1997$GDPC.<7000],breaks="FD", main="Health 
-#      expenditure 1997 for countries with average GDP",xlab="Health expenditure",col="darkgray")
-# hist(df1997$HEXP[df1997$GDPC.>7000],breaks="FD", main="Health expenditure 1997 for 
-#      countries with high GDP",xlab="Health expenditure",col="darkgray")
+        ylab("Frequency") + theme_gray(base_size = 15)
 @
 
-Public contribution is a feature that seems to be highly correlated to the total amount of health expenditure, therefore with the health care attainment measure. In Figure \ref{fig:PUBTHE} shows the behaviour of countries concerning the total heath care attainment, given the proportion of health expenditure paid by public authorities.  There are 55 countries where authorities contribute less than 50\% and 85 countries where authorities contribute more than 50\%. We observe that for the most of countries in which authorities contribute less than 50\% for health expenditure, the health care attainment is between 60 and 80, and for most of countries with a high public contribution, the health care attainment is above 70. We conclude therefore about a positive correlation between these two dimensions.
-<<PUBTHE, eval=TRUE, echo=F, results='asis', warning=FALSE,fig.cap = "Distribution of HEXP and COMP by PUPTHE", out.width='.5\\textwidth', fig.pos = '!htbp', fig.align= "center">>=
+Public contribution is a feature that seems to be highly correlated to the total amount of health expenditure, therefore with the health care attainment measure. Figure \ref{fig:PUBTHE} shows the behaviour of countries concerning the total heath care attainment, given the proportion of health expenditure paid by public authorities.  There are 55 countries where authorities contribute less than 50\% and 85 countries where authorities contribute more than 50\%. We observe that for the most of countries in which authorities contribute less than 50\% for health expenditure, the health care attainment is between 60 and 80, and for most of countries with a high public contribution, the health care attainment is above 70. We conclude therefore about a positive correlation between these two dimensions.
+<<echo = F>>=
 tmp <- data.frame(PUBTHE = "Low public contribution",
         value = c(df1997$COMP[df1997$PUBTHE<50], df1997$HEXP[df1997$PUBTHE<50]),
         measure = c(rep('COMP', sum(df1997$PUBTHE<50)),
@@ -308,25 +319,20 @@ tmp <- rbind(tmp, data.frame(PUBTHE = "High public contribution",
                                 df1997$HEXP[df1997$PUBTHE>50]),
                         measure = c(rep('COMP', sum(df1997$PUBTHE>50)),
                                 rep('HEXP', sum(df1997$PUBTHE>50)))))
-ggplot(tmp, aes(x = value)) + geom_histogram(bins = 10) +
+fig2 <- ggplot(tmp, aes(x = value)) + geom_histogram(bins = 10) +
         facet_grid(PUBTHE ~ measure, scales = "free") +
-        ylab("Frequency") + theme_gray(base_size = 15) + xlab('Value')# + coord_fixed(ratio=100)
-
-# hist(df1997$COMP[df1997$PUBTHE<50],breaks="FD", main="Health care attainment for 
-#      countries with low public contribution",xlab="Health care attainment",col="darkgray")
-# hist(df1997$COMP[df1997$PUBTHE>50],breaks="FD", main="Health care attainment for 
-#      countries with high public contribution",xlab="Health care attainment",col="darkgray")
+        ylab("Frequency") + theme_gray(base_size = 15) + xlab('Value')
 @
 
 %Based on the axiom that  rationality, that we can easily associate to the years of schooling, influence people to make educated decisions in terms of personal health status; we expect countries which have a population with a higher education level to have higher health expenditure. However, according to Andrew Balls' article in the National Bureau of Economic Research, in most of the cases, tropical countries are considered as "underdeveloped countries" ; we have to take into account, therefore,  that the education level in tropical countries and in temperate  countries is different. Moreover, in tropical countries there are additional factors that have a negative influence on the population's health status, as the higher temperature leads to an accelerated propagation of bacteria.  It would be interesting, therefore, to see how the level of education impacts the health expenditure by controllng for the geographical zone.
 
 Figure \ref{fig:OECD} shows how the OECD variable aggregates most of the developed countries in our sample.
 
-<<OECD, cache =T, eval=T, echo=F, results='asis',,fig.cap = "EDUC and HEXP for according to TROPICAL", out.width='.5\\textwidth', fig.pos = '!htbp', fig.align= "center">>=
+<<echo = F>>=
 tmp <- data.frame(EDUC = data$EDUC, COMP = data$COMP, HEXP = data$HEXP, 
                   OECD = (data$OECD == 1))[-701,]
 tmp <- melt(tmp, id = c('COMP', 'OECD'))
-ggplot(tmp, aes(x = value, y = COMP, colour = OECD)) + geom_point() +
+fig3 <- ggplot(tmp, aes(x = value, y = COMP, colour = OECD)) + geom_point() +
         theme_gray(base_size = 15) + facet_grid(.~ variable, scales = "free") +
         xlab('Value') + theme(legend.position = "bottom") #+ coord_fixed(ratio=50)
 @
@@ -365,6 +371,16 @@ where $y$ is a measure of national health, $x$ is an input of interest (or a vec
  
  %For simplicity in nomenclature, we define lowercase variable names as the logs of the original variables -- for example: dale=log(DALE). 
 All analysis is performed on the log of the variables, not on the levels. We use a second-order Gaussian Kernel as the weighting factor. Optimal bandwiths are chosen using cross validation and then undersmoothed. All figures show the OLS estimator, the local constant estimator (or Nadaraya-Watson) estimator (LC), and the local linear estimator (LL). The analysis is first performed on the cross section of 1997 and then on all the years in the panel.
+
+As a reminder we report the expressions for the two estimators:
+\begin{align*}
+\hat{g}_{LC} = \frac{\sum^n_i K \left( \frac{ X_i - x}{h_n} \right) Y_i}{\sum^n_i K \left( \frac{ X_i - x}{h_n} \right)}
+\end{align*}
+
+where $K(\cdot)$ is the Kernel function (we chose the density of the normal distribution, a common choice in the literature) and $h_n$ is the bandwidth chosen for sample size $n$. Instead, the local linear estimator is $\hat{g}_{LL} = \hat{\alpha}$ obtained from fitting a linear regression line in the neighborhood of $x$:
+\begin{align*}
+\min_{\alpha , \beta} \ \ \sum^n_{i=1} (Y_i - \alpha - (X_i - x)\beta)^2 \ \ K \left( \frac{ X_i - x}{h_n} \right)
+\end{align*}
 
 <<Data, eval=TRUE, echo=FALSE, cache=TRUE, include=FALSE>>=
 library(gdata)
@@ -652,8 +668,8 @@ tmp.plot4 <- cbind(tmp.plot4, xvar = 'HEXP', yvar = 'DALE')
 df.np.cs.uni <- rbind(tmp.plot1, tmp.plot3, tmp.plot2, tmp.plot4)
 @
 
-<<np.cs.uni.plot, eval=TRUE, echo=FALSE, cache=TRUE, results='hide', include=TRUE, fig.cap='Univariate nonparametric analysis for 1997',fig.align='center',out.width='0.9\\textwidth',fig.pos='htbp'>>=
-ggplot(df.np.cs.uni, aes(x = x, y = y, linetype = type)) +
+<<echo = F>>=
+fig4 <- ggplot(df.np.cs.uni, aes(x = x, y = y, linetype = type)) +
         facet_grid(yvar ~ xvar, scales = 'free') +
         geom_line(data = subset(df.np.cs.uni, type != 'points')) +
         geom_point(data = subset(df.np.cs.uni, type == 'points'), alpha = .5) +
@@ -661,9 +677,7 @@ ggplot(df.np.cs.uni, aes(x = x, y = y, linetype = type)) +
                                 limits = c("OLS", "LC", "LL"))
 @
 
-<<np.cs.multi, eval=TRUE, echo=FALSE, cache=TRUE, results='hide', include=TRUE, fig.cap='Multivariate nonparametric analysis for 1997',fig.align='center',out.width='\\textwidth',fig.pos='htbp'>>=
-par(mfrow=c(1,2))
-
+<<echo = F, results='hide', cache=TRUE>>=
 mod_comp_OLS <- lm(data1997$logcomp97 ~ data1997$logeduc97 + data1997$loghexp97)
 # summary(mod_comp_OLS)
 
@@ -675,15 +689,15 @@ hexp_97=data1997$loghexp97
 mod_comp_ll <- npreg(data1997$logcomp97 ~ data1997$logeduc97 + data1997$loghexp97, regtype = "ll")
 mod_comp_ll_2 <- npreg(comp_1997 ~ educ_1997 + hexp_97, regtype = "ll")
 # summary(mod_comp_ll)
-plot(mod_comp_ll_2, view = "fixed", xlab = "educ 1997", ylab= "hexp 97", zlab = "comp 1997", main="LL regression, comp 1997")
+
 
 mod_dale_OLS <- lm(data1997$logdale97 ~ data1997$logeduc97 + data1997$loghexp97)
-summary(mod_dale_OLS)
+# summary(mod_dale_OLS)
 
 mod_dale_ll <- npreg(data1997$logdale97 ~ data1997$logeduc97 + data1997$loghexp97, regtype = "ll")
 mod_dale_ll_2 <- npreg(dale_1997 ~ educ_1997 + hexp_97, regtype = "ll")
-summary(mod_dale_ll)
-plot(mod_dale_ll_2, view = "fixed", xlab = "educ 1997", ylab= "hexp 97", zlab = "dale 1997", main="LL regression, dale 1997")
+# summary(mod_dale_ll)
+
 @
 
 \subsubsection{Pooled data from 1993 to 1997}
@@ -884,8 +898,8 @@ tmp.plot4 <- cbind(tmp.plot4, xvar = 'HEXP', yvar = 'DALE')
 df.np.pooled.uni <- rbind(tmp.plot1, tmp.plot2, tmp.plot3, tmp.plot4)
 @
 
-<<np.pooled.uni.plot, eval=TRUE, echo=FALSE, cache=TRUE, results='hide', include=TRUE, fig.cap='Univariate nonparametric analysis for pooled data',fig.align='center',out.width='0.9\\textwidth',fig.pos='htbp'>>=
-ggplot(df.np.pooled.uni, aes(x = x, y = y, linetype = type)) +
+<<echo =T, cache = T>>=
+fig5 <- ggplot(df.np.pooled.uni, aes(x = x, y = y, linetype = type)) +
         facet_grid(yvar ~ xvar, scales = 'free') +
         geom_line(data = subset(df.np.pooled.uni, (type != 'points')&(type != 'points97'))) +
         geom_point(data = subset(df.np.pooled.uni, (type == 'points')),
@@ -1149,170 +1163,102 @@ print(xtable(LR.TTLvTL.contr, caption = c("LR Test: Truncated Translog vs Transl
 
 In Figure \ref{fig:modselection_resdistribution}, Cobb-Douglas and translog residuals resemble a normal distribution centered at 0. Nevertheless, both present a fatter left tail and a mean slightly above 0. In the Q-Q plots, the sample quantiles depart from the normal quantiles underlining the fatter left tail of the distribution. Overall, the Cobb-Douglas residuals seem to do a better job in satisfying the normality assumption.
 
-<<modselection_resdistribution,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Kernel density and Q-Q plots of residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
-x <- seq(-0.3,0.3,length=1000)
-y1 <- dnorm(x, mean=0, sd=0.0626)
-
-par(mfrow=c(2,2))
-plot(density(prod.CD$residuals,'ucv'), main='Cobb-Douglas density', ylim=c(0,8),  xlim=c(-0.30,0.22))
-lines(x, y1, lty=2)
-legend("topleft", c("Residuals","Normal (0, 0.004)"), lty = c(1,2), cex = 0.75)
-plot(density(prod.TL$residuals,'ucv'), main='Translog density', ylim=c(0,8),  xlim=c(-0.30,0.22))
-lines(x, y1, lty=2)
-#plot(density(prod.CD.contr$residuals, 'ucv'), main='Cobb-Douglas with controls')  # !!!!!!!!!!! BANDWIDTH !!!!!!!!!!!!
-#plot(density(prod.TL.contr$residuals,'ucv'), main='Translog with controls')
-qqnorm(prod.CD$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Cobb-Douglas Q-Q plot')
- qqline(prod.CD$residuals)
-qqnorm(prod.TL$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Translog Q-Q plot')
- qqline(prod.TL$residuals)
-@
-
-<<modselection_qqplots,include=F,echo=FALSE,eval=F,fig.cap='Q-Q plots of residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
-par(mfrow=c(2,2))
-qqnorm(prod.CD$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Cobb-Douglas')
- qqline(prod.CD$residuals)
-qqnorm(prod.TL$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Translog')
- qqline(prod.TL$residuals)
-qqnorm(prod.CD.contr$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Cobb-Douglas with controls')
- qqline(prod.CD.contr$residuals)
-qqnorm(prod.TL.contr$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Translog with controls')
- qqline(prod.TL.contr$residuals)
-@
+% #' <<modselection_qqplots,include=F,echo=FALSE,eval=F,fig.cap='Q-Q plots of residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
+% #' par(mfrow=c(2,2))
+% #' qqnorm(prod.CD$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Cobb-Douglas')
+% #'  qqline(prod.CD$residuals)
+% #' qqnorm(prod.TL$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Translog')
+% #'  qqline(prod.TL$residuals)
+% #' qqnorm(prod.CD.contr$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Cobb-Douglas with controls')
+% #'  qqline(prod.CD.contr$residuals)
+% #' qqnorm(prod.TL.contr$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Translog with controls')
+% #'  qqline(prod.TL.contr$residuals)
+% #' @
 
 
 
 Figure \ref{fig:modselection_resvsfitted} shows the residuals and the squared residuals plotted against the fitted values. The solid line is a nonparametric smooth spline that captures the trend in the data. The residuals for both specifications do not present any systematic trend, as the spline runs straight and horizontal around zero. From the observation of the upper two figures, however, the heteroskedasticity of the residuals becomes evident, as the variance of the residuals seems to decline with increasing fitted values. The figures of squared residuals provide further evidence for the heteroskedasticity problem.
 
-<<modselection_resvsfitted,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Plot of fitted values and residuals (squared)',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
-par(mfrow=c(2,2))
-plot(prod.CD$fitted, prod.CD$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas residuals')
-  abline(h=0, lty=2)
-  lines(smooth.spline(prod.CD$fitted, prod.CD$residuals))
-plot(prod.TL$fitted, prod.TL$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Translog residuals')
-  abline(h=0, lty=2)
-  lines(smooth.spline(prod.TL$fitted, prod.TL$residuals))
-#plot(prod.CD.contr$fitted, prod.CD.contr$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas with controls')
-  #abline(h=0, lty=2)
-  #lines(smooth.spline(prod.CD.contr$fitted, prod.CD.contr$residuals))
-#plot(prod.TL.contr$fitted, prod.TL.contr$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Translog with controls')
-  #abline(h=0, lty=2)
-  #lines(smooth.spline(prod.TL.contr$fitted, prod.TL.contr$residuals))
-plot(prod.CD$fitted, prod.CD$residuals^2, xlab = 'Fitted Values', ylab = 'Squared Residuals', main='Cobb-Douglas squared residuals')
-  lines(smooth.spline(prod.CD$fitted, prod.CD$residuals^2))
-plot(prod.TL$fitted, prod.TL$residuals^2, xlab = 'Fitted Values', ylab = 'Squared Residuals', main='Translog squared residuals')
-  lines(smooth.spline(prod.TL$fitted, prod.TL$residuals^2))
-@
-
-<<modselection_ressqvsfitted,include=F,echo=FALSE,eval=F,fig.cap='Plot of fitted values and residuals squared',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
-par(mfrow=c(2,2))
-plot(prod.CD$fitted, prod.CD$residuals^2, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas')
-  lines(smooth.spline(prod.CD$fitted, prod.CD$residuals^2))
-plot(prod.TL$fitted, prod.TL$residuals^2, xlab = 'Fitted Values', ylab = 'Residuals', main='Translog')
-  lines(smooth.spline(prod.TL$fitted, prod.TL$residuals^2))
-plot(prod.CD.contr$fitted, prod.CD.contr$residuals^2, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas with controls')
-  lines(smooth.spline(prod.CD.contr$fitted, prod.CD.contr$residuals^2))
-plot(prod.TL.contr$fitted, prod.TL.contr$residuals^2, xlab = 'Fitted Values', ylab = 'Residuals', main='Translog with controls')
-  lines(smooth.spline(prod.TL.contr$fitted, prod.TL.contr$residuals^2))
-@
+%' 
+%' 
+%' <<modselection_ressqvsfitted,include=F,echo=FALSE,eval=F,fig.cap='Plot of fitted values and residuals squared',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
+%' par(mfrow=c(2,2))
+%' plot(prod.CD$fitted, prod.CD$residuals^2, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas')
+%'   lines(smooth.spline(prod.CD$fitted, prod.CD$residuals^2))
+%' plot(prod.TL$fitted, prod.TL$residuals^2, xlab = 'Fitted Values', ylab = 'Residuals', main='Translog')
+%'   lines(smooth.spline(prod.TL$fitted, prod.TL$residuals^2))
+%' plot(prod.CD.contr$fitted, prod.CD.contr$residuals^2, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas with controls')
+%'   lines(smooth.spline(prod.CD.contr$fitted, prod.CD.contr$residuals^2))
+%' plot(prod.TL.contr$fitted, prod.TL.contr$residuals^2, xlab = 'Fitted Values', ylab = 'Residuals', main='Translog with controls')
+%'   lines(smooth.spline(prod.TL.contr$fitted, prod.TL.contr$residuals^2))
+%' @
 
 
 
 Finally, Figure \ref{fig:modselection_resvsCOMP} shows residuals plotted against input and output variables. The nonparametric solid line captures the trend in the data. The two upper plots, which include residuals and the output variable comp, show evidence of a systematic trend. The increasing shape in the residuals is common to both Cobb-Douglas and translog specification and hints to some bias, since for low values of comp, the model constantly predicts too high fitted values, i.e. negative residuals. The plots which include hexp are less problematic and the Cobb-Douglas specification look more independent than the translog specification with respect to the variable educ. In all plots, the change in spread of the residuals' distribution suggests heterogeneity.
 
-<<modselection_resvsCOMP,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Plot of comp, hexp, educ and residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
-par(mfrow=c(3,2))
-#plot(COMP, prod.CD$residuals, xlab = 'COMP', ylab = 'Residuals', main='Cobb-Douglas')
-#  abline(h=0, lty=2)
-#  lines(smooth.spline(COMP, prod.CD$residuals))
-#plot(COMP, prod.TL$residuals, xlab = 'COMP', ylab = 'Residuals', main='Translog')
-#  abline(h=0, lty=2)
-#  lines(smooth.spline(COMP, prod.TL$residuals))
-plot(comp, prod.CD$residuals, xlab = 'comp', ylab = 'Residuals', main='Cobb-Douglas residuals')
-  abline(h=0, lty=2)
-  lines(smooth.spline(comp, prod.CD$residuals))
-plot(comp, prod.TL$residuals, xlab = 'comp', ylab = 'Residuals', main='Translog residuals')
-  abline(h=0, lty=2)
-  lines(smooth.spline(comp, prod.TL$residuals))
-#plot(COMP, prod.CD.contr$residuals, xlab = 'COMP', ylab = 'Residuals', main='Cobb-Douglas with controls')
-  #abline(h=0, lty=2)
-  #lines(smooth.spline(COMP, prod.CD.contr$residuals))
-#plot(COMP, prod.TL.contr$residuals, xlab = 'COMP', ylab = 'Residuals', main='Translog with controls')
-  #abline(h=0, lty=2)
-  #lines(smooth.spline(COMP, prod.TL.contr$residuals))
-plot(log(HEXP), prod.CD$residuals, xlab = 'hexp', ylab = 'Residuals', main='Cobb-Douglas residuals')
-  abline(h=0, lty=2)
-  lines(smooth.spline(log(HEXP), prod.CD$residuals))
-plot(log(HEXP), prod.TL$residuals, xlab = 'hexp', ylab = 'Residuals', main='Translog residuals')
-  abline(h=0, lty=2)
-  lines(smooth.spline(log(HEXP), prod.TL$residuals))
-plot(log(EDUC), prod.CD$residuals, xlab = 'educ', ylab = 'Residuals', main='Cobb-Douglas residuals')
-  abline(h=0, lty=2)
-  lines(smooth.spline(log(EDUC), prod.CD$residuals))
-plot(log(EDUC), prod.TL$residuals, xlab = 'educ', ylab = 'Residuals', main='Translog residuals')
-  abline(h=0, lty=2)
-  lines(smooth.spline(log(EDUC), prod.TL$residuals))
-@
-
-<<modselection_resvslogHEXP,include=F,echo=FALSE,eval=F,fig.cap='Plot of log(HEXP) and residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
-par(mfrow=c(2,2))
-plot(log(HEXP), prod.CD$residuals, xlab = 'log(HEXP)', ylab = 'Residuals', main='Cobb-Douglas')
-  abline(h=0, lty=2)
-  lines(smooth.spline(log(HEXP), prod.CD$residuals))
-plot(log(HEXP), prod.TL$residuals, xlab = 'log(HEXP)', ylab = 'Residuals', main='Translog')
-  abline(h=0, lty=2)
-  lines(smooth.spline(log(HEXP), prod.TL$residuals))
-plot(log(HEXP), prod.CD.contr$residuals, xlab = 'log(HEXP)', ylab = 'Residuals', main='Cobb-Douglas with controls')
-  abline(h=0, lty=2)
-  lines(smooth.spline(log(HEXP), prod.CD.contr$residuals))
-plot(log(HEXP), prod.TL.contr$residuals, xlab = 'log(HEXP)', ylab = 'Residuals', main='Translog with controls')
-  abline(h=0, lty=2)
-  lines(smooth.spline(log(HEXP), prod.TL.contr$residuals))
-@
-
-<<modselection_resvslogEDUC,include=F,echo=FALSE,eval=F,fig.cap='Plot of log(EDUC) and residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
-par(mfrow=c(2,2))
-plot(log(EDUC), prod.CD$residuals, xlab = 'log(EDUC)', ylab = 'Residuals', main='Cobb-Douglas')
-  abline(h=0, lty=2)
-  lines(smooth.spline(log(EDUC), prod.CD$residuals))
-plot(log(EDUC), prod.TL$residuals, xlab = 'log(EDUC)', ylab = 'Residuals', main='Translog')
-  abline(h=0, lty=2)
-  lines(smooth.spline(log(EDUC), prod.TL$residuals))
-plot(log(EDUC), prod.CD.contr$residuals, xlab = 'log(EDUC)', ylab = 'Residuals', main='Cobb-Douglas with controls')
-  abline(h=0, lty=2)
-  lines(smooth.spline(log(EDUC), prod.CD.contr$residuals))
-plot(log(EDUC), prod.TL.contr$residuals, xlab = 'log(EDUC)', ylab = 'Residuals', main='Translog with controls')
-  abline(h=0, lty=2)
-  lines(smooth.spline(log(EDUC), prod.TL.contr$residuals))
-@
-
-<<include=FALSE,eval=FALSE>>=
-# NOT USED
-# Linear model
-prod.lin <- lm(COMP ~ HEXP + EDUC, data = df97)
-summary(prod.lin)
-
-# Quadratic model
-prod.quad <- lm(COMP ~ HEXP + EDUC + I(0.5*hexp^2) + I(0.5*educ^2)
-                + I(HEXP*EDUC), data = df97)
-summary(prod.quad)
-
-# Wald and LR tests
-waldtest(prod.lin, prod.quad)  # significant difference -> quad
-lrtest(prod.lin, prod.quad)    # significant difference -> quad
-
-# Visual inspection of goodness of fit
-fitted.quad <- fitted(prod.quad)
-compPlot(COMP, fitted.quad)
-fitted.CD <- fitted(prod.CD)
-compPlot(log(COMP), fitted.CD)
-
-# Hypothetical R-squared
-summary(prod.quad)$r.squared
-rSquared(COMP, COMP - exp(fitted.CD))  # hyp R-sq of quadratic
-
-summary(prod.CD)$r.squared
-rSquared(log(COMP), log(COMP) - log(fitted.quad))
-@
+%' 
+%' 
+%' <<modselection_resvslogHEXP,include=F,echo=FALSE,eval=F,fig.cap='Plot of log(HEXP) and residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
+%' par(mfrow=c(2,2))
+%' plot(log(HEXP), prod.CD$residuals, xlab = 'log(HEXP)', ylab = 'Residuals', main='Cobb-Douglas')
+%'   abline(h=0, lty=2)
+%'   lines(smooth.spline(log(HEXP), prod.CD$residuals))
+%' plot(log(HEXP), prod.TL$residuals, xlab = 'log(HEXP)', ylab = 'Residuals', main='Translog')
+%'   abline(h=0, lty=2)
+%'   lines(smooth.spline(log(HEXP), prod.TL$residuals))
+%' plot(log(HEXP), prod.CD.contr$residuals, xlab = 'log(HEXP)', ylab = 'Residuals', main='Cobb-Douglas with controls')
+%'   abline(h=0, lty=2)
+%'   lines(smooth.spline(log(HEXP), prod.CD.contr$residuals))
+%' plot(log(HEXP), prod.TL.contr$residuals, xlab = 'log(HEXP)', ylab = 'Residuals', main='Translog with controls')
+%'   abline(h=0, lty=2)
+%'   lines(smooth.spline(log(HEXP), prod.TL.contr$residuals))
+%' @
+%' 
+%' <<modselection_resvslogEDUC,include=F,echo=FALSE,eval=F,fig.cap='Plot of log(EDUC) and residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
+%' par(mfrow=c(2,2))
+%' plot(log(EDUC), prod.CD$residuals, xlab = 'log(EDUC)', ylab = 'Residuals', main='Cobb-Douglas')
+%'   abline(h=0, lty=2)
+%'   lines(smooth.spline(log(EDUC), prod.CD$residuals))
+%' plot(log(EDUC), prod.TL$residuals, xlab = 'log(EDUC)', ylab = 'Residuals', main='Translog')
+%'   abline(h=0, lty=2)
+%'   lines(smooth.spline(log(EDUC), prod.TL$residuals))
+%' plot(log(EDUC), prod.CD.contr$residuals, xlab = 'log(EDUC)', ylab = 'Residuals', main='Cobb-Douglas with controls')
+%'   abline(h=0, lty=2)
+%'   lines(smooth.spline(log(EDUC), prod.CD.contr$residuals))
+%' plot(log(EDUC), prod.TL.contr$residuals, xlab = 'log(EDUC)', ylab = 'Residuals', main='Translog with controls')
+%'   abline(h=0, lty=2)
+%'   lines(smooth.spline(log(EDUC), prod.TL.contr$residuals))
+%' @
+%' 
+%' <<include=FALSE,eval=FALSE>>=
+%' # NOT USED
+%' # Linear model
+%' prod.lin <- lm(COMP ~ HEXP + EDUC, data = df97)
+%' summary(prod.lin)
+%' 
+%' # Quadratic model
+%' prod.quad <- lm(COMP ~ HEXP + EDUC + I(0.5*hexp^2) + I(0.5*educ^2)
+%'                 + I(HEXP*EDUC), data = df97)
+%' summary(prod.quad)
+%' 
+%' # Wald and LR tests
+%' waldtest(prod.lin, prod.quad)  # significant difference -> quad
+%' lrtest(prod.lin, prod.quad)    # significant difference -> quad
+%' 
+%' # Visual inspection of goodness of fit
+%' fitted.quad <- fitted(prod.quad)
+%' compPlot(COMP, fitted.quad)
+%' fitted.CD <- fitted(prod.CD)
+%' compPlot(log(COMP), fitted.CD)
+%' 
+%' # Hypothetical R-squared
+%' summary(prod.quad)$r.squared
+%' rSquared(COMP, COMP - exp(fitted.CD))  # hyp R-sq of quadratic
+%' 
+%' summary(prod.CD)$r.squared
+%' rSquared(log(COMP), log(COMP) - log(fitted.quad))
+%' @
 
 <<include=F, eval=TRUE>>=
 detach(df97)
@@ -1614,18 +1560,25 @@ stargazer(cb1, tl1, cb2, FEcb, REcb,
         dep.var.caption  = c("Dependent variable: COMP"),
         multicolumn = FALSE,
         dep.var.labels  = c("1997", "1997", "1993-7", "1993-7", "1993-7"),
-        title = "Regression results, whole dataset",
+        title = "Regression results",
         label = "tab:big", font.size = "scriptsize",
-        model.names = FALSE, df = FALSE,
-        covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'GINI', 'GINI Sq.',
-                             'HEXP X EDUC', 'PUBTHE', 'POPDEN', 'VOICE', 'OECD',
-                             'YEAR (continuous)',
-                             'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997'))
+        model.names = FALSE, df = FALSE)#,
+#         covariate.labels = c('HEXP', 'EDUC', 'HEXP Sq.', 'EDUC Sq.', 'GINI', 'GINI Sq.',
+#                              'POPDEN', 'VOICE', 'OECD','HEXP X EDUC',
+#                              'YEAR (continuous)', 'PUBTHE', 
+#                              'YEAR = 1994','YEAR = 1995', 'YEAR = 1996', 'YEAR = 1997'))
 @
 % #' <<hausman, echo = F>>=
 % #' haustest <- phtest(FEcb, REcb)
 % #' @
-We also perform a Hausman test to decide between the fixed and random efects model in the Cobb-Douglas specification. The test gives a p-value of \Sexpr{phtest(FEcb, REcb)$p.value}. We do not reject the null hypothesis and therefore we prefer the random effects model.
+%We also perform a Hausman test to decide between the fixed and random efects model in the Cobb-Douglas specification. The test gives a p-value of \Sexpr{phtest(FEcb, REcb)$p.value}. We do not reject the null hypothesis and therefore we prefer the random effects model.
+
+We also perform a Hausman test to decide between the fixed and random efects model in the Cobb-Douglas specification. It consists in testing whether the difference between the within and random effects estimators is statistically significant. Only the time-varying variables are considered since the within estimators can be computed for time-varying variables only. The test is based in the following idea: we know that the random effects estimator can be written as a weighted average of the between and within estimators and therefore it is at least as efficient as the within estimator. However, when the individual effects are not random. i.e. $\alpha_i$ is correlated with $x_{it}$, the random effects estimator is inconsistent. Consequently, we test for: \\
+\hspace*{0.3cm}$\text{H}_0$: the difference between RE and FE is not systematic, i.e. $\mathbb{E}[\alpha_i x_{it}]=0$ \\
+\hspace*{0.3cm}$\text{H}_1$: the difference between RE and FE is systematic, i.e. $\mathbb{E}[\alpha_i x_{it}]\neq 0$ \\
+The $\text{H}_0$ hypothesis is rejected if the test statistic is large enough. If $\text{H}_0$ is not rejected, the random effects assumption may hold and therefore the random effects estimator should be preferred because more efficient. If $\text{H}_0$ is rejected, the random effects assumption does not hold and thus the within estimator should be used.
+
+The Hausman test conducted on our data shows a p-value of 0.02 and rejects therefore the null hypothesis at 5\%, but not at 1\%. Recall -- finally -- that the test is valid only under homoscedasticity, i.e. both $\alpha_i$ and $\varepsilon_{it}$ have to be iid. However, the analysis of the residuals from our models hints to heteroskedasticity in the data.
 
 % \subsection{Marginal Effects}
 % Figure \ref{fig:signs} shows the signs of the values of the derivatives of the two main explanatory variables. The derivative of EDUC can only be negative on the Cross-Sectional model, given the values of HEXP from the data. The derivative of HEXP, however, can be negative in both panel models. With the exception of HEXP in the CS and Pooled models, we see growing marginal returns (for the logs of the variables). The marginal effects for the Fixed and Random Effects models include large standard deviations, which is likely the reason for its inconsistency.
@@ -1679,7 +1632,7 @@ ggplot(derivatives, aes(x = Covariate, y = Derivative,
 %, out.width='.5\\textwidth'
 \subsection{Residuals}
 Visual inspection of the residuals of regression Figure \ref{fig:residuals} indicates heteroskedasticity dependant on COMP, HEXP and EDUC. This is consistent with Figure \ref{on_joses_part} on which we can see that higher variations of COMP over time are associated to more developed countries (a combination of higher values for these three variables). This justifies or use of white standard errors.
-<<residuals, echo = F, fig.cap = "Residuals' scatterplot", fig.align='center', fig.pos="!htbp", fig.width = 10, fig.height = 5>>=
+<<echo = F>>=
 tmp <- lapply(list(list(cb1, 'CS'), list(tl1, 'Translog'), list(cb2, 'Pooled'),
                    list(FEcb, 'FE'), list(RE, 'RE')),
                 function(model){cbind.data.frame(apply(
@@ -1720,7 +1673,7 @@ tmp <- do.call("rbind", tmp)
 tmp$Fitted[which(tmp$model == 'FE')] <- tmp2$pred2
 tmp$Fitted[which(tmp$model == 'RE')] <- tmp3$pred
 tmp <- melt(tmp, c("res", "model"))
-ggplot(tmp, aes(x = value, y = res)) +
+fig6 <- ggplot(tmp, aes(x = value, y = res)) +
         geom_point() + facet_grid(model ~ variable, scales = "free") +
         labs(x = NULL, y = "Residuals")
 @
@@ -1764,7 +1717,7 @@ output_elasticity_HEXP_panel<-coef(REcb)["HEXP"] #0.008592725
 @
 \subsection{Marginal Products}
 In a production function, marginal productivity depends on both input and output quantities. If the health expenditure in a country increases  by one unit the measure of healthcare atteinment of most of the countries will increase on average by less than 0.05 units(Cross-Section), or by less that  0.005 units in the panel setting. If the education will increase by 1 year, for the most of the countries, the health care attainment will increase by beween 0.5 units (in the cross-sectional setting) and by 1.5 units if we consider the panel setting.
-<<echo = F, fig.cap= "Histogram of the Marginal Productivity of Education and Health Expenditure">>=
+<<echo = F>>=
 #marginal products CS
 marginal_product_HEXP_CS<-coef(cb1)["HEXP"]*
   (subset(df, YEAR == 1997)$COMP/subset(df, YEAR == 1997)$HEXP)
@@ -1783,11 +1736,11 @@ tmp <- rbind(tmp, cbind.data.frame(els = marginal_product_EDUC_panel, variable =
                                    model = "Random-Effects (1993-7)"))
 tmp <- rbind(tmp, cbind.data.frame(els = marginal_product_HEXP_panel, variable = "HEXP",
                                    model = "Random-Effects (1993-7)"))
-ggplot(tmp, aes(x = els)) + geom_histogram(bins = 30) + ylab("Frequency") +
+fig7 <- ggplot(tmp, aes(x = els)) + geom_histogram(bins = 30) + ylab("Frequency") +
         facet_grid(model~variable, scale = "free") + xlab("Marginal Productivity")
 @
-<<echo = F, fig.cap= "Density estimation of the Marginal Productivity of Education and Health Expenditure">>=
-ggplot(tmp, aes(x = els)) + geom_density() + ylab("Density") +
+<<echo = F>>=
+fig8 <- ggplot(tmp, aes(x = els)) + geom_density() + ylab("Density") +
         facet_grid(model~variable, scale = "free") + xlab("Marginal Productivity")
 @
 \subsection{Elasticity of Scale}
@@ -1809,7 +1762,7 @@ We can conclude, therefore, that the technology has strong decreasing returns to
 If the average education per capita reduces by 1 unit, the Health expenditure has to increase by 50 units for most of the countries (CS), 500 units (Panel), in order to keep the same health care attainment level.
 On the other hand, if the health ependiture decreases by 1 unit, the nb of years of education should decrease by 0.01, which would correspond to 3.65 days.
 
-<<echo = F, fig.cap= "Histogram of the Marginal Rates of Substitution Between Education and Health Expenditure">>=
+<<echo = F>>=
 #marginal rates of technical substitution CS
 MRTS_HEXP_to_EDUC_CS<-marginal_product_EDUC_CS/marginal_product_HEXP_CS
 MRTS_EDUC_to_HEXP_CS<-marginal_product_HEXP_CS/marginal_product_EDUC_CS
@@ -1824,11 +1777,11 @@ tmp <- rbind(tmp, cbind.data.frame(els = MRTS_EDUC_to_HEXP_panel, variable = "ED
                                    model = "Random-Effects (1993-7)"))
 tmp <- rbind(tmp, cbind.data.frame(els = MRTS_HEXP_to_EDUC_panel, variable = "HEXP to EDUC",
                                    model = "Random-Effects (1993-7)"))
-ggplot(tmp, aes(x = els)) + geom_histogram(bins = 30) + ylab("Frequency") +
+fig9 <- ggplot(tmp, aes(x = els)) + geom_histogram(bins = 30) + ylab("Frequency") +
         facet_grid(model~variable, scale = "free") + xlab("Marginal Rates of Substitution")
 @
-<<echo = F, fig.cap= "Density Estimation of the Marginal Rates of Substitution Between Education and Health Expenditure">>=
-ggplot(tmp, aes(x = els)) + geom_density() + ylab("Density") +
+<<echo = F>>=
+fig10 <- ggplot(tmp, aes(x = els)) + geom_density() + ylab("Density") +
         facet_grid(model~variable, scale = "free") + xlab("Marginal Rates of Substitution")
 @
 
@@ -1850,9 +1803,114 @@ ggplot(tmp, aes(x = els)) + geom_density() + ylab("Density") +
 
 \newpage
 \section{Appendix}
+<<HEXPbyGDP, eval=TRUE, echo=F, warning=FALSE, results='asis', fig.cap = "Distribution of HEXP by GDP per capita", out.width='.5\\textwidth', fig.pos = '!htbp', fig.align= "center">>=
+print(fig1)
+@
+<<PUBTHE, eval=TRUE, echo=F, results='asis', warning=FALSE,fig.cap = "Distribution of HEXP and COMP by PUPTHE", out.width='.5\\textwidth', fig.pos = '!htbp', fig.align= "center">>=
+print(fig2)
+@
+<<OECD, cache =T, eval=T, echo=F, results='asis',,fig.cap = "EDUC and HEXP for according to OECD", out.width='.5\\textwidth', fig.pos = '!htbp', fig.align= "center">>=
+print(fig3)
+@
+<<np.cs.uni.plot, eval=TRUE, echo=FALSE, cache=TRUE, results='hide', include=TRUE, fig.cap='Univariate nonparametric analysis for 1997',fig.align='center',out.width='0.9\\textwidth',fig.pos='htbp'>>=
+print(fig4)
+@
+<<np.cs.multi, eval=TRUE, echo=FALSE, cache=TRUE, results='hide', include=TRUE, fig.cap='Multivariate nonparametric analysis for 1997',fig.align='center',out.width='\\textwidth',fig.pos='htbp'>>=
+par(mfrow=c(1,2))
+plot(mod_comp_ll_2, view = "fixed", xlab = "educ 1997", ylab= "hexp 97", zlab = "comp 1997", main="LL regression, comp 1997")
+plot(mod_dale_ll_2, view = "fixed", xlab = "educ 1997", ylab= "hexp 97", zlab = "dale 1997", main="LL regression, dale 1997")
+@
+<<np.pooled.uni.plot, eval=TRUE, echo=FALSE, cache=TRUE, results='hide', include=TRUE, fig.cap='Univariate nonparametric analysis for pooled data',fig.align='center',out.width='0.9\\textwidth',fig.pos='htbp'>>=
+print(fig5)
+@
+<<modselection_resdistribution,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Kernel density and Q-Q plots of residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
+attach(df97)
+x <- seq(-0.3,0.3,length=1000)
+y1 <- dnorm(x, mean=0, sd=0.0626)
+
+par(mfrow=c(2,2))
+plot(density(prod.CD$residuals,'ucv'), main='Cobb-Douglas density', ylim=c(0,8),  xlim=c(-0.30,0.22))
+lines(x, y1, lty=2)
+legend("topleft", c("Residuals","Normal (0, 0.004)"), lty = c(1,2), cex = 0.75)
+plot(density(prod.TL$residuals,'ucv'), main='Translog density', ylim=c(0,8),  xlim=c(-0.30,0.22))
+lines(x, y1, lty=2)
+#plot(density(prod.CD.contr$residuals, 'ucv'), main='Cobb-Douglas with controls')  # !!!!!!!!!!! BANDWIDTH !!!!!!!!!!!!
+#plot(density(prod.TL.contr$residuals,'ucv'), main='Translog with controls')
+qqnorm(prod.CD$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Cobb-Douglas Q-Q plot')
+ qqline(prod.CD$residuals)
+qqnorm(prod.TL$residuals, xlab = 'Normal Quantiles', ylab = 'Sample Quantiles', main='Translog Q-Q plot')
+ qqline(prod.TL$residuals)
+@
+<<modselection_resvsfitted,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Plot of fitted values and residuals (squared)',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
+ par(mfrow=c(2,2))
+plot(prod.CD$fitted, prod.CD$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas residuals')
+  abline(h=0, lty=2)
+  lines(smooth.spline(prod.CD$fitted, prod.CD$residuals))
+plot(prod.TL$fitted, prod.TL$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Translog residuals')
+  abline(h=0, lty=2)
+  lines(smooth.spline(prod.TL$fitted, prod.TL$residuals))
+#plot(prod.CD.contr$fitted, prod.CD.contr$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Cobb-Douglas with controls')
+  #abline(h=0, lty=2)
+  #lines(smooth.spline(prod.CD.contr$fitted, prod.CD.contr$residuals))
+#plot(prod.TL.contr$fitted, prod.TL.contr$residuals, xlab = 'Fitted Values', ylab = 'Residuals', main='Translog with controls')
+  #abline(h=0, lty=2)
+  #lines(smooth.spline(prod.TL.contr$fitted, prod.TL.contr$residuals))
+plot(prod.CD$fitted, prod.CD$residuals^2, xlab = 'Fitted Values', ylab = 'Squared Residuals', main='Cobb-Douglas squared residuals')
+  lines(smooth.spline(prod.CD$fitted, prod.CD$residuals^2))
+plot(prod.TL$fitted, prod.TL$residuals^2, xlab = 'Fitted Values', ylab = 'Squared Residuals', main='Translog squared residuals')
+  lines(smooth.spline(prod.TL$fitted, prod.TL$residuals^2))
+@
+<<modselection_resvsCOMP,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Plot of comp, hexp, educ and residuals',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
+par(mfrow=c(3,2))
+#plot(COMP, prod.CD$residuals, xlab = 'COMP', ylab = 'Residuals', main='Cobb-Douglas')
+#  abline(h=0, lty=2)
+#  lines(smooth.spline(COMP, prod.CD$residuals))
+#plot(COMP, prod.TL$residuals, xlab = 'COMP', ylab = 'Residuals', main='Translog')
+#  abline(h=0, lty=2)
+#  lines(smooth.spline(COMP, prod.TL$residuals))
+plot(comp, prod.CD$residuals, xlab = 'comp', ylab = 'Residuals', main='Cobb-Douglas residuals')
+  abline(h=0, lty=2)
+  lines(smooth.spline(comp, prod.CD$residuals))
+plot(comp, prod.TL$residuals, xlab = 'comp', ylab = 'Residuals', main='Translog residuals')
+  abline(h=0, lty=2)
+  lines(smooth.spline(comp, prod.TL$residuals))
+#plot(COMP, prod.CD.contr$residuals, xlab = 'COMP', ylab = 'Residuals', main='Cobb-Douglas with controls')
+  #abline(h=0, lty=2)
+  #lines(smooth.spline(COMP, prod.CD.contr$residuals))
+#plot(COMP, prod.TL.contr$residuals, xlab = 'COMP', ylab = 'Residuals', main='Translog with controls')
+  #abline(h=0, lty=2)
+  #lines(smooth.spline(COMP, prod.TL.contr$residuals))
+plot(log(HEXP), prod.CD$residuals, xlab = 'hexp', ylab = 'Residuals', main='Cobb-Douglas residuals')
+  abline(h=0, lty=2)
+  lines(smooth.spline(log(HEXP), prod.CD$residuals))
+plot(log(HEXP), prod.TL$residuals, xlab = 'hexp', ylab = 'Residuals', main='Translog residuals')
+  abline(h=0, lty=2)
+  lines(smooth.spline(log(HEXP), prod.TL$residuals))
+plot(log(EDUC), prod.CD$residuals, xlab = 'educ', ylab = 'Residuals', main='Cobb-Douglas residuals')
+  abline(h=0, lty=2)
+  lines(smooth.spline(log(EDUC), prod.CD$residuals))
+plot(log(EDUC), prod.TL$residuals, xlab = 'educ', ylab = 'Residuals', main='Translog residuals')
+  abline(h=0, lty=2)
+  lines(smooth.spline(log(EDUC), prod.TL$residuals))
+@
 <<eval=TRUE, echo=F, include=F>>=
 attach(df97)
 #detach(df97)
+@
+<<residuals, echo = F, fig.cap = "Residuals' scatterplot", fig.align='center', fig.pos="!htbp", fig.width = 10, fig.height = 5>>=
+print(fig6)
+@
+<<echo = F, fig.cap= "Histogram of the Marginal Productivity of Education and Health Expenditure",fig.align='center',out.width='0.5\\textwidth',fig.pos='htbp'>>=
+print(fig7)
+@
+<<echo = F, fig.cap= "Density estimation of the Marginal Productivity of Education and Health Expenditure",fig.align='center',out.width='0.5\\textwidth',fig.pos='htbp'>>=
+print(fig8)
+@
+<<echo = F, fig.cap= "Histogram of the Marginal Rates of Substitution Between Education and Health Expenditure",fig.align='center',out.width='0.5\\textwidth',fig.pos='htbp'>>=
+print(fig9)
+@
+<<echo = F, fig.cap= "Density Estimation of the Marginal Rates of Substitution Between Education and Health Expenditure",fig.align='center',out.width='0.5\\textwidth',fig.pos='htbp'>>=
+print(fig10)
 @
 
 <<boxplot_DALE_COMP,include=TRUE,echo=FALSE,eval=TRUE,fig.cap='Output variables variation over time',fig.align='center',out.width='0.7\\textwidth',fig.pos='htbp'>>=
