@@ -185,6 +185,10 @@ MRTS_{i,j} =  \frac{\partial x_i}{\partial x_j} = - \frac{MP_j}{MP_i}
 
 So far we have not specified the functional form of the production function, $f(.)$. The standard production function involves a parametrically defined family of functions. Henningsen (2014) provides a good survey of these families of functions, the most popular one being the Cobb-Douglas production function. Less traditional production functions or, in other words, less restrictive models can also be used in estimating production functions (Afriat, 1972). One of these approaches is using nonparametric estimation methods. This paper focuses on the traditional approach, although nonparametric techniques are used to justify restrictive assumptions, such as assuming a linear functional form in the production function.
 
+Three functional forms will be tested: Cobb-Douglas, Translog and Constant Elasticity of Substitution (CES). The first is the most traditional one in the literature: 
+\[ Y_i = A \Pi_{i=1}^K X_{i, i}^{\beta_i} \]
+Taking its natural logarithm, a simpler form is revealed:
+\[ y_i = a \sum_{i=1}^K \beta_i x_{i, i} \]
 
 \subsubsection{Production frontier}
 Placeholder for Part II.
@@ -252,7 +256,7 @@ Table \ref{tab:desc.stats} shows some descriptive statistics of the dataset. Bot
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Fri, Mar 31, 2017 - 15:57:09
+% Date and time: Fri, Mar 31, 2017 - 17:58:15
 \begin{table}[!htbp] \centering 
   \caption{Descriptive statistics} 
   \label{tab:desc.stats} 
@@ -356,21 +360,7 @@ As in the case for only 1997, when looking at the pooled data in the univariate 
 The nonparametric analysis sugests that a linear functional form on the logs of EDUC and HEXP are an adequate model for COMP and DALE.
 
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlstd{fig5} \hlkwb{<-} \hlkwd{ggplot}\hlstd{(df.np.pooled.uni,} \hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= x,} \hlkwc{y} \hlstd{= y,} \hlkwc{linetype} \hlstd{= type))} \hlopt{+}
-        \hlkwd{facet_grid}\hlstd{(yvar} \hlopt{~} \hlstd{xvar,} \hlkwc{scales} \hlstd{=} \hlstr{'free'}\hlstd{)} \hlopt{+}
-        \hlkwd{geom_line}\hlstd{(}\hlkwc{data} \hlstd{=} \hlkwd{subset}\hlstd{(df.np.pooled.uni, (type} \hlopt{!=} \hlstr{'points'}\hlstd{)}\hlopt{&}\hlstd{(type} \hlopt{!=} \hlstr{'points97'}\hlstd{)))} \hlopt{+}
-        \hlkwd{geom_point}\hlstd{(}\hlkwc{data} \hlstd{=} \hlkwd{subset}\hlstd{(df.np.pooled.uni, (type} \hlopt{==} \hlstr{'points'}\hlstd{)),}
-                   \hlkwc{alpha} \hlstd{=} \hlnum{.2}\hlstd{,} \hlkwc{colour} \hlstd{=} \hlstr{"black"}\hlstd{)} \hlopt{+}
-        \hlkwd{geom_point}\hlstd{(}\hlkwc{data} \hlstd{=} \hlkwd{subset}\hlstd{(df.np.pooled.uni, (type} \hlopt{==} \hlstr{'points97'}\hlstd{)),}
-                   \hlkwc{alpha} \hlstd{=} \hlnum{.5}\hlstd{,} \hlkwc{colour} \hlstd{=} \hlstr{"red"}\hlstd{)} \hlopt{+}
-        \hlkwd{scale_linetype_discrete}\hlstd{(}\hlkwc{name} \hlstd{=} \hlstr{"Title"}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"OLS"}\hlstd{,} \hlstr{"LC"}\hlstd{,} \hlstr{"LL"}\hlstd{),}
-                                \hlkwc{limits} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"OLS"}\hlstd{,} \hlstr{"LC"}\hlstd{,} \hlstr{"LL"}\hlstd{))}
-\end{alltt}
-\end{kframe}
-\end{knitrout}
+
 
 
 
@@ -423,7 +413,7 @@ COMP & 144.28 & 144.86 & 145.7 & 146.71 & 147.98 \\
 
 
 \subsection{Functional form}
-The Cobb-Douglas production function has the following form:
+In this section we apply our data to the funcitonal forms described above. The Cobb-Douglas production function then has the following form:
 \begin{gather}
 COMP_i = HEXP_i^{\beta_1}EDUC_i^{\beta_2}
 \end{gather}
@@ -454,7 +444,7 @@ Table \ref{tab:func.form} compares the simplest estimates of the two functional 
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Fri, Mar 31, 2017 - 15:57:10
+% Date and time: Fri, Mar 31, 2017 - 17:58:17
 \begin{table}[!htbp] \centering 
   \caption{Regression results for Cobb-Douglas and translog in the cross section 1997} 
   \label{tab:func.form} 
@@ -506,7 +496,7 @@ comp_i = \gamma \left( \delta \times hexp_i^{-\rho} + (1- \delta) \times educ_i^
 where we set $\nu = 1$ if we assume constant returns of scale, and the elasticity is given by $\epsilon = \frac{1}{1- \rho}$. The CES model estimated with data for 1997 gives unrealistically high elasticities of substitution, with too large standard errors. We Therefore, we chose not to use it. The same happens in the pooled case. The estimates are presented in Table \ref{tab:ces}.
 
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Fri Mar 31 15:57:11 2017
+% Fri Mar 31 17:58:17 2017
 \begin{table}[ht]
 \centering
 \begin{tabular}{llrrrr}
@@ -548,7 +538,7 @@ Pooled OLS, & $\epsilon$ & 1.453 & 0.065 & 22.464 & 0.000 \\
 Since "the Cobb-Douglas production function is nested in the translog production function, we can apply a Wald test or Likelihood Ratio test to check whether the Cobb-Douglas production function is rejected in favor of the translog production function" (Henningsen, 2014). Tables \ref{WT} and \ref{LR} show the results of Wald and Likelihood Ratio tests between the Cobb-Douglas and the translog functional forms. The null hypothesis is $$H_0: \beta_3 = \beta_4 = \beta_5 = 0$$, where the coefficients come from Equation \ref{eq:translog.nocontrols}. For both tests the null cannot be rejected. Therefore, in the interest of parsimony, we adopt the Cobb-Douglas specification.% THE SAME TESTS WITH THE AGREED CONTROLS POINT TO TL, BUT THEN EDUC IS NOT SIGNIFICANT!
 
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Fri Mar 31 15:57:11 2017
+% Fri Mar 31 17:58:17 2017
 \begin{table}[ht]
 \centering
 \caption{Wald test, $H_0: \beta_3 = \beta_4 = \beta_5 = 0$} 
@@ -563,7 +553,7 @@ Res.Df & Df & F & Pr($>$F) \\
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Fri Mar 31 15:57:11 2017
+% Fri Mar 31 17:58:17 2017
 \begin{table}[ht]
 \centering
 \caption{LR Test, $H_0: \beta_3 = \beta_4 = \beta_5 = 0$} 
@@ -689,7 +679,7 @@ Finally, Figure \ref{fig:modselection_resvsCOMP} shows residuals plotted against
 \subsection{Choice of controls}
 Having chosen the variable COMP as the dependant variable, and the Cobb-Douglas production function, we turn our attention to the choice of control variables. Table \ref{tab:cor} shows a high correlation between some of the possible control variables. We need to choose among some of them to preserve the interpretability of the coeficients. Using GDPC would make the identification of the effect of HEXP difficult, for example, so we discard it. We proceeded by including the most uncorrelated combination of variables and inspecting the fit of the resulting regression. The set of controls chosen is: GINI, GINI$^2$, POPDEN, PUBTHE, VOICE, OECD.
 % latex table generated in R 3.3.3 by xtable 1.8-2 package
-% Fri Mar 31 15:57:11 2017
+% Fri Mar 31 17:58:17 2017
 \begin{table}[ht]
 \centering
 \begingroup\scriptsize
@@ -744,7 +734,7 @@ We estimate the Cobb-Douglas and the translog model for the cross-sectional case
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Fri, Mar 31, 2017 - 15:57:16
+% Date and time: Fri, Mar 31, 2017 - 17:58:22
 \begin{table}[!htbp] \centering 
   \caption{Regression results} 
   \label{tab:big} 
@@ -868,7 +858,7 @@ We can conclude, therefore, that the technology has strong decreasing returns to
 
 \subsection{Marginal Rate of Technical Substitution}
 If the average education per capita reduces by 1 unit, the Health expenditure has to increase by 50 units for most of the countries (CS), 500 units (Panel), in order to keep the same health care attainment level.
-On the other hand, if the health ependiture decreases by 1 unit, the nb of years of education should decrease by 0.01, which would correspond to 3.65 days.
+On the other hand, if the health ependiture decreases by 1 unit, the number of years of education should decrease by 0.01, which would correspond to 3.65 days.
 
 
 
@@ -879,11 +869,31 @@ On the other hand, if the health ependiture decreases by 1 unit, the nb of years
 
 \newpage
 \section{References}
+\textbf{Afriat S. (1972)} Efficiency Estimation of Production Functions. \textit{International Economic Review}, Vol. 13, No. 3, pp. 568-598 \\
+
+\textbf{Aigner D., Lovell K., Schmidt, P. (1977)} Formulation and Estimation of Stochastic Frontier Production Function Models. \textit{Journal of Econometrics}, 6, pp. 21-37 \\
+
 \textbf{Evans D., Tandon A., Murray C. and Lauer J. (2000)} The Comparative Efficiency of National Health Systems in Producing Health: An Analysis of 191 Countries. World Health Organization, GPE Discussion Paper No. 29 \\
+
+\textbf{Evans D., Tandon A., Murray C. and Lauer J. (2000)} Measuring Overall Health System Performance for 191 Countries. World Health Organization, GPE Discussion Paper No. 30 \\
+
+\textbf{Gagnepain P., Ivaldi M. (2002)} Stochastic Frontiers and Asymmetric Information Models. \textit{Journal of Productivity Analysis}, 18, 145–159 \\
 
 \textbf{Greene W. (2004)} Distinguishing between heterogeneity and inefficiency: stochastic frontier analysis of the World Health Organization's panel data on national health care systems. \textit{Health Economics}, 13: 959-980 \\
 
 \textbf{Henningsen A. (2014)} Introduction to Econometric Production Analysis with R. Draft Version \\
+
+\textbf{Jondrow J., Lovell K., Materov I., Schmidt P. (1977)} Formulation and Estimation of Stochastic Frontier Production Function Models. \textit{Journal of Econometrics}, 6, pp. 21-37 \\
+
+\textbf{Klump R., McAdam P., Willman A. (2011)} The Normalized CES Production Function Theory and Empirics. \textit{European Central Bank Working Paper Series}, N. 1294. \\
+
+\textbf{Kumbhakar S., Parmeter C., (2014)} Efficiency Anlysis: A Primer on Recent Advances. \textit{University of Miami}. \\
+
+\textbf{Meeusen, W., van Den Broeck, J. (1977)} Efficiency Estimation from Cobb-Douglas Production Functions with Composed Error. \textit{International Economic Review}, Vol. 18, No. 2, pp. 435-444 \\
+
+\textbf{Ogloblin C. (2011)} Health Care Efficiency Across Countries: A Stochastic Frontier Analysis. \textit{Applied Econometrics and International Development}, Vol. 11-1 \\
+
+\textbf{Richmond J. (1974)} Estimating the Efficiency of Production. \textit{International Economic Review}, Vol. 15, No. 2, pp. 515-521 \\
 
 \textbf{World Health Organization (2000)} Health Systems: Improving Performance. The World Health Report
 

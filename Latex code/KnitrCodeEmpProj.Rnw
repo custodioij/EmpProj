@@ -134,6 +134,15 @@ MRTS_{i,j} =  \frac{\partial x_i}{\partial x_j} = - \frac{MP_j}{MP_i}
 
 So far we have not specified the functional form of the production function, $f(.)$. The standard production function involves a parametrically defined family of functions. Henningsen (2014) provides a good survey of these families of functions, the most popular one being the Cobb-Douglas production function. Less traditional production functions or, in other words, less restrictive models can also be used in estimating production functions (Afriat, 1972). One of these approaches is using nonparametric estimation methods. This paper focuses on the traditional approach, although nonparametric techniques are used to justify restrictive assumptions, such as assuming a linear functional form in the production function.
 
+Three functional forms will be tested: Cobb-Douglas, Translog and Constant Elasticity of Substitution (CES). The first is the most traditional one in the literature: 
+\[ Y_i = A \Pi_{j=1}^K X_{i, j}^{\beta_j} \]
+Taking its natural logarithm, a simpler form is revealed:
+\[ y_i = a + \sum_{j=1}^K \beta_j x_{i, j} \]
+It is also easy to check that the output elasticities of an input are simply equal to its corresponding coefficient. Similarly, the marginal rates of technical substitution are given by the ratio between the coefficients.
+
+The translog specification is an extension of the Cobb-Douglas. It includes squared and interaction terms. In the case of two explanatory variables we would have:
+\[ y_i &= \alpha + \beta_1 x_i + \beta_2 z_i + \beta_3 x_i^2 + \beta_4 z_i^2 + \beta_5 \left(x_i \times z_i\right) \]
+
 
 \subsubsection{Production frontier}
 Placeholder for Part II.
@@ -898,7 +907,7 @@ tmp.plot4 <- cbind(tmp.plot4, xvar = 'HEXP', yvar = 'DALE')
 df.np.pooled.uni <- rbind(tmp.plot1, tmp.plot2, tmp.plot3, tmp.plot4)
 @
 
-<<echo =T, cache = T>>=
+<<echo =F, cache = T>>=
 fig5 <- ggplot(df.np.pooled.uni, aes(x = x, y = y, linetype = type)) +
         facet_grid(yvar ~ xvar, scales = 'free') +
         geom_line(data = subset(df.np.pooled.uni, (type != 'points')&(type != 'points97'))) +
@@ -1055,7 +1064,7 @@ LR.TTLvTL.contr <- lrtest(prod.TTL.contr, prod.TL.contr)  # significant differen
 
 
 \subsection{Functional form}
-The Cobb-Douglas production function has the following form:
+In this section we apply our data to the funcitonal forms described above. The Cobb-Douglas production function then has the following form:
 \begin{gather}
 COMP_i = HEXP_i^{\beta_1}EDUC_i^{\beta_2}
 \end{gather}
@@ -1760,7 +1769,7 @@ We can conclude, therefore, that the technology has strong decreasing returns to
 
 \subsection{Marginal Rate of Technical Substitution}
 If the average education per capita reduces by 1 unit, the Health expenditure has to increase by 50 units for most of the countries (CS), 500 units (Panel), in order to keep the same health care attainment level.
-On the other hand, if the health ependiture decreases by 1 unit, the nb of years of education should decrease by 0.01, which would correspond to 3.65 days.
+On the other hand, if the health ependiture decreases by 1 unit, the number of years of education should decrease by 0.01, which would correspond to 3.65 days.
 
 <<echo = F>>=
 #marginal rates of technical substitution CS
@@ -1791,11 +1800,31 @@ fig10 <- ggplot(tmp, aes(x = els)) + geom_density() + ylab("Density") +
 
 \newpage
 \section{References}
+\textbf{Afriat S. (1972)} Efficiency Estimation of Production Functions. \textit{International Economic Review}, Vol. 13, No. 3, pp. 568-598 \\
+
+\textbf{Aigner D., Lovell K., Schmidt, P. (1977)} Formulation and Estimation of Stochastic Frontier Production Function Models. \textit{Journal of Econometrics}, 6, pp. 21-37 \\
+
 \textbf{Evans D., Tandon A., Murray C. and Lauer J. (2000)} The Comparative Efficiency of National Health Systems in Producing Health: An Analysis of 191 Countries. World Health Organization, GPE Discussion Paper No. 29 \\
+
+\textbf{Evans D., Tandon A., Murray C. and Lauer J. (2000)} Measuring Overall Health System Performance for 191 Countries. World Health Organization, GPE Discussion Paper No. 30 \\
+
+\textbf{Gagnepain P., Ivaldi M. (2002)} Stochastic Frontiers and Asymmetric Information Models. \textit{Journal of Productivity Analysis}, 18, 145–159 \\
 
 \textbf{Greene W. (2004)} Distinguishing between heterogeneity and inefficiency: stochastic frontier analysis of the World Health Organization's panel data on national health care systems. \textit{Health Economics}, 13: 959-980 \\
 
 \textbf{Henningsen A. (2014)} Introduction to Econometric Production Analysis with R. Draft Version \\
+
+\textbf{Jondrow J., Lovell K., Materov I., Schmidt P. (1977)} Formulation and Estimation of Stochastic Frontier Production Function Models. \textit{Journal of Econometrics}, 6, pp. 21-37 \\
+
+\textbf{Klump R., McAdam P., Willman A. (2011)} The Normalized CES Production Function Theory and Empirics. \textit{European Central Bank Working Paper Series}, N. 1294. \\
+
+\textbf{Kumbhakar S., Parmeter C., (2014)} Efficiency Anlysis: A Primer on Recent Advances. \textit{University of Miami}. \\
+
+\textbf{Meeusen, W., van Den Broeck, J. (1977)} Efficiency Estimation from Cobb-Douglas Production Functions with Composed Error. \textit{International Economic Review}, Vol. 18, No. 2, pp. 435-444 \\
+
+\textbf{Ogloblin C. (2011)} Health Care Efficiency Across Countries: A Stochastic Frontier Analysis. \textit{Applied Econometrics and International Development}, Vol. 11-1 \\
+
+\textbf{Richmond J. (1974)} Estimating the Efficiency of Production. \textit{International Economic Review}, Vol. 15, No. 2, pp. 515-521 \\
 
 \textbf{World Health Organization (2000)} Health Systems: Improving Performance. The World Health Report
 
